@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 50 "model.ump"
-// line 114 "model.ump"
+// line 49 "model.ump"
+// line 113 "model.ump"
 public class IndividualBill
 {
 
@@ -66,12 +67,12 @@ public class IndividualBill
   {
     return isPaid;
   }
-  /* Code from template attribute_IsBoolean */
+
   public boolean isIsPaid()
   {
     return isPaid;
   }
-  /* Code from template association_GetMany */
+
   public Order getOrder(int index)
   {
     Order aOrder = orders.get(index);
@@ -101,23 +102,23 @@ public class IndividualBill
     int index = orders.indexOf(aOrder);
     return index;
   }
-  /* Code from template association_GetOne */
+
   public Customer getCustomer()
   {
     return customer;
   }
-  /* Code from template association_IsNumberOfValidMethod */
+
   public boolean isNumberOfOrdersValid()
   {
     boolean isValid = numberOfOrders() >= minimumNumberOfOrders();
     return isValid;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfOrders()
   {
     return 1;
   }
-  /* Code from template association_AddManyToManyMethod */
+
   public boolean addOrder(Order aOrder)
   {
     boolean wasAdded = false;
@@ -137,7 +138,7 @@ public class IndividualBill
     }
     return wasAdded;
   }
-  /* Code from template association_AddMStarToMany */
+
   public boolean removeOrder(Order aOrder)
   {
     boolean wasRemoved = false;
@@ -167,7 +168,7 @@ public class IndividualBill
     }
     return wasRemoved;
   }
-  /* Code from template association_SetMStarToMany */
+
   public boolean setOrders(Order... newOrders)
   {
     boolean wasSet = false;
@@ -208,7 +209,7 @@ public class IndividualBill
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addOrderAt(Order aOrder, int index)
   {  
     boolean wasAdded = false;
@@ -240,7 +241,7 @@ public class IndividualBill
     }
     return wasAdded;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setCustomer(Customer aCustomer)
   {
     boolean wasSet = false;

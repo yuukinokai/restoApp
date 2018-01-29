@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 16 "model.ump"
-// line 87 "model.ump"
+// line 15 "model.ump"
+// line 86 "model.ump"
 public class MenuItem
 {
 
@@ -60,7 +61,7 @@ public class MenuItem
   {
     return price;
   }
-  /* Code from template association_GetMany */
+
   public Order getOrder(int index)
   {
     Order aOrder = orders.get(index);
@@ -90,7 +91,7 @@ public class MenuItem
     int index = orders.indexOf(aOrder);
     return index;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfOrders()
   {
     return 0;
@@ -130,7 +131,7 @@ public class MenuItem
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addOrderAt(Order aOrder, int index)
   {  
     boolean wasAdded = false;

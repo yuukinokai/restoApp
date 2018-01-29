@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 32 "model.ump"
-// line 98 "model.ump"
+// line 31 "model.ump"
+// line 97 "model.ump"
 public class Beverage extends MenuItem
 {
 
@@ -42,7 +43,7 @@ public class Beverage extends MenuItem
   {
     return isAlcohol;
   }
-  /* Code from template attribute_IsBoolean */
+
   public boolean isIsAlcohol()
   {
     return isAlcohol;

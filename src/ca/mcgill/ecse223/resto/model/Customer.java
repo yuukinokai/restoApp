@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 57 "model.ump"
-// line 120 "model.ump"
+// line 56 "model.ump"
+// line 119 "model.ump"
 public class Customer
 {
 
@@ -67,7 +68,7 @@ public class Customer
   {
     return age;
   }
-  /* Code from template association_GetMany */
+
   public IndividualBill getIndividualBill(int index)
   {
     IndividualBill aIndividualBill = individualBills.get(index);
@@ -97,12 +98,12 @@ public class Customer
     int index = individualBills.indexOf(aIndividualBill);
     return index;
   }
-  /* Code from template association_GetOne */
+
   public Seat getSeat()
   {
     return seat;
   }
-  /* Code from template association_GetOne */
+
   public Reservation getReservation()
   {
     return reservation;
@@ -113,7 +114,7 @@ public class Customer
     boolean has = reservation != null;
     return has;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfIndividualBills()
   {
     return 0;
@@ -153,7 +154,7 @@ public class Customer
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addIndividualBillAt(IndividualBill aIndividualBill, int index)
   {  
     boolean wasAdded = false;
@@ -185,7 +186,7 @@ public class Customer
     }
     return wasAdded;
   }
-  /* Code from template association_SetOneToOptionalOne */
+
   public boolean setSeat(Seat aNewSeat)
   {
     boolean wasSet = false;
@@ -213,7 +214,7 @@ public class Customer
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOptionalOneToOne */
+
   public boolean setReservation(Reservation aNewReservation)
   {
     boolean wasSet = false;

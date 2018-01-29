@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 23 "model.ump"
-// line 93 "model.ump"
+// line 22 "model.ump"
+// line 92 "model.ump"
 public class Food extends MenuItem
 {
 

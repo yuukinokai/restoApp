@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 2 "model.ump"
-// line 75 "model.ump"
+// line 1 "model.ump"
+// line 74 "model.ump"
 public class Table
 {
 
@@ -83,12 +84,12 @@ public class Table
   {
     return tableNumber;
   }
-  /* Code from template attribute_GetUnique */
+
   public static Table getWithTableNumber(int aTableNumber)
   {
     return tablesByTableNumber.get(aTableNumber);
   }
-  /* Code from template attribute_HasUnique */
+
   public static boolean hasWithTableNumber(int aTableNumber)
   {
     return getWithTableNumber(aTableNumber) != null;
@@ -108,17 +109,17 @@ public class Table
   {
     return isUsed;
   }
-  /* Code from template attribute_IsBoolean */
+
   public boolean isIsReserved()
   {
     return isReserved;
   }
-  /* Code from template attribute_IsBoolean */
+
   public boolean isIsUsed()
   {
     return isUsed;
   }
-  /* Code from template association_GetMany */
+
   public Seat getSeat(int index)
   {
     Seat aSeat = seats.get(index);
@@ -148,7 +149,7 @@ public class Table
     int index = seats.indexOf(aSeat);
     return index;
   }
-  /* Code from template association_GetOne */
+
   public Reservation getReservation()
   {
     return reservation;
@@ -159,12 +160,12 @@ public class Table
     boolean has = reservation != null;
     return has;
   }
-  /* Code from template association_GetOne */
+
   public Location getLocation()
   {
     return location;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfSeats()
   {
     return 0;
@@ -204,7 +205,7 @@ public class Table
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addSeatAt(Seat aSeat, int index)
   {  
     boolean wasAdded = false;
@@ -236,7 +237,7 @@ public class Table
     }
     return wasAdded;
   }
-  /* Code from template association_SetOptionalOneToOne */
+
   public boolean setReservation(Reservation aNewReservation)
   {
     boolean wasSet = false;
@@ -263,7 +264,7 @@ public class Table
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOneToOptionalOne */
+
   public boolean setLocation(Location aNewLocation)
   {
     boolean wasSet = false;

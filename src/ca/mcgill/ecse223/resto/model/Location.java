@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 66 "model.ump"
-// line 128 "model.ump"
+// line 65 "model.ump"
+// line 127 "model.ump"
 public class Location
 {
 
@@ -59,7 +60,7 @@ public class Location
   {
     return y;
   }
-  /* Code from template association_GetOne */
+
   public Table getTable()
   {
     return table;
@@ -70,7 +71,7 @@ public class Location
     boolean has = table != null;
     return has;
   }
-  /* Code from template association_SetOptionalOneToOne */
+
   public boolean setTable(Table aNewTable)
   {
     boolean wasSet = false;

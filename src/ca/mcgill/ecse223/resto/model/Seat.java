@@ -1,10 +1,11 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 
-// line 11 "model.ump"
-// line 81 "model.ump"
+// line 10 "model.ump"
+// line 80 "model.ump"
 public class Seat
 {
 
@@ -49,17 +50,17 @@ public class Seat
   {
     return isUsed;
   }
-  /* Code from template attribute_IsBoolean */
+
   public boolean isIsUsed()
   {
     return isUsed;
   }
-  /* Code from template association_GetOne */
+
   public Table getTable()
   {
     return table;
   }
-  /* Code from template association_GetOne */
+
   public Customer getCustomer()
   {
     return customer;
@@ -70,7 +71,7 @@ public class Seat
     boolean has = customer != null;
     return has;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setTable(Table aTable)
   {
     boolean wasSet = false;
@@ -89,7 +90,7 @@ public class Seat
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOptionalOneToOne */
+
   public boolean setCustomer(Customer aNewCustomer)
   {
     boolean wasSet = false;

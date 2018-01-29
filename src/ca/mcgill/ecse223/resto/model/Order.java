@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 45 "model.ump"
-// line 109 "model.ump"
+// line 44 "model.ump"
+// line 108 "model.ump"
 public class Order
 {
 
@@ -34,12 +35,12 @@ public class Order
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetOne */
+
   public MenuItem getMenuItem()
   {
     return menuItem;
   }
-  /* Code from template association_GetMany */
+
   public IndividualBill getIndividualBill(int index)
   {
     IndividualBill aIndividualBill = individualBills.get(index);
@@ -69,7 +70,7 @@ public class Order
     int index = individualBills.indexOf(aIndividualBill);
     return index;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setMenuItem(MenuItem aMenuItem)
   {
     boolean wasSet = false;
@@ -88,18 +89,18 @@ public class Order
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_IsNumberOfValidMethod */
+
   public boolean isNumberOfIndividualBillsValid()
   {
     boolean isValid = numberOfIndividualBills() >= minimumNumberOfIndividualBills();
     return isValid;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfIndividualBills()
   {
     return 1;
   }
-  /* Code from template association_AddManyToManyMethod */
+
   public boolean addIndividualBill(IndividualBill aIndividualBill)
   {
     boolean wasAdded = false;
@@ -119,7 +120,7 @@ public class Order
     }
     return wasAdded;
   }
-  /* Code from template association_AddMStarToMany */
+
   public boolean removeIndividualBill(IndividualBill aIndividualBill)
   {
     boolean wasRemoved = false;
@@ -149,7 +150,7 @@ public class Order
     }
     return wasRemoved;
   }
-  /* Code from template association_SetMStarToMany */
+
   public boolean setIndividualBills(IndividualBill... newIndividualBills)
   {
     boolean wasSet = false;
@@ -190,7 +191,7 @@ public class Order
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addIndividualBillAt(IndividualBill aIndividualBill, int index)
   {  
     boolean wasAdded = false;

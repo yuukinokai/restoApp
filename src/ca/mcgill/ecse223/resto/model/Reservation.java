@@ -1,11 +1,12 @@
+package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3760.904a8c2 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 
 import java.util.*;
 
-// line 38 "model.ump"
-// line 103 "model.ump"
+// line 37 "model.ump"
+// line 102 "model.ump"
 public class Reservation
 {
 
@@ -71,27 +72,27 @@ public class Reservation
   {
     return reservationNumber;
   }
-  /* Code from template attribute_GetUnique */
+
   public static Reservation getWithReservationNumber(int aReservationNumber)
   {
     return reservationsByReservationNumber.get(aReservationNumber);
   }
-  /* Code from template attribute_HasUnique */
+
   public static boolean hasWithReservationNumber(int aReservationNumber)
   {
     return getWithReservationNumber(aReservationNumber) != null;
   }
-  /* Code from template association_GetOne */
+
   public Table getTable()
   {
     return table;
   }
-  /* Code from template association_GetOne */
+
   public Customer getCustomer()
   {
     return customer;
   }
-  /* Code from template association_SetOneToOptionalOne */
+
   public boolean setTable(Table aNewTable)
   {
     boolean wasSet = false;
@@ -119,7 +120,7 @@ public class Reservation
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOneToOptionalOne */
+
   public boolean setCustomer(Customer aNewCustomer)
   {
     boolean wasSet = false;
