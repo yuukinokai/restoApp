@@ -26,11 +26,16 @@ public class Customer
   // CONSTRUCTOR
   //------------------------
 
-  public Customer(String aName, int aAge)
+  public Customer(String aName, int aAge, Seat aSeat)
   {
     name = aName;
     age = aAge;
     individualBills = new ArrayList<IndividualBill>();
+    boolean didAddSeat = setSeat(aSeat);
+    if (!didAddSeat)
+    {
+      throw new RuntimeException("Unable to create customer due to seat");
+    }
   }
 
   //------------------------
@@ -96,12 +101,6 @@ public class Customer
   public Seat getSeat()
   {
     return seat;
-  }
-
-  public boolean hasSeat()
-  {
-    boolean has = seat != null;
-    return has;
   }
   /* Code from template association_GetOne */
   public Reservation getReservation()
@@ -186,35 +185,30 @@ public class Customer
     }
     return wasAdded;
   }
-  /* Code from template association_SetOptionalOneToOptionalOne */
+  /* Code from template association_SetOneToOptionalOne */
   public boolean setSeat(Seat aNewSeat)
   {
     boolean wasSet = false;
     if (aNewSeat == null)
     {
-      Seat existingSeat = seat;
-      seat = null;
-      
-      if (existingSeat != null && existingSeat.getCustomer() != null)
-      {
-        existingSeat.setCustomer(null);
-      }
-      wasSet = true;
+      //Unable to setSeat to null, as customer must always be associated to a seat
       return wasSet;
     }
-
-    Seat currentSeat = getSeat();
-    if (currentSeat != null && !currentSeat.equals(aNewSeat))
-    {
-      currentSeat.setCustomer(null);
-    }
-
-    seat = aNewSeat;
+    
     Customer existingCustomer = aNewSeat.getCustomer();
-
-    if (!equals(existingCustomer))
+    if (existingCustomer != null && !equals(existingCustomer))
     {
-      aNewSeat.setCustomer(this);
+      //Unable to setSeat, the current seat already has a customer, which would be orphaned if it were re-assigned
+      return wasSet;
+    }
+    
+    Seat anOldSeat = seat;
+    seat = aNewSeat;
+    seat.setCustomer(this);
+
+    if (anOldSeat != null)
+    {
+      anOldSeat.setCustomer(null);
     }
     wasSet = true;
     return wasSet;
@@ -254,9 +248,11 @@ public class Customer
       IndividualBill aIndividualBill = individualBills.get(i - 1);
       aIndividualBill.delete();
     }
-    if (seat != null)
+    Seat existingSeat = seat;
+    seat = null;
+    if (existingSeat != null)
     {
-      seat.setCustomer(null);
+      existingSeat.setCustomer(null);
     }
     Reservation existingReservation = reservation;
     reservation = null;

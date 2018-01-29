@@ -20,10 +20,10 @@ public class Beverage extends MenuItem
   // CONSTRUCTOR
   //------------------------
 
-  public Beverage(String aName, double aPrice)
+  public Beverage(String aName, double aPrice, boolean aIsAlcohol)
   {
     super(aName, aPrice);
-    isAlcohol = false;
+    isAlcohol = aIsAlcohol;
   }
 
   //------------------------

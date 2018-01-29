@@ -30,7 +30,7 @@ Appetizer, MainCourse, Dessert};
 
 class Beverage
 {
-  lazy Boolean isAlcohol;
+  Boolean isAlcohol;
   isA MenuItem;
 }
 
@@ -58,7 +58,7 @@ class Customer
   name;
   Integer age;
   1 -- * IndividualBill;
-  0..1 -- 0..1 Seat;
+  0..1 -- 1 Seat;
   1 -- 0..1 Reservation;
 }
 
@@ -74,12 +74,12 @@ class Location
 class Table
 {
   position 12 172 159 113;
-  position.association Seat__Table 188,32 0,33;
+  position.association Seat__Table 189,32 0,33;
 }
 
 class Seat
 {
-  position 269 170 131 60;
+  position 273 171 131 60;
   position.association Seat__Table 0,27 159,72;
 }
 
@@ -120,7 +120,7 @@ class Customer
 {
   position 268 23 112 78;
   position.association Customer__IndividualBill 112,26 0,28;
-  position.association Customer__Seat 55,78 55,0;
+  position.association Customer__Seat 55,78 50,0;
   position.association Customer__Reservation 0,31 213,30;
 }
 

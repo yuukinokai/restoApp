@@ -89,35 +89,29 @@ public class Seat
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOptionalOneToOptionalOne */
+  /* Code from template association_SetOptionalOneToOne */
   public boolean setCustomer(Customer aNewCustomer)
   {
     boolean wasSet = false;
-    if (aNewCustomer == null)
+    if (customer != null && !customer.equals(aNewCustomer) && equals(customer.getSeat()))
     {
-      Customer existingCustomer = customer;
-      customer = null;
-      
-      if (existingCustomer != null && existingCustomer.getSeat() != null)
-      {
-        existingCustomer.setSeat(null);
-      }
-      wasSet = true;
+      //Unable to setCustomer, as existing customer would become an orphan
       return wasSet;
     }
 
-    Customer currentCustomer = getCustomer();
-    if (currentCustomer != null && !currentCustomer.equals(aNewCustomer))
-    {
-      currentCustomer.setSeat(null);
-    }
-
     customer = aNewCustomer;
-    Seat existingSeat = aNewCustomer.getSeat();
+    Seat anOldSeat = aNewCustomer != null ? aNewCustomer.getSeat() : null;
 
-    if (!equals(existingSeat))
+    if (!this.equals(anOldSeat))
     {
-      aNewCustomer.setSeat(this);
+      if (anOldSeat != null)
+      {
+        anOldSeat.customer = null;
+      }
+      if (customer != null)
+      {
+        customer.setSeat(this);
+      }
     }
     wasSet = true;
     return wasSet;
@@ -131,9 +125,11 @@ public class Seat
     {
       placeholderTable.removeSeat(this);
     }
-    if (customer != null)
+    Customer existingCustomer = customer;
+    customer = null;
+    if (existingCustomer != null)
     {
-      customer.setSeat(null);
+      existingCustomer.delete();
     }
   }
 
