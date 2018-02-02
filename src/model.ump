@@ -1,3 +1,5 @@
+namespace ca.mcgill.ecse223.resto.model;
+
 class Table
 {
   unique Integer tableNumber;
@@ -57,7 +59,7 @@ class IndividualBill
   Double totalPrice;
   lazy Boolean isPaid;
   1..* <@>- 1..* Order;
-    0..1 -- * Seat;
+    0..1 -- 1..* Seat;
 }
 
 
@@ -125,24 +127,4 @@ class IndividualBill
   position.association IndividualBill__Order 144,29 0,26;
     position.association IndividualBill__Seat 0,28 132,20;
   position.association IndividualBill__RestoApp 7,87 71,0;
-}
-
-
-//$?[End_of_model]$?
-
-class RestoApp
-{
-  position 271 134 166 78;
-  position.association RestoApp__Table 0,9 187,74;
-  position.association RestoApp__Table:tables 0,10 171,79;
-  position.association Menu:menu__RestoApp 167,39 0,9;
-  position.association IndividualBill:bills__RestoApp 138,0 38,78;
-  position.association Order:orders__RestoApp 167,10 0,50;
-}
-
-class Menu
-{
-  position 484 241 109 41;
-  position.association Menu__MenuItem 101,0 0,14;
-  position.association Menu__MenuItem:menuItems 110,34 0,3;
 }
