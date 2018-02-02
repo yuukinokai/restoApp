@@ -1,29 +1,33 @@
+namespace ca.mcgill.ecse223.resto.model;
+
 class Table
 {
-  unique immutable Integer tableNumber;
-  Integer numberOfSeats;
-  lazy Boolean isReserved;
+  unique Integer tableNumber;
   lazy Boolean isUsed;
-  1 <@>- * Seat;
+  double  width;
+  double length;
+  Integer x;
+  Integer y;
 }
 
 class Seat
 {
   lazy Boolean isUsed;
+  1..* -<@> 1 Table;
 }
 
 class MenuItem
 {
-  name;
+  unique name;
   Double price;
   1 -- * Order;
-}
+  }
 
 class Food
 {
   enum FoodCategory{
 Appetizer, MainCourse, Dessert};
-  FoodCategory foodCategory;
+  lazy FoodCategory foodCategory;
   
   isA MenuItem;
 }
@@ -36,96 +40,91 @@ class Beverage
 
 class Reservation
 {
-  Integer seatsNeeded;
-  unique immutable Integer reservationNumber;
-  0..1 -- 1 Table;
+  autounique reservationNumber;
+  DateTime dateTime;
+  contactName;
+  contactEmailAddress;
+  contactPhoneNumber;
+  Integer numberInParty;
+0..* -- 1..* Table;
 }
 
 class Order
 {
-
-  }
+  autounique orderNumber;
+}
 
 class IndividualBill
 {
   Double totalPrice;
   lazy Boolean isPaid;
   1..* <@>- 1..* Order;
-  }
-
-class Customer
-{
-  name;
-  Integer age;
-  1 -- * IndividualBill;
-  0..1 -- 1 Seat;
-  1 -- 0..1 Reservation;
+    0..1 -- 1..* Seat;
 }
 
-class Location
+
+class RestoApp
 {
-  x;
-  y;
-  1 -- 0..1 Table;
+  1 <@>- * Table tables;
+  Table currentTables;
+  Order currentOrders;
+  1 <@>- 1 Menu menu;
+  1 <@>- * IndividualBill bills;
+  1 <@>- * Order orders;
+  1 <@>- * Reservation reservations;
+  
 }
 
-//$?[End_of_model]$?
+class Menu
+{
+  1 <@>- * MenuItem menuItems;
+}
 
 class Table
 {
-  position 12 172 159 113;
-  position.association Seat__Table 189,32 0,33;
-}
+  position 17 14 170 152;
+  }
 
 class Seat
 {
-  position 273 171 131 60;
-  position.association Seat__Table 0,27 159,72;
+  position 236 33 131 60;
+  position.association Seat__Table 0,27 171,47;
+  position.association Seat__Table 4,60 149,0;
 }
 
 class MenuItem
 {
-  position 632 125 112 78;
-  position.association MenuItem__Order 48,0 38,45;
-}
+  position 628 220 112 78;
+  position.association MenuItem__Order 48,0 39,77;
+  }
 
 class Food
 {
-  position 401 245 216 60;
+  position 389 346 216 60;
 }
 
 class Beverage
 {
-  position 624 245 146 60;
+  position 620 347 146 60;
 }
 
 class Reservation
 {
-  position 8 24 180 79;
-  position.association Reservation__Table 73,79 70,0;
+  position 18 233 218 170;
+  position.association Reservation__RestoApp 218,0 1,78;
+  position.association Reservation__Table 129,0 147,152;
 }
 
 class Order
 {
-  position 642 24 109 45;
+  position 638 86 109 45;
+  position.association Order__RestoApp 4,45 102,0;
 }
 
 class IndividualBill
 {
-  position 438 21 142 78;
+  position 418 19 142 78;
   position.association IndividualBill__Order 144,29 0,26;
-  }
-
-class Customer
-{
-  position 268 23 112 78;
-  position.association Customer__IndividualBill 112,26 0,28;
-  position.association Customer__Seat 55,78 50,0;
-  position.association Customer__Reservation 0,31 213,30;
-}
-
-class Location
-{
-  position 12 325 109 78;
-  position.association Location__Table 66,0 65,115;
+    position.association IndividualBill__Seat 0,28 132,20;
+  position.association IndividualBill__RestoApp 7,87 71,0;
 }
