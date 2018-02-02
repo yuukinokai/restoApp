@@ -1,12 +1,11 @@
-package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
-
+package ca.mcgill.ecse223.resto.model;
+import java.sql.Date;
 import java.util.*;
 
-// line 37 "model.ump"
-// line 102 "model.ump"
+// line 14 "../../../../../model.ump"
 public class Reservation
 {
 
@@ -14,40 +13,48 @@ public class Reservation
   // STATIC VARIABLES
   //------------------------
 
-  private static Map<Integer, Reservation> reservationsByReservationNumber = new HashMap<Integer, Reservation>();
+  private static int nextReservationNumber = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Reservation Attributes
-  private int seatsNeeded;
+  private Date dateTime;
+  private int numberInParty;
+  private String contactName;
+  private String contactEmailAddress;
+  private String contactPhoneNumber;
+
+  //Autounique Attributes
   private int reservationNumber;
 
   //Reservation Associations
-  private Table table;
-  private Customer customer;
+  private List<Table> tables;
+  private RestoApp restoApp;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Reservation(int aSeatsNeeded, int aReservationNumber, Table aTable, Customer aCustomer)
+  public Reservation(Date aDateTime, int aNumberInParty, String aContactName, String aContactEmailAddress, String aContactPhoneNumber, RestoApp aRestoApp, Table... allTables)
   {
-    seatsNeeded = aSeatsNeeded;
-    if (!setReservationNumber(aReservationNumber))
+    dateTime = aDateTime;
+    numberInParty = aNumberInParty;
+    contactName = aContactName;
+    contactEmailAddress = aContactEmailAddress;
+    contactPhoneNumber = aContactPhoneNumber;
+    reservationNumber = nextReservationNumber++;
+    tables = new ArrayList<Table>();
+    boolean didAddTables = setTables(allTables);
+    if (!didAddTables)
     {
-      throw new RuntimeException("Cannot create due to duplicate reservationNumber");
+      throw new RuntimeException("Unable to create Reservation, must have at least 1 tables");
     }
-    boolean didAddTable = setTable(aTable);
-    if (!didAddTable)
+    boolean didAddRestoApp = setRestoApp(aRestoApp);
+    if (!didAddRestoApp)
     {
-      throw new RuntimeException("Unable to create reservation due to table");
-    }
-    boolean didAddCustomer = setCustomer(aCustomer);
-    if (!didAddCustomer)
-    {
-      throw new RuntimeException("Unable to create reservation due to customer");
+      throw new RuntimeException("Unable to create reservation due to restoApp");
     }
   }
 
@@ -55,17 +62,69 @@ public class Reservation
   // INTERFACE
   //------------------------
 
-  public boolean setSeatsNeeded(int aSeatsNeeded)
+  public boolean setDateTime(Date aDateTime)
   {
     boolean wasSet = false;
-    seatsNeeded = aSeatsNeeded;
+    dateTime = aDateTime;
     wasSet = true;
     return wasSet;
   }
 
-  public int getSeatsNeeded()
+  public boolean setNumberInParty(int aNumberInParty)
   {
-    return seatsNeeded;
+    boolean wasSet = false;
+    numberInParty = aNumberInParty;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setContactName(String aContactName)
+  {
+    boolean wasSet = false;
+    contactName = aContactName;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setContactEmailAddress(String aContactEmailAddress)
+  {
+    boolean wasSet = false;
+    contactEmailAddress = aContactEmailAddress;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setContactPhoneNumber(String aContactPhoneNumber)
+  {
+    boolean wasSet = false;
+    contactPhoneNumber = aContactPhoneNumber;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public Date getDateTime()
+  {
+    return dateTime;
+  }
+
+  public int getNumberInParty()
+  {
+    return numberInParty;
+  }
+
+  public String getContactName()
+  {
+    return contactName;
+  }
+
+  public String getContactEmailAddress()
+  {
+    return contactEmailAddress;
+  }
+
+  public String getContactPhoneNumber()
+  {
+    return contactPhoneNumber;
   }
 
   public int getReservationNumber()
@@ -73,96 +132,210 @@ public class Reservation
     return reservationNumber;
   }
 
-  public static Reservation getWithReservationNumber(int aReservationNumber)
+  public Table getTable(int index)
   {
-    return reservationsByReservationNumber.get(aReservationNumber);
+    Table aTable = tables.get(index);
+    return aTable;
   }
 
-  public static boolean hasWithReservationNumber(int aReservationNumber)
+  /**
+   * only from currentTables
+   */
+  public List<Table> getTables()
   {
-    return getWithReservationNumber(aReservationNumber) != null;
+    List<Table> newTables = Collections.unmodifiableList(tables);
+    return newTables;
   }
 
-  public Table getTable()
+  public int numberOfTables()
   {
-    return table;
+    int number = tables.size();
+    return number;
   }
 
-  public Customer getCustomer()
+  public boolean hasTables()
   {
-    return customer;
+    boolean has = tables.size() > 0;
+    return has;
   }
 
-  public boolean setTable(Table aNewTable)
+  public int indexOfTable(Table aTable)
+  {
+    int index = tables.indexOf(aTable);
+    return index;
+  }
+
+  public RestoApp getRestoApp()
+  {
+    return restoApp;
+  }
+
+  public boolean isNumberOfTablesValid()
+  {
+    boolean isValid = numberOfTables() >= minimumNumberOfTables();
+    return isValid;
+  }
+
+  public static int minimumNumberOfTables()
+  {
+    return 1;
+  }
+
+  public boolean addTable(Table aTable)
+  {
+    boolean wasAdded = false;
+    if (tables.contains(aTable)) { return false; }
+    tables.add(aTable);
+    if (aTable.indexOfReservation(this) != -1)
+    {
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = aTable.addReservation(this);
+      if (!wasAdded)
+      {
+        tables.remove(aTable);
+      }
+    }
+    return wasAdded;
+  }
+
+  public boolean removeTable(Table aTable)
+  {
+    boolean wasRemoved = false;
+    if (!tables.contains(aTable))
+    {
+      return wasRemoved;
+    }
+
+    if (numberOfTables() <= minimumNumberOfTables())
+    {
+      return wasRemoved;
+    }
+
+    int oldIndex = tables.indexOf(aTable);
+    tables.remove(oldIndex);
+    if (aTable.indexOfReservation(this) == -1)
+    {
+      wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aTable.removeReservation(this);
+      if (!wasRemoved)
+      {
+        tables.add(oldIndex,aTable);
+      }
+    }
+    return wasRemoved;
+  }
+
+  public boolean setTables(Table... newTables)
   {
     boolean wasSet = false;
-    if (aNewTable == null)
+    ArrayList<Table> verifiedTables = new ArrayList<Table>();
+    for (Table aTable : newTables)
     {
-      //Unable to setTable to null, as reservation must always be associated to a table
-      return wasSet;
+      if (verifiedTables.contains(aTable))
+      {
+        continue;
+      }
+      verifiedTables.add(aTable);
     }
-    
-    Reservation existingReservation = aNewTable.getReservation();
-    if (existingReservation != null && !equals(existingReservation))
-    {
-      //Unable to setTable, the current table already has a reservation, which would be orphaned if it were re-assigned
-      return wasSet;
-    }
-    
-    Table anOldTable = table;
-    table = aNewTable;
-    table.setReservation(this);
 
-    if (anOldTable != null)
+    if (verifiedTables.size() != newTables.length || verifiedTables.size() < minimumNumberOfTables())
     {
-      anOldTable.setReservation(null);
+      return wasSet;
+    }
+
+    ArrayList<Table> oldTables = new ArrayList<Table>(tables);
+    tables.clear();
+    for (Table aNewTable : verifiedTables)
+    {
+      tables.add(aNewTable);
+      if (oldTables.contains(aNewTable))
+      {
+        oldTables.remove(aNewTable);
+      }
+      else
+      {
+        aNewTable.addReservation(this);
+      }
+    }
+
+    for (Table anOldTable : oldTables)
+    {
+      anOldTable.removeReservation(this);
     }
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setCustomer(Customer aNewCustomer)
+  public boolean addTableAt(Table aTable, int index)
+  {  
+    boolean wasAdded = false;
+    if(addTable(aTable))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfTables()) { index = numberOfTables() - 1; }
+      tables.remove(aTable);
+      tables.add(index, aTable);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveTableAt(Table aTable, int index)
+  {
+    boolean wasAdded = false;
+    if(tables.contains(aTable))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfTables()) { index = numberOfTables() - 1; }
+      tables.remove(aTable);
+      tables.add(index, aTable);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addTableAt(aTable, index);
+    }
+    return wasAdded;
+  }
+
+  public boolean setRestoApp(RestoApp aRestoApp)
   {
     boolean wasSet = false;
-    if (aNewCustomer == null)
+    if (aRestoApp == null)
     {
-      //Unable to setCustomer to null, as reservation must always be associated to a customer
       return wasSet;
     }
-    
-    Reservation existingReservation = aNewCustomer.getReservation();
-    if (existingReservation != null && !equals(existingReservation))
-    {
-      //Unable to setCustomer, the current customer already has a reservation, which would be orphaned if it were re-assigned
-      return wasSet;
-    }
-    
-    Customer anOldCustomer = customer;
-    customer = aNewCustomer;
-    customer.setReservation(this);
 
-    if (anOldCustomer != null)
+    RestoApp existingRestoApp = restoApp;
+    restoApp = aRestoApp;
+    if (existingRestoApp != null && !existingRestoApp.equals(aRestoApp))
     {
-      anOldCustomer.setReservation(null);
+      existingRestoApp.removeReservation(this);
     }
+    restoApp.addReservation(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    reservationsByReservationNumber.remove(getReservationNumber());
-    Table existingTable = table;
-    table = null;
-    if (existingTable != null)
+    ArrayList<Table> copyOfTables = new ArrayList<Table>(tables);
+    tables.clear();
+    for(Table aTable : copyOfTables)
     {
-      existingTable.setReservation(null);
+      aTable.removeReservation(this);
     }
-    Customer existingCustomer = customer;
-    customer = null;
-    if (existingCustomer != null)
+    RestoApp placeholderRestoApp = restoApp;
+    this.restoApp = null;
+    if(placeholderRestoApp != null)
     {
-      existingCustomer.setReservation(null);
+      placeholderRestoApp.removeReservation(this);
     }
   }
 
@@ -170,9 +343,12 @@ public class Reservation
   public String toString()
   {
     return super.toString() + "["+
-            "seatsNeeded" + ":" + getSeatsNeeded()+ "," +
-            "reservationNumber" + ":" + getReservationNumber()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "table = "+(getTable()!=null?Integer.toHexString(System.identityHashCode(getTable())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null");
+            "reservationNumber" + ":" + getReservationNumber()+ "," +
+            "numberInParty" + ":" + getNumberInParty()+ "," +
+            "contactName" + ":" + getContactName()+ "," +
+            "contactEmailAddress" + ":" + getContactEmailAddress()+ "," +
+            "contactPhoneNumber" + ":" + getContactPhoneNumber()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "dateTime" + "=" + (getDateTime() != null ? !getDateTime().equals(this)  ? getDateTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }
 }

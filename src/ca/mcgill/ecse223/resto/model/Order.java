@@ -1,250 +1,510 @@
-package ca.mcgill.ecse223.resto.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
-
+package ca.mcgill.ecse223.resto.model;
+import java.sql.Date;
 import java.util.*;
 
-// line 44 "model.ump"
-// line 108 "model.ump"
+// line 36 "../../../../../model.ump"
 public class Order
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextNumber = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
+  //Order Attributes
+  private Date dateTime;
+
+  //Autounique Attributes
+  private int number;
+
   //Order Associations
-  private MenuItem menuItem;
-  private List<IndividualBill> individualBills;
+  private List<Table> tables;
+  private List<OrderItem> orderItems;
+  private RestoApp restoApp;
+  private List<Bill> bills;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Order(MenuItem aMenuItem)
+  public Order(Date aDateTime, RestoApp aRestoApp, Table... allTables)
   {
-    boolean didAddMenuItem = setMenuItem(aMenuItem);
-    if (!didAddMenuItem)
+    dateTime = aDateTime;
+    number = nextNumber++;
+    tables = new ArrayList<Table>();
+    boolean didAddTables = setTables(allTables);
+    if (!didAddTables)
     {
-      throw new RuntimeException("Unable to create order due to menuItem");
+      throw new RuntimeException("Unable to create Order, must have at least 1 tables");
     }
-    individualBills = new ArrayList<IndividualBill>();
+    orderItems = new ArrayList<OrderItem>();
+    boolean didAddRestoApp = setRestoApp(aRestoApp);
+    if (!didAddRestoApp)
+    {
+      throw new RuntimeException("Unable to create order due to restoApp");
+    }
+    bills = new ArrayList<Bill>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public MenuItem getMenuItem()
-  {
-    return menuItem;
-  }
-
-  public IndividualBill getIndividualBill(int index)
-  {
-    IndividualBill aIndividualBill = individualBills.get(index);
-    return aIndividualBill;
-  }
-
-  public List<IndividualBill> getIndividualBills()
-  {
-    List<IndividualBill> newIndividualBills = Collections.unmodifiableList(individualBills);
-    return newIndividualBills;
-  }
-
-  public int numberOfIndividualBills()
-  {
-    int number = individualBills.size();
-    return number;
-  }
-
-  public boolean hasIndividualBills()
-  {
-    boolean has = individualBills.size() > 0;
-    return has;
-  }
-
-  public int indexOfIndividualBill(IndividualBill aIndividualBill)
-  {
-    int index = individualBills.indexOf(aIndividualBill);
-    return index;
-  }
-
-  public boolean setMenuItem(MenuItem aMenuItem)
+  public boolean setDateTime(Date aDateTime)
   {
     boolean wasSet = false;
-    if (aMenuItem == null)
-    {
-      return wasSet;
-    }
-
-    MenuItem existingMenuItem = menuItem;
-    menuItem = aMenuItem;
-    if (existingMenuItem != null && !existingMenuItem.equals(aMenuItem))
-    {
-      existingMenuItem.removeOrder(this);
-    }
-    menuItem.addOrder(this);
+    dateTime = aDateTime;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean isNumberOfIndividualBillsValid()
+  public Date getDateTime()
   {
-    boolean isValid = numberOfIndividualBills() >= minimumNumberOfIndividualBills();
+    return dateTime;
+  }
+
+  public int getNumber()
+  {
+    return number;
+  }
+
+  public Table getTable(int index)
+  {
+    Table aTable = tables.get(index);
+    return aTable;
+  }
+
+  /**
+   * only from currentTables for currentOrders
+   */
+  public List<Table> getTables()
+  {
+    List<Table> newTables = Collections.unmodifiableList(tables);
+    return newTables;
+  }
+
+  public int numberOfTables()
+  {
+    int number = tables.size();
+    return number;
+  }
+
+  public boolean hasTables()
+  {
+    boolean has = tables.size() > 0;
+    return has;
+  }
+
+  public int indexOfTable(Table aTable)
+  {
+    int index = tables.indexOf(aTable);
+    return index;
+  }
+
+  public OrderItem getOrderItem(int index)
+  {
+    OrderItem aOrderItem = orderItems.get(index);
+    return aOrderItem;
+  }
+
+  public List<OrderItem> getOrderItems()
+  {
+    List<OrderItem> newOrderItems = Collections.unmodifiableList(orderItems);
+    return newOrderItems;
+  }
+
+  public int numberOfOrderItems()
+  {
+    int number = orderItems.size();
+    return number;
+  }
+
+  public boolean hasOrderItems()
+  {
+    boolean has = orderItems.size() > 0;
+    return has;
+  }
+
+  public int indexOfOrderItem(OrderItem aOrderItem)
+  {
+    int index = orderItems.indexOf(aOrderItem);
+    return index;
+  }
+
+  public RestoApp getRestoApp()
+  {
+    return restoApp;
+  }
+
+  public Bill getBill(int index)
+  {
+    Bill aBill = bills.get(index);
+    return aBill;
+  }
+
+  public List<Bill> getBills()
+  {
+    List<Bill> newBills = Collections.unmodifiableList(bills);
+    return newBills;
+  }
+
+  public int numberOfBills()
+  {
+    int number = bills.size();
+    return number;
+  }
+
+  public boolean hasBills()
+  {
+    boolean has = bills.size() > 0;
+    return has;
+  }
+
+  public int indexOfBill(Bill aBill)
+  {
+    int index = bills.indexOf(aBill);
+    return index;
+  }
+
+  public boolean isNumberOfTablesValid()
+  {
+    boolean isValid = numberOfTables() >= minimumNumberOfTables();
     return isValid;
   }
 
-  public static int minimumNumberOfIndividualBills()
+  public static int minimumNumberOfTables()
   {
     return 1;
   }
 
-  public boolean addIndividualBill(IndividualBill aIndividualBill)
+  public boolean addTable(Table aTable)
   {
     boolean wasAdded = false;
-    if (individualBills.contains(aIndividualBill)) { return false; }
-    individualBills.add(aIndividualBill);
-    if (aIndividualBill.indexOfOrder(this) != -1)
+    if (tables.contains(aTable)) { return false; }
+    tables.add(aTable);
+    if (aTable.indexOfOrder(this) != -1)
     {
       wasAdded = true;
     }
     else
     {
-      wasAdded = aIndividualBill.addOrder(this);
+      wasAdded = aTable.addOrder(this);
       if (!wasAdded)
       {
-        individualBills.remove(aIndividualBill);
+        tables.remove(aTable);
       }
     }
     return wasAdded;
   }
 
-  public boolean removeIndividualBill(IndividualBill aIndividualBill)
+  public boolean removeTable(Table aTable)
   {
     boolean wasRemoved = false;
-    if (!individualBills.contains(aIndividualBill))
+    if (!tables.contains(aTable))
     {
       return wasRemoved;
     }
 
-    if (numberOfIndividualBills() <= minimumNumberOfIndividualBills())
+    if (numberOfTables() <= minimumNumberOfTables())
     {
       return wasRemoved;
     }
 
-    int oldIndex = individualBills.indexOf(aIndividualBill);
-    individualBills.remove(oldIndex);
-    if (aIndividualBill.indexOfOrder(this) == -1)
+    int oldIndex = tables.indexOf(aTable);
+    tables.remove(oldIndex);
+    if (aTable.indexOfOrder(this) == -1)
     {
       wasRemoved = true;
     }
     else
     {
-      wasRemoved = aIndividualBill.removeOrder(this);
+      wasRemoved = aTable.removeOrder(this);
       if (!wasRemoved)
       {
-        individualBills.add(oldIndex,aIndividualBill);
+        tables.add(oldIndex,aTable);
       }
     }
     return wasRemoved;
   }
 
-  public boolean setIndividualBills(IndividualBill... newIndividualBills)
+  public boolean setTables(Table... newTables)
   {
     boolean wasSet = false;
-    ArrayList<IndividualBill> verifiedIndividualBills = new ArrayList<IndividualBill>();
-    for (IndividualBill aIndividualBill : newIndividualBills)
+    ArrayList<Table> verifiedTables = new ArrayList<Table>();
+    for (Table aTable : newTables)
     {
-      if (verifiedIndividualBills.contains(aIndividualBill))
+      if (verifiedTables.contains(aTable))
       {
         continue;
       }
-      verifiedIndividualBills.add(aIndividualBill);
+      verifiedTables.add(aTable);
     }
 
-    if (verifiedIndividualBills.size() != newIndividualBills.length || verifiedIndividualBills.size() < minimumNumberOfIndividualBills())
+    if (verifiedTables.size() != newTables.length || verifiedTables.size() < minimumNumberOfTables())
     {
       return wasSet;
     }
 
-    ArrayList<IndividualBill> oldIndividualBills = new ArrayList<IndividualBill>(individualBills);
-    individualBills.clear();
-    for (IndividualBill aNewIndividualBill : verifiedIndividualBills)
+    ArrayList<Table> oldTables = new ArrayList<Table>(tables);
+    tables.clear();
+    for (Table aNewTable : verifiedTables)
     {
-      individualBills.add(aNewIndividualBill);
-      if (oldIndividualBills.contains(aNewIndividualBill))
+      tables.add(aNewTable);
+      if (oldTables.contains(aNewTable))
       {
-        oldIndividualBills.remove(aNewIndividualBill);
+        oldTables.remove(aNewTable);
       }
       else
       {
-        aNewIndividualBill.addOrder(this);
+        aNewTable.addOrder(this);
       }
     }
 
-    for (IndividualBill anOldIndividualBill : oldIndividualBills)
+    for (Table anOldTable : oldTables)
     {
-      anOldIndividualBill.removeOrder(this);
+      anOldTable.removeOrder(this);
     }
     wasSet = true;
     return wasSet;
   }
 
-  public boolean addIndividualBillAt(IndividualBill aIndividualBill, int index)
+  public boolean addTableAt(Table aTable, int index)
   {  
     boolean wasAdded = false;
-    if(addIndividualBill(aIndividualBill))
+    if(addTable(aTable))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfIndividualBills()) { index = numberOfIndividualBills() - 1; }
-      individualBills.remove(aIndividualBill);
-      individualBills.add(index, aIndividualBill);
+      if(index > numberOfTables()) { index = numberOfTables() - 1; }
+      tables.remove(aTable);
+      tables.add(index, aTable);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveIndividualBillAt(IndividualBill aIndividualBill, int index)
+  public boolean addOrMoveTableAt(Table aTable, int index)
   {
     boolean wasAdded = false;
-    if(individualBills.contains(aIndividualBill))
+    if(tables.contains(aTable))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfIndividualBills()) { index = numberOfIndividualBills() - 1; }
-      individualBills.remove(aIndividualBill);
-      individualBills.add(index, aIndividualBill);
+      if(index > numberOfTables()) { index = numberOfTables() - 1; }
+      tables.remove(aTable);
+      tables.add(index, aTable);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addIndividualBillAt(aIndividualBill, index);
+      wasAdded = addTableAt(aTable, index);
+    }
+    return wasAdded;
+  }
+
+  public static int minimumNumberOfOrderItems()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public OrderItem addOrderItem(int aQuantity, PricedMenuItem aPricedMenuItem, Seat... allSeats)
+  {
+    return new OrderItem(aQuantity, aPricedMenuItem, this, allSeats);
+  }
+
+  public boolean addOrderItem(OrderItem aOrderItem)
+  {
+    boolean wasAdded = false;
+    if (orderItems.contains(aOrderItem)) { return false; }
+    Order existingOrder = aOrderItem.getOrder();
+    boolean isNewOrder = existingOrder != null && !this.equals(existingOrder);
+    if (isNewOrder)
+    {
+      aOrderItem.setOrder(this);
+    }
+    else
+    {
+      orderItems.add(aOrderItem);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeOrderItem(OrderItem aOrderItem)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aOrderItem, as it must always have a order
+    if (!this.equals(aOrderItem.getOrder()))
+    {
+      orderItems.remove(aOrderItem);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addOrderItemAt(OrderItem aOrderItem, int index)
+  {  
+    boolean wasAdded = false;
+    if(addOrderItem(aOrderItem))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOrderItems()) { index = numberOfOrderItems() - 1; }
+      orderItems.remove(aOrderItem);
+      orderItems.add(index, aOrderItem);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveOrderItemAt(OrderItem aOrderItem, int index)
+  {
+    boolean wasAdded = false;
+    if(orderItems.contains(aOrderItem))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOrderItems()) { index = numberOfOrderItems() - 1; }
+      orderItems.remove(aOrderItem);
+      orderItems.add(index, aOrderItem);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addOrderItemAt(aOrderItem, index);
+    }
+    return wasAdded;
+  }
+
+  public boolean setRestoApp(RestoApp aRestoApp)
+  {
+    boolean wasSet = false;
+    if (aRestoApp == null)
+    {
+      return wasSet;
+    }
+
+    RestoApp existingRestoApp = restoApp;
+    restoApp = aRestoApp;
+    if (existingRestoApp != null && !existingRestoApp.equals(aRestoApp))
+    {
+      existingRestoApp.removeOrder(this);
+    }
+    restoApp.addOrder(this);
+    wasSet = true;
+    return wasSet;
+  }
+
+  public static int minimumNumberOfBills()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Bill addBill(RestoApp aRestoApp, Seat... allIssuedForSeats)
+  {
+    return new Bill(this, aRestoApp, allIssuedForSeats);
+  }
+
+  public boolean addBill(Bill aBill)
+  {
+    boolean wasAdded = false;
+    if (bills.contains(aBill)) { return false; }
+    Order existingOrder = aBill.getOrder();
+    boolean isNewOrder = existingOrder != null && !this.equals(existingOrder);
+    if (isNewOrder)
+    {
+      aBill.setOrder(this);
+    }
+    else
+    {
+      bills.add(aBill);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeBill(Bill aBill)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aBill, as it must always have a order
+    if (!this.equals(aBill.getOrder()))
+    {
+      bills.remove(aBill);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addBillAt(Bill aBill, int index)
+  {  
+    boolean wasAdded = false;
+    if(addBill(aBill))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfBills()) { index = numberOfBills() - 1; }
+      bills.remove(aBill);
+      bills.add(index, aBill);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveBillAt(Bill aBill, int index)
+  {
+    boolean wasAdded = false;
+    if(bills.contains(aBill))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfBills()) { index = numberOfBills() - 1; }
+      bills.remove(aBill);
+      bills.add(index, aBill);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addBillAt(aBill, index);
     }
     return wasAdded;
   }
 
   public void delete()
   {
-    MenuItem placeholderMenuItem = menuItem;
-    this.menuItem = null;
-    if(placeholderMenuItem != null)
+    ArrayList<Table> copyOfTables = new ArrayList<Table>(tables);
+    tables.clear();
+    for(Table aTable : copyOfTables)
     {
-      placeholderMenuItem.removeOrder(this);
+      aTable.removeOrder(this);
     }
-    ArrayList<IndividualBill> copyOfIndividualBills = new ArrayList<IndividualBill>(individualBills);
-    individualBills.clear();
-    for(IndividualBill aIndividualBill : copyOfIndividualBills)
+    while (orderItems.size() > 0)
     {
-      if (aIndividualBill.numberOfOrders() <= IndividualBill.minimumNumberOfOrders())
-      {
-        aIndividualBill.delete();
-      }
-      else
-      {
-        aIndividualBill.removeOrder(this);
-      }
+      OrderItem aOrderItem = orderItems.get(orderItems.size() - 1);
+      aOrderItem.delete();
+      orderItems.remove(aOrderItem);
+    }
+    
+    RestoApp placeholderRestoApp = restoApp;
+    this.restoApp = null;
+    if(placeholderRestoApp != null)
+    {
+      placeholderRestoApp.removeOrder(this);
+    }
+    for(int i=bills.size(); i > 0; i--)
+    {
+      Bill aBill = bills.get(i - 1);
+      aBill.delete();
     }
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "number" + ":" + getNumber()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "dateTime" + "=" + (getDateTime() != null ? !getDateTime().equals(this)  ? getDateTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
+  }
 }

@@ -1,130 +1,68 @@
 namespace ca.mcgill.ecse223.resto.model;
 
-class Table
-{
-  unique Integer tableNumber;
-  lazy Boolean isUsed;
-  double  width;
-  double length;
-  Integer x;
-  Integer y;
+class RestoApp {
+   1 <@>- * Reservation reservations; // sorted by date and time
+   1 <@>- * Table tables;
+   1 -> * Table currentTables; // subsets tables
+   1 <@>- * Order orders;
+   1 -> * Order currentOrders; // subsets orders
+   1 <@>- 1 Menu menu;   
+   1 <@>- * PricedMenuItem pricedMenuItems;
+   1 <@>- * Bill bills;
 }
 
-class Seat
-{
-  lazy Boolean isUsed;
-  1..* -<@> 1 Table;
+class Reservation {
+   Date dateTime;
+   Integer numberInParty;
+   contactName;
+   contactEmailAddress;
+   contactPhoneNumber;
+   autounique reservationNumber;
+   * reservations -- 1..* Table tables; // only from currentTables
 }
 
-class MenuItem
-{
-  unique name;
-  Double price;
-  1 -- * Order;
-  }
-
-class Food
-{
-  enum FoodCategory{
-Appetizer, MainCourse, Dessert};
-  lazy FoodCategory foodCategory;
-  
-  isA MenuItem;
+class Table {
+   unique Integer number;
+   Integer x;
+   Integer y;
+   Integer width;
+   Integer length;
+   1 <@>- 1..* Seat seats;
 }
 
-class Beverage
-{
-  Boolean isAlcohol;
-  isA MenuItem;
+class Seat {
 }
 
-class Reservation
-{
-  autounique reservationNumber;
-  DateTime dateTime;
-  contactName;
-  contactEmailAddress;
-  contactPhoneNumber;
-  Integer numberInParty;
-0..* -- 1..* Table;
+class Order {
+   Date dateTime;
+   autounique number;
+   * orders -- 1..* Table tables; // only from currentTables for currentOrders
+   1 <@>- * OrderItem orderItems;
 }
 
-class Order
-{
-  autounique orderNumber;
+class OrderItem {
+   Integer quantity;
+   * orderItems -- 1 PricedMenuItem pricedMenuItem; // only from MenuItem.currentPricedMenuItem for currentOrders
+   * orderItems -- 1..* Seat seats; // only from order.tables.seats
 }
 
-class IndividualBill
-{
-  Double totalPrice;
-  lazy Boolean isPaid;
-  1..* <@>- 1..* Order;
-    0..1 -- 1..* Seat;
+class Menu {   
+   1 <@>- * MenuItem menuItems;
 }
 
-
-class RestoApp
-{
-  1 <@>- * Table tables;
-  Table currentTables;
-  Order currentOrders;
-  1 <@>- 1 Menu menu;
-  1 <@>- * IndividualBill bills;
-  1 <@>- * Order orders;
-  1 <@>- * Reservation reservations;
-  
+class MenuItem {
+   unique name;
+   enum ItemCategory { Appetizer, Main, Dessert, AlcoholicBeverage, NonAlcoholicBeverage }
+   lazy ItemCategory itemCategory;
+   1 -- 1..* PricedMenuItem pricedMenuItems;
+   1 -> 0..1 PricedMenuItem currentPricedMenuItem; // subsets priced menus items
 }
 
-class Menu
-{
-  1 <@>- * MenuItem menuItems;
+class PricedMenuItem {
+   Double price;
 }
 
-class Table
-{
-  position 17 14 170 152;
-  }
-
-class Seat
-{
-  position 236 33 131 60;
-  position.association Seat__Table 0,27 171,47;
-  position.association Seat__Table 4,60 149,0;
-}
-
-class MenuItem
-{
-  position 628 220 112 78;
-  position.association MenuItem__Order 48,0 39,77;
-  }
-
-class Food
-{
-  position 389 346 216 60;
-}
-
-class Beverage
-{
-  position 620 347 146 60;
-}
-
-class Reservation
-{
-  position 18 233 218 170;
-  position.association Reservation__RestoApp 218,0 1,78;
-  position.association Reservation__Table 129,0 147,152;
-}
-
-class Order
-{
-  position 638 86 109 45;
-  position.association Order__RestoApp 4,45 102,0;
-}
-
-class IndividualBill
-{
-  position 418 19 142 78;
-  position.association IndividualBill__Order 144,29 0,26;
-    position.association IndividualBill__Seat 0,28 132,20;
-  position.association IndividualBill__RestoApp 7,87 71,0;
+class Bill {
+   * bills -- 1 Order order; // order.bills.issuedForSeats = order.orderItems.seats
+   * bills -- 1..* Seat issuedForSeats; // only from order.orderItems.seats;
 }
