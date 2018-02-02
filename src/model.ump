@@ -1,15 +1,17 @@
 class Table
 {
-  unique immutable Integer tableNumber;
+  unique Integer tableNumber;
   lazy Boolean isUsed;
   double  width;
   double length;
+  Integer x;
+  Integer y;
 }
 
 class Seat
 {
   lazy Boolean isUsed;
-  1..* -- 1 Table;
+  1..* -<@> 1 Table;
 }
 
 class MenuItem
@@ -17,14 +19,13 @@ class MenuItem
   unique name;
   Double price;
   1 -- * Order;
-  * -- * RestoApp;
-}
+  }
 
 class Food
 {
   enum FoodCategory{
 Appetizer, MainCourse, Dessert};
-  FoodCategory foodCategory;
+  lazy FoodCategory foodCategory;
   
   isA MenuItem;
 }
@@ -37,21 +38,18 @@ class Beverage
 
 class Reservation
 {
-  Integer seatsNeeded;
-  unique immutable Integer reservationNumber;
+  autounique reservationNumber;
   DateTime dateTime;
   contactName;
-contactEmailAddress;
-contactPhoneNumber;
-int numberInParty;
-0..* -- 1 Table;
-  * -- * RestoApp;
+  contactEmailAddress;
+  contactPhoneNumber;
+  Integer numberInParty;
+0..* -- 1..* Table;
 }
 
 class Order
 {
-
-    * -- * RestoApp;
+  autounique orderNumber;
 }
 
 class IndividualBill
@@ -60,86 +58,91 @@ class IndividualBill
   lazy Boolean isPaid;
   1..* <@>- 1..* Order;
     0..1 -- * Seat;
-  * -- * RestoApp;
 }
-
-
-class Location
-{
-  x;
-  y;
-    1 -- 1 Table;
-}
-
 
 
 class RestoApp
 {
-  * -- * Table;
+  1 <@>- * Table tables;
   Table currentTables;
   Order currentOrders;
+  1 <@>- 1 Menu menu;
+  1 <@>- * IndividualBill bills;
+  1 <@>- * Order orders;
+  1 <@>- * Reservation reservations;
   
+}
+
+class Menu
+{
+  1 <@>- * MenuItem menuItems;
 }
 
 class Table
 {
-  position 12 172 109 113;
+  position 17 14 170 152;
   }
 
 class Seat
 {
-  position 252 49 131 60;
+  position 236 33 131 60;
   position.association Seat__Table 0,27 171,47;
   position.association Seat__Table 4,60 149,0;
 }
 
 class MenuItem
 {
-  position 632 125 112 78;
-  position.association MenuItem__Order 48,0 38,45;
-  position.association MenuItem__RestoApp 0,31 81,0;
-}
+  position 628 220 112 78;
+  position.association MenuItem__Order 48,0 39,77;
+  }
 
 class Food
 {
-  position 401 245 216 60;
+  position 389 346 216 60;
 }
 
 class Beverage
 {
-  position 624 245 146 60;
+  position 620 347 146 60;
 }
 
 class Reservation
 {
-  position 12 20 218 143;
-  position.association Reservation__RestoApp 219,130 37,0;
-  position.association Reservation__Table 30,143 30,0;
+  position 18 233 218 170;
+  position.association Reservation__RestoApp 218,0 1,78;
+  position.association Reservation__Table 129,0 147,152;
 }
 
 class Order
 {
-  position 642 24 109 45;
+  position 638 86 109 45;
   position.association Order__RestoApp 4,45 102,0;
 }
 
 class IndividualBill
 {
-  position 438 21 142 78;
+  position 418 19 142 78;
   position.association IndividualBill__Order 144,29 0,26;
     position.association IndividualBill__Seat 0,28 132,20;
-  position.association IndividualBill__RestoApp 24,78 71,0;
+  position.association IndividualBill__RestoApp 7,87 71,0;
 }
 
 
-class Location
-{
-  position 7 334 109 78;
-    position.association Location__Table 56,0 51,126;
-}//$?[End_of_model]$?
+//$?[End_of_model]$?
 
 class RestoApp
 {
-  position 236 209 166 75;
+  position 271 134 166 78;
   position.association RestoApp__Table 0,9 187,74;
+  position.association RestoApp__Table:tables 0,10 171,79;
+  position.association Menu:menu__RestoApp 167,39 0,9;
+  position.association IndividualBill:bills__RestoApp 138,0 38,78;
+  position.association Order:orders__RestoApp 167,10 0,50;
+}
+
+class Menu
+{
+  position 484 241 109 41;
+  position.association Menu__MenuItem 101,0 0,14;
+  position.association Menu__MenuItem:menuItems 110,34 0,3;
 }
