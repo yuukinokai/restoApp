@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.resto.model;
 import java.util.*;
 
-// line 65 "../../../../../model.ump"
+// line 66 "../../../../../model.ump"
 public class Bill
 {
 
