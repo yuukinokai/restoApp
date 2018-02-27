@@ -1,5 +1,8 @@
-package ca.mcgill.ecse223.resto.model;
+
 import java.util.*;
+
+import ca.mcgill.ecse223.resto.model.Table;
+
 import java.sql.Date;
 
 public interface RestoAppController 
