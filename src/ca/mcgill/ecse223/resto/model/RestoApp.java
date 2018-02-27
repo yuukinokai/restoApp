@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.util.*;
 import java.sql.Date;
 
-// line 3 "../../../../../model.ump"
+// line 4 "../../../../../RestoApp.ump"
 public class RestoApp
 {
 

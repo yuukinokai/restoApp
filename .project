@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/model.ump</name>
-			<type>1</type>
-			<location>C:/Users/Sophie/Group06/src/model.ump</location>
-		</link>
-	</linkedResources>
 </projectDescription>

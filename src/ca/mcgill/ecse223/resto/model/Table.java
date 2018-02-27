@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.resto.model;
 import java.util.*;
 
-// line 24 "../../../../../model.ump"
+// line 25 "../../../../../RestoApp.ump"
 public class Table
 {
 
