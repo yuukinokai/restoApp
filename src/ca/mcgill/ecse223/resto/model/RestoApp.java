@@ -813,5 +813,10 @@ public class RestoApp implements Serializable
   // line 6 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = -2683593616927798071L ;
 
+public void reinitialize() {
+	// TODO Auto-generated method stub
+	
+}
+
   
 }
