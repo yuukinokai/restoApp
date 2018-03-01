@@ -19,6 +19,13 @@ public class RestoAppController {
 	public RestoAppController() {
 	}
 	
+	public static List<Table> getCurrentTables() {
+		return RestoAppApplication.getRestoApp().getCurrentTables();
+	}
+	public static List<Order> getCurrentOrders() {
+		return RestoAppApplication.getRestoApp().getCurrentOrders();
+	}
+	
 	public static void deleteTable(Table table) throws InvalidInputException{
 		boolean hasReservation = table.hasReservations();
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
@@ -43,6 +50,8 @@ public class RestoAppController {
 			throw new InvalidInputException(e.getMessage());
 		}
 	}
+	
+	
 			
 
 
