@@ -83,8 +83,18 @@ public class RestoAppPage extends JFrame{
 		selectTableLabel.setText("Select Table");
 		deleteTable.setText("Delete Table");
 		deleteTable.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				deleteTableButtonActionPerformed(evt);
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				error = null;
+				try {
+					deleteTableButtonActionPerformed(evt, (Table)currentTableList.getSelectedItem());
+				}
+				catch (NullPointerException ex) {
+					error = "Please select a valid table";
+					errorMessage.setText(error);
+				}
+				
 			}
 		});
 		//END DELETE TABLE
@@ -296,16 +306,17 @@ public class RestoAppPage extends JFrame{
 		
 	}
 
-	protected void deleteTableButtonActionPerformed(ActionEvent evt) {
+	protected void deleteTableButtonActionPerformed(ActionEvent evt, Table table) {
 		// DELETE TABLE BUTTON
 		// clear error message
 		error = null;
 		
 		// call the controller
 		try {
-			RestoAppController.deleteTable(tables.get(selectedTable));
+			RestoAppController.deleteTable(table);
 		} catch (InvalidInputException e) {
 			error = e.getMessage();
+			errorMessage.setText(error);
 		}
 		
 		// update visuals
@@ -330,6 +341,7 @@ public class RestoAppPage extends JFrame{
 		// TODO Auto-generated method stub
 		// error
 				errorMessage.setText(error);
+				
 				if (error == null || error.length() == 0) {
 					// populate page with data
 				

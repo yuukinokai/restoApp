@@ -35,7 +35,7 @@ public class RestoAppApplication {
 	public static RestoApp load() {
 		PersistenceObjectStream.setFilename(filename);
 		restoApp = (RestoApp) PersistenceObjectStream.deserialize();
-		// model cannot be loaded - create empty BTMS
+		// model cannot be loaded - create empty restoApp
 		if (restoApp == null) {
 			restoApp = new RestoApp();
 		}
@@ -48,6 +48,7 @@ public class RestoAppApplication {
 	public static void setFilename(String newFilename) {
 		filename = newFilename;
 	}
+	
 
 
 }

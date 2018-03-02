@@ -33,6 +33,7 @@ public class RestoAppController {
 		boolean hasReservation = table.hasReservations();
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		String error = null;
+		
 		if (hasReservation) {
 			error = "Table has reservations";
 		}
@@ -46,8 +47,9 @@ public class RestoAppController {
 		if (error != null) {
 			throw new InvalidInputException(error);
 		}
+		restoApp.removeCurrentTable(table);
 		try {
-			restoApp.removeCurrentTable(table);
+			RestoAppApplication.save();
 		}
 		catch (RuntimeException e) {
 			throw new InvalidInputException(e.getMessage());
