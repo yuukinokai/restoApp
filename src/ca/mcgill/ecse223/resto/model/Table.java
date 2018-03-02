@@ -651,16 +651,17 @@ public class Table implements Serializable
     }
   }
 
-
+  @Override
   public String toString()
   {
-    return super.toString() + "["+
-            "number" + ":" + getNumber()+ "," +
-            "x" + ":" + getX()+ "," +
-            "y" + ":" + getY()+ "," +
-            "width" + ":" + getWidth()+ "," +
-            "length" + ":" + getLength()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
+	  return "Table #" + this.getNumber();
+//    return super.toString() + "["+
+//            "number" + ":" + getNumber()+ "," +
+//            "x" + ":" + getX()+ "," +
+//            "y" + ":" + getY()+ "," +
+//            "width" + ":" + getWidth()+ "," +
+//            "length" + ":" + getLength()+ "]" + System.getProperties().getProperty("line.separator") +
+//            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
   }  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
@@ -676,4 +677,5 @@ public class Table implements Serializable
 	  return (xOverlap && yOverlap);
 
   }
+  
 }

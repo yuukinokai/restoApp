@@ -22,7 +22,12 @@ public class RestoAppController {
 	public RestoAppController() {
 	}
 	
-
+	public static List<Table> getCurrentTables() {
+		return RestoAppApplication.getRestoApp().getCurrentTables();
+	}
+	public static List<Order> getCurrentOrders() {
+		return RestoAppApplication.getRestoApp().getCurrentOrders();
+	}
 	
 	public static void deleteTable(Table table) throws InvalidInputException{
 		boolean hasReservation = table.hasReservations();
@@ -50,7 +55,7 @@ public class RestoAppController {
 	}
 	
 
-	public void moveTable(Table table, int x, int y) throws InvalidInputException {
+	public static void moveTable(Table table, int x, int y) throws InvalidInputException {
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		int width = table.getWidth();
 		int length = table.getLength();
