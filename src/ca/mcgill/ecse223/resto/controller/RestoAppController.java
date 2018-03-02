@@ -19,12 +19,7 @@ public class RestoAppController {
 	public RestoAppController() {
 	}
 	
-	public static List<Table> getCurrentTables() {
-		return RestoAppApplication.getRestoApp().getCurrentTables();
-	}
-	public static List<Order> getCurrentOrders() {
-		return RestoAppApplication.getRestoApp().getCurrentOrders();
-	}
+
 	
 	public static void deleteTable(Table table) throws InvalidInputException{
 		boolean hasReservation = table.hasReservations();
@@ -51,10 +46,29 @@ public class RestoAppController {
 		}
 	}
 	
-	
-			
+	public void moveTable(Table table, int x, int y) throws InvalidInputException {
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		int width = table.getWidth();
+		int length = table.getLength();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		for(Table t : currentTables) {
+			if (t == table) {
+				continue;
+			}
+			if (t.checkOverlap(x,y,length, width)) {
+				throw new InvalidInputException("Table overlap");
+			}
+		}
+		table.setX(x);
+		table.setY(y);
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
 
-
-  //public void moveTable(Table table, int x, int y);
+	}
   //public void rotateTable(Table table);
 }

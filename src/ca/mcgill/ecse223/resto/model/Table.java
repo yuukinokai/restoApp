@@ -669,5 +669,11 @@ public class Table implements Serializable
   // line 18 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 8896099581655989380L ;
 
-  
+  public boolean checkOverlap(int x, int y, int length, int width) {
+	  
+	  boolean xOverlap = (Math.abs(2 * x - 2* this.x + length - this.length) < (length + this.length));
+	  boolean yOverlap = (Math.abs(2 * y - 2* this.y + width - this.width) < (width + this.width));
+	  return (xOverlap && yOverlap);
+
+  }
 }
