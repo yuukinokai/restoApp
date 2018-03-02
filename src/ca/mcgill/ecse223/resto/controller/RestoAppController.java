@@ -58,6 +58,10 @@ public class RestoAppController {
 	
 
 	public static void moveTable(Table table, int x, int y) throws InvalidInputException {
+		
+		if (x <0 || y < 0) {
+			throw new InvalidInputException("Invalid position");
+		}
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		int width = table.getWidth();
 		int length = table.getLength();

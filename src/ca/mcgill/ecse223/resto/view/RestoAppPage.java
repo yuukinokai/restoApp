@@ -108,9 +108,13 @@ public class RestoAppPage extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				error = null;
 				try {
-					moveTableButtonActionPerformed(e, (Table)currentTableList.getSelectedItem());
+					Table t = (Table)currentTableList.getSelectedItem();
+					if (t == null) {
+						throw new NullPointerException();
+					}
+					moveTableButtonActionPerformed(e, t);
 				} catch (NullPointerException ex) {
-					error = "Please select a valid table";
+					errorMessage.setText("Please select a valid table");
 				}
 				
 			}
@@ -213,97 +217,7 @@ public class RestoAppPage extends JFrame{
 	
 	
 	protected void moveTableButtonActionPerformed(ActionEvent e, Table t) {
-	
-	    JFrame frame = new JFrame("MoveTableFrame");
-	    frame.setResizable(false);
-	    frame.setAlwaysOnTop(true);
-	    
-	    //COMPONENTS
-	    JLabel lblX = new JLabel("X value");
-	    JLabel lblY = new JLabel("Y value");
-	    JTextField txtX = new JTextField();
-	    JTextField txtY = new JTextField();
-	    JButton btnMove = new JButton("Move");
-	    JButton btnClose = new JButton("Close");
-	    
-	    //END COMPONENTS
-	    
-	    btnClose.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	    
-	    btnMove.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					int x = Integer.parseInt(txtX.getText());
-					int y = Integer.parseInt(txtY.getText());
-
-					RestoAppController.moveTable(t, x, y);
-				} catch (NumberFormatException ex) {
-			        JOptionPane.showMessageDialog(null, "Please enter coordinates in integer", null, JOptionPane.ERROR_MESSAGE);
-
-				} catch (InvalidInputException ex) {
-			        JOptionPane.showMessageDialog(null, ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
-				}  catch (Exception ex) {
-			        JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
-				}
-				 
-				
-			}
-		});
-	    
-	    
-//	    frame.setDefaultCloseOperation(JFrame.);
-
-	    java.awt.Container contentPane = frame.getContentPane();
-	    
-		GroupLayout layout = new GroupLayout(contentPane);
-		contentPane.setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
-	    
-		layout.setHorizontalGroup(
-				layout.createParallelGroup()
-					.addGroup(				
-						layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup()
-									.addComponent(lblX)
-									.addComponent(lblY))
-							.addGroup(layout.createParallelGroup()
-									.addComponent(txtX)
-									.addComponent(txtY)))
-					.addGroup(
-							layout.createSequentialGroup()
-								.addComponent(btnMove)
-								.addComponent(btnClose)
-							)
-					);
-				layout.setVerticalGroup(
-				   layout.createSequentialGroup()
-				      .addGroup(layout.createParallelGroup()
-				           .addComponent(lblX)
-				           .addComponent(txtX))
-				      .addGroup(layout.createParallelGroup()
-					           .addComponent(lblY)
-					           .addComponent(txtY))
-				      .addGroup(layout.createParallelGroup()
-				    		  .addComponent(btnMove)
-				    		  .addComponent(btnClose)
-				    		  )
-				);
-		
-	    // Set the x, y, width and height properties
-	    frame.pack();
-	    frame.setVisible(true);
-		
+		new MoveTableFrame(this, t);
 	}
 
 	protected void deleteTableButtonActionPerformed(ActionEvent evt, Table table) {
@@ -337,7 +251,7 @@ public class RestoAppPage extends JFrame{
 		
 	}
 
-	private void refreshData() {
+	public void refreshData() {
 		// TODO Auto-generated method stub
 		// error
 				errorMessage.setText(error);
