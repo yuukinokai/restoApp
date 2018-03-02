@@ -82,36 +82,19 @@ public class RestoAppController {
 		
 		List<MenuItem> listItems = new ArrayList<MenuItem>();
 		RestoApp restoApp = RestoAppApplication.load();
-		//Menu menu = restoApp.getMenu();
-		Menu menu =new Menu();
-		MenuItem a = new MenuItem("Apple", menu);
-		a.setItemCategory(ItemCategory.Appetizer);
-		MenuItem b = new MenuItem("Banana", menu);
-		a.setItemCategory(ItemCategory.Main);
-		MenuItem c = new MenuItem("Carrot", menu);
-		a.setItemCategory(ItemCategory.Dessert);
-		MenuItem d = new MenuItem("Dinosaur", menu);
-		a.setItemCategory(ItemCategory.AlcoholicBeverage);
-		MenuItem e = new MenuItem("Elephant", menu);
-		a.setItemCategory(ItemCategory.NonAlcoholicBeverage);
-		menu.addMenuItem(a);
-		menu.addMenuItem(b);
-		menu.addMenuItem(c);
-		menu.addMenuItem(d);
-		menu.addMenuItem(e);
+		Menu menu = restoApp.getMenu();
 		for(MenuItem menuItem : menu.getMenuItems() ){
-			//boolean current = menuItem.hasCurrentPricedMenuItem();
+			boolean current = menuItem.hasCurrentPricedMenuItem();
 			ItemCategory category = menuItem.getItemCategory();
-			//if(current && category.equals(itemCategory)){
-			//	listItems.add(menuItem);
-			//}
-			if(category.equals(itemCategory)){
+			if(current && category.equals(itemCategory)){
 				listItems.add(menuItem);
-			}
+			}	
 		}
-		
-		for(MenuItem menuItem: listItems){
-			System.out.println(menuItem.getName());
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
 		}
 		return listItems;
 	}

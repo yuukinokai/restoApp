@@ -129,7 +129,7 @@ public class RestoAppPage extends JFrame{
 				displayMenuButtonActionPerformed(evt);
 			}
 		});
-		//End DISPLAY MENU
+		//END DISPLAY MENU
 		
 		
 		//layout
