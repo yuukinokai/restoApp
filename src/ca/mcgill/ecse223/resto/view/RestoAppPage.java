@@ -18,10 +18,13 @@ import javax.swing.WindowConstants;
 
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.Table;
 
 
 public class RestoAppPage extends JFrame{
+	
+	private static final long serialVersionUID = -3496706717743749508L;
 	private JLabel errorMessage;
 	private String error = null;
 	
@@ -33,6 +36,14 @@ public class RestoAppPage extends JFrame{
 	private HashMap<Integer, Table> tables;
 	//END DELETE TABLE
 	
+	//Display Menu
+	String list[] = {"Appetizer", "Main", "Dessert", "AlcoholicBeverage", "NonAlcoholicBeverage"};
+	private JLabel selectMenuLabel;
+	private JComboBox<String>itemCategoryList;
+	private JButton displayMenu;
+	private ItemCategory selectedMenu = null;
+	private HashMap<Integer, ItemCategory> items;
+	//End Display Menu
 	
 	public RestoAppPage() {
 		initComponents();
@@ -65,8 +76,34 @@ public class RestoAppPage extends JFrame{
 		});
 		//END DELETE TABLE
 		
+		//DISPLAY MENU
+		selectMenuLabel = new JLabel();
+		itemCategoryList = new JComboBox<String>(new String[0]);
+		for(String str : list){
+			itemCategoryList.addItem(str);
+		}
+		itemCategoryList.setSelectedIndex(-1);
+		itemCategoryList.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+		        selectedMenu = (ItemCategory) cb.getSelectedItem();      
+			}
+		});
+		selectMenuLabel.setText("Select Menu");
+		selectedMenu = null;
+		displayMenu = new JButton();
+		displayMenu.setText("Display Menu");
+		displayMenu.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				displayMenuButtonActionPerformed(evt);
+			}
+		});
+		//End DISPLAY MENU
+		
+		
 		//layout
 		 
+
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
@@ -88,11 +125,18 @@ public class RestoAppPage extends JFrame{
 								.addComponent(deleteTable)))
 				//END DELETE TABLE 
 				
-				
+				//DISPLAY MENU HORIZONTAL
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(selectMenuLabel)
+						.addGroup(layout.createParallelGroup()
+							.addComponent(itemCategoryList, 200, 200, 400)
+							.addComponent(displayMenu)))
+				//END DISPLAY MENU
 				);
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable});
-		
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		//VERTICAL
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -104,9 +148,17 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createParallelGroup()
 						.addComponent(selectTableLabel)
 						.addComponent(currentTableList))
-				.addComponent(deleteTable)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(deleteTable))
 				//END DELETE TABLE
-				
+						
+				//DISPLAY MENU VERTICAL
+				.addGroup(layout.createParallelGroup()
+						.addComponent(selectMenuLabel)
+						.addComponent(itemCategoryList))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(displayMenu))
+				//END DISPLAY MENU
 				);
 		//END DELETE TABLE
 		
@@ -129,7 +181,19 @@ public class RestoAppPage extends JFrame{
 		
 		// update visuals
 		refreshData();
+	}
+	
+	private void displayMenuButtonActionPerformed(ActionEvent evt) {
+		// DISPLAY MENU BUTTON
+		// clear error message
+		error = null;
 		
+		//call the controller
+		try{
+			RestoAppController.displayMenu(items.get(selectedMenu));
+		}catch(InvalidInputException e){
+			error = e.getMessage();
+		}
 		
 	}
 
