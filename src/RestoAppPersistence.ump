@@ -4,18 +4,40 @@ class RestoApp {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = -2683593616927798071L;
+  
+  public void reinitialize() {
+    Reservation.reinitializeAutouniqueResNumber(this.getReservations());
+    Order.reinitializeAutouniqueNumber(this.getOrders());
+    Table.reinitializeUniqueNumber(this.getTables());
+  }
 }
 
 class Reservation {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = 2315072607928790501L;
+  
+  public static void reinitializeAutouniqueResNumber(List<Reservation> reservations) {
+    nextNumber = 0; 
+    for (Reservation reservation : reservations) {
+      if (reservation.getReservationNumber() > nextNumber) {
+        nextNumber = reservation.getReservationNumber();
+      }
+    }
+    nextNumber++;
+  }
 }
 
 class Table {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = 8896099581655989380L;
+  
+  public static void reinitializeUniqueNumber(List<Table> tables) {
+    tablesByNumber = new HashMap<Integer, Route>();
+    for (Table table : tables) {
+      tablesByNumber.put(table.getNumber(), table);
+    }
 }
 
 class Seat {
@@ -28,6 +50,15 @@ class Order {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = -3900912597282882073L;
+  
+  public static void reinitializeAutouniqueNumber(List<Order> orders) {
+    nextNumber = 0; 
+    for (Order order : orders) {
+      if (order.getNumber() > nextNumber) {
+        nextNumber = order.getNumber();
+      }
+    }
+    nextNumber++;
 }
 
 class OrderItem {
