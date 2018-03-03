@@ -8,6 +8,7 @@ class RestoApp {
   public void reinitialize() {
     Reservation.reinitializeAutouniqueResNumber(this.getReservations());
     Order.reinitializeAutouniqueNumber(this.getOrders());
+    MenuItem.reinitializeUniqueMenuItemName(this.menu.getItems());
     Table.reinitializeUniqueNumber(this.getTables());
   }
 }
@@ -79,6 +80,13 @@ class MenuItem {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = -1776230320092632776L;
+  
+    public static void reinitializeUniqueMenuItemName(List<MenuItem> menuItems) {
+    menuItemsByNumber = new HashMap<Integer, MenuItem>();
+    for (MenuItem menuItem : menuItems) {
+      menuItemsByName.put(menuItems.getName(), menuItem);
+    }
+  }
 }
 
 class PricedMenuItem {
