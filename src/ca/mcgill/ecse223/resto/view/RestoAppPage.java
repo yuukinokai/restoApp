@@ -34,6 +34,7 @@ public class RestoAppPage extends JFrame{
 
 	private JLabel errorMessage;
 	private String error = null;
+	private TableVisualizer tableVisualizer;
 	
 	//DELETE TABLE
 	private JLabel selectTableLabel;
@@ -68,6 +69,7 @@ public class RestoAppPage extends JFrame{
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
 		//END ERROR MESSAGE
+		tableVisualizer = new TableVisualizer();
 		
 		//DELETE TABLE
 		selectTableLabel = new JLabel();
@@ -178,6 +180,8 @@ public class RestoAppPage extends JFrame{
 						.addGroup(layout.createParallelGroup()
 							.addComponent(itemCategoryList, 200, 200, 400)
 							.addComponent(displayMenu)))
+				
+				.addComponent(tableVisualizer)
 				//END DISPLAY MENU
 				);
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable});
@@ -208,6 +212,8 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createParallelGroup()
 						.addComponent(displayMenu))
 				//END DISPLAY MENU
+				
+				.addComponent(tableVisualizer)
 				);
 		//END DELETE TABLE
 		
