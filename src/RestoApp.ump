@@ -30,6 +30,19 @@ class Table {
    Integer length;
    1 <@>- 1..* Seat seats;
    0..1 -> * Seat currentSeats; // subsets seats
+   
+   public String toString() {
+	  return "Table #" + this.getNumber();
+   }  
+   
+   public boolean checkOverlap(int x, int y, int length, int width) {
+	  
+	  boolean xOverlap = (Math.abs(2 * x - 2* this.x + length - this.length) < (length + this.length));
+	  boolean yOverlap = (Math.abs(2 * y - 2* this.y + width - this.width) < (width + this.width));
+	  return (xOverlap && yOverlap);
+
+  }
+   
 }
 
 class Seat {

@@ -18,7 +18,7 @@ class Reservation {
   private static final long serialVersionUID = 2315072607928790501L;
   
   public static void reinitializeAutouniqueResNumber(List<Reservation> reservations) {
-    nextNumber = 0; 
+    int nextNumber = 0; 
     for (Reservation reservation : reservations) {
       if (reservation.getReservationNumber() > nextNumber) {
         nextNumber = reservation.getReservationNumber();
@@ -34,10 +34,11 @@ class Table {
   private static final long serialVersionUID = 8896099581655989380L;
   
   public static void reinitializeUniqueNumber(List<Table> tables) {
-    tablesByNumber = new HashMap<Integer, Route>();
+    tablesByNumber = new HashMap<Integer, Table>();
     for (Table table : tables) {
       tablesByNumber.put(table.getNumber(), table);
     }
+  }
 }
 
 class Seat {
@@ -59,6 +60,7 @@ class Order {
       }
     }
     nextNumber++;
+  }
 }
 
 class OrderItem {

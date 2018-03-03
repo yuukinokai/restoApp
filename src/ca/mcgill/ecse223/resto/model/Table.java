@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 15 "../../../../../RestoAppPersistence.ump"
+// line 31 "../../../../../RestoAppPersistence.ump"
 // line 25 "../../../../../RestoApp.ump"
 public class Table implements Serializable
 {
@@ -651,31 +651,32 @@ public class Table implements Serializable
     }
   }
 
-  @Override
-  public String toString()
-  {
-	  return "Table #" + this.getNumber();
-//    return super.toString() + "["+
-//            "number" + ":" + getNumber()+ "," +
-//            "x" + ":" + getX()+ "," +
-//            "y" + ":" + getY()+ "," +
-//            "width" + ":" + getWidth()+ "," +
-//            "length" + ":" + getLength()+ "]" + System.getProperties().getProperty("line.separator") +
-//            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
-  }  
+  // line 37 "../../../../../RestoAppPersistence.ump"
+   public static  void reinitializeUniqueNumber(List<Table> tables){
+    tablesByNumber = new HashMap<Integer, Table>();
+    for (Table table : tables) {
+      tablesByNumber.put(table.getNumber(), table);
+    }
+  }
+
+  // line 35 "../../../../../RestoApp.ump"
+   public String toString(){
+    return "Table #" + this.getNumber();
+  }
+
+  // line 40 "../../../../../RestoApp.ump"
+   public boolean checkOverlap(int x, int y, int length, int width){
+    boolean xOverlap = (Math.abs(2 * x - 2* this.x + length - this.length) < (length + this.length));
+	  boolean yOverlap = (Math.abs(2 * y - 2* this.y + width - this.width) < (width + this.width));
+	  return (xOverlap && yOverlap);
+  }
+  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 18 "../../../../../RestoAppPersistence.ump"
+  // line 34 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 8896099581655989380L ;
 
-  public boolean checkOverlap(int x, int y, int length, int width) {
-	  
-	  boolean xOverlap = (Math.abs(2 * x - 2* this.x + length - this.length) < (length + this.length));
-	  boolean yOverlap = (Math.abs(2 * y - 2* this.y + width - this.width) < (width + this.width));
-	  return (xOverlap && yOverlap);
-
-  }
   
 }

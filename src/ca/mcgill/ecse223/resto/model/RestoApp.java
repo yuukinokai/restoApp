@@ -805,6 +805,13 @@ public class RestoApp implements Serializable
     }
     
   }
+
+  // line 9 "../../../../../RestoAppPersistence.ump"
+   public void reinitialize(){
+    Reservation.reinitializeAutouniqueResNumber(this.getReservations());
+    Order.reinitializeAutouniqueNumber(this.getOrders());
+    Table.reinitializeUniqueNumber(this.getTables());
+  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
@@ -812,11 +819,6 @@ public class RestoApp implements Serializable
   
   // line 6 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = -2683593616927798071L ;
-
-public void reinitialize() {
-	// TODO Auto-generated method stub
-	
-}
 
   
 }
