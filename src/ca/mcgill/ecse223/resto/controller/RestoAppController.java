@@ -89,19 +89,12 @@ public class RestoAppController {
 		List<MenuItem> listItems = new ArrayList<MenuItem>();
 		RestoApp restoApp = RestoAppApplication.load();
 		Menu menu = restoApp.getMenu();
-		List<MenuItem> menuitems=menu.getMenuItems();
-		for(MenuItem menuItem : menuitems ){
+		for(MenuItem menuItem : menu.getMenuItems()){
 			boolean current = menuItem.hasCurrentPricedMenuItem();
 			ItemCategory category = menuItem.getItemCategory();
 			if(current && category.equals(itemCategory)){
-				listItems.add(menuItem);
+				listItems.add(menuItem);	
 			}	
-		}
-		try {
-			RestoAppApplication.save();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw e;
 		}
 		return listItems;
 	}

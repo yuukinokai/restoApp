@@ -31,7 +31,8 @@ public class TableVisualizer extends JPanel{
 
 	private void init() {
 		tables = new HashMap<Rectangle2D, Table>();
-		
+		this.setSize(500,300);
+		this.setBackground(Color.lightGray);
 	}
 	
 	private void drawTables(Graphics g) {
