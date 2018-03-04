@@ -53,17 +53,19 @@ public class RestoAppPage extends JFrame{
 	private JButton moveTable;
 	//END MOVE TABLE
 	
-	//Display Menu
+	//DISPLAY MENU
 	String list[] = {"Appetizer", "Main", "Dessert", "AlcoholicBeverage", "NonAlcoholicBeverage"};
 	private JLabel selectMenuLabel;
 	private JComboBox<String>itemCategoryList;
 	private JButton displayMenu;
 	private Integer selectedMenu=-1;
 	private HashMap<Integer, ItemCategory> items;
-	//End Display Menu
+	//END DISPLAY MENU
 	
+	//JPANELS
 	private DisplayMenuPage menu = new DisplayMenuPage();
 	private TableVisualizer restoMap = new TableVisualizer();
+	
 	public RestoAppPage() {
 		initComponents();
 		refreshData();
@@ -165,7 +167,7 @@ public class RestoAppPage extends JFrame{
 		//END DISPLAY MENU
 		
 		
-		//layout
+		//LEFT MENU LAYOUT(JPANEL)
 		 
 		leftMenu = new JPanel();
 		GroupLayout layout = new GroupLayout(leftMenu);
@@ -232,14 +234,16 @@ public class RestoAppPage extends JFrame{
 				
 				//.addComponent(tableVisualizer)
 				);
-		//END DELETE TABLE
 		
+		//END LEFT MENU LAYOUT(JPANEL)
+
+		
+		//FINAL LAYOUT
 		//this.setSize(1000,1000);
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		//setUndecorated(true); 
 		setVisible(true);
 		
-	
 		GroupLayout finalWindow = new GroupLayout(getContentPane());
 		getContentPane().setLayout(finalWindow);
 		finalWindow.setAutoCreateGaps(true);

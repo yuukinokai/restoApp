@@ -1,17 +1,10 @@
 package ca.mcgill.ecse223.resto.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -19,12 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ca.mcgill.ecse223.resto.application.RestoAppApplication;
-import ca.mcgill.ecse223.resto.controller.InvalidInputException;
-import ca.mcgill.ecse223.resto.controller.RestoAppController;
+
 import ca.mcgill.ecse223.resto.model.MenuItem;
-import ca.mcgill.ecse223.resto.model.Table;
-import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
 public class DisplayMenuPage extends JPanel {
 	
@@ -105,6 +94,7 @@ public class DisplayMenuPage extends JPanel {
 			button.putClientProperty("price",item.getCurrentPricedMenuItem().getPrice());
 			grid.add(button);
 			button.addActionListener(new java.awt.event.ActionListener() {
+				@SuppressWarnings("deprecation")
 				@Override
 				public void actionPerformed(ActionEvent evt) {
 					itemName.setText("Selected item: " + button.getLabel() + " ");
