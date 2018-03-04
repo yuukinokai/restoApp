@@ -89,7 +89,8 @@ public class RestoAppController {
 		List<MenuItem> listItems = new ArrayList<MenuItem>();
 		RestoApp restoApp = RestoAppApplication.load();
 		Menu menu = restoApp.getMenu();
-		for(MenuItem menuItem : menu.getMenuItems() ){
+		List<MenuItem> menuitems=menu.getMenuItems();
+		for(MenuItem menuItem : menuitems ){
 			boolean current = menuItem.hasCurrentPricedMenuItem();
 			ItemCategory category = menuItem.getItemCategory();
 			if(current && category.equals(itemCategory)){
@@ -103,6 +104,16 @@ public class RestoAppController {
 			throw e;
 		}
 		return listItems;
+	}
+	
+	public static List<ItemCategory> getItemCategory(){
+		ItemCategory [] itemcategories = ItemCategory.values();
+		List <ItemCategory> itemCategories = new ArrayList <ItemCategory>();
+		for (ItemCategory aItemcategory:itemcategories) {
+			itemCategories.add(aItemcategory);
+		}
+		RestoAppApplication.save();
+		return itemCategories;
 	}
 	
   //public void rotateTable(Table table);
