@@ -35,7 +35,7 @@ public class DisplayMenuPage extends JPanel {
 	private JComboBox<Table> tableList;
 	private JLabel selectTableLabel;
 	private Integer selectedTable=-1;
-	private JButton addCommand;
+	private JButton addOrder;
 	//private static List<MenuItem> displayList;
 	
 	public DisplayMenuPage() {
@@ -67,9 +67,9 @@ public class DisplayMenuPage extends JPanel {
 		price.setVisible(false);
 		selectTableLabel = new JLabel("Select Table");
 		selectTableLabel.setVisible(false);
-		addCommand = new JButton("Add Command");
-		addCommand.setVisible(false);
-		addCommand.addActionListener(new java.awt.event.ActionListener() {
+		addOrder = new JButton("Add Order");
+		addOrder.setVisible(false);
+		addOrder.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				error =null;
@@ -77,7 +77,7 @@ public class DisplayMenuPage extends JPanel {
 					addCommandButtonActionPerformed(evt);
 				}
 				catch(NullPointerException ex){
-					errorMessage.setText("Please select a valid menu");
+					errorMessage.setText("Please select a valid table");
 				}
 			}
 		});
@@ -102,7 +102,7 @@ public class DisplayMenuPage extends JPanel {
 				.addComponent(gap)
 				.addComponent(selectTableLabel)
 				.addComponent(tableList)
-				.addComponent(addCommand)
+				.addComponent(addOrder)
 		);
 		bottomPanel.setVerticalGroup(
 				bottomPanel.createParallelGroup()
@@ -111,7 +111,7 @@ public class DisplayMenuPage extends JPanel {
 				.addComponent(gap)
 				.addComponent(selectTableLabel)
 				.addComponent(tableList)
-				.addComponent(addCommand)
+				.addComponent(addOrder)
 		);
 		
 		//Final Layout
@@ -158,7 +158,7 @@ public class DisplayMenuPage extends JPanel {
 					gap.setVisible(true);
 					selectTableLabel.setVisible(true);
 					tableList.setVisible(true);
-					addCommand.setVisible(true);
+					addOrder.setVisible(true);
 				}
 			});
 		}
