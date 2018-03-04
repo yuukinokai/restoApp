@@ -149,9 +149,8 @@ public class RestoAppPage extends JFrame{
 		});
 		selectMenuLabel.setText("Select Menu");
 		//selectedMenu = null;
-		displayMenu = new JButton();
+		displayMenu = new JButton("Display Menu");
 		selectedMenu = null;
-		displayMenu.setText("Display Menu");
 		displayMenu.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {

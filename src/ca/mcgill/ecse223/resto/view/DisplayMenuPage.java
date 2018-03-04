@@ -1,28 +1,41 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import ca.mcgill.ecse223.resto.model.MenuItem;
+import ca.mcgill.ecse223.resto.model.Table;
+
 
 public class DisplayMenuPage extends JPanel {
 	
 	private static final long serialVersionUID = -3257644828027805214L;
+	private JLabel errorMessage;
+	private String error = null;
 	private JLabel menuName;
 	private JPanel grid;
 	private JPanel description;
 	private JLabel price;
+	private JLabel gap;
 	private JLabel itemName;
+	private JComboBox<Table> tableList;
+	private JLabel selectTableLabel;
+	private Integer selectedTable=-1;
+	private JButton addCommand;
 	//private static List<MenuItem> displayList;
 	
 	public DisplayMenuPage() {
@@ -46,10 +59,38 @@ public class DisplayMenuPage extends JPanel {
 
 		//JPanel description
 		description = new JPanel();
+		gap = new JLabel("    ");
+		gap.setVisible(false);
 		itemName = new JLabel("Item Selected");
 		itemName.setVisible(false);
 		price = new JLabel("Price of selected item");
 		price.setVisible(false);
+		selectTableLabel = new JLabel("Select Table");
+		selectTableLabel.setVisible(false);
+		addCommand = new JButton("Add Command");
+		addCommand.setVisible(false);
+		addCommand.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				error =null;
+				try{
+					addCommandButtonActionPerformed(evt);
+				}
+				catch(NullPointerException ex){
+					errorMessage.setText("Please select a valid menu");
+				}
+			}
+		});
+		tableList = new JComboBox<Table>();
+		tableList.setMaximumSize(new Dimension(150,20));
+		tableList.setVisible(false);
+		tableList.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+		        selectedTable = cb.getSelectedIndex();
+			}
+		});
+		
 		GroupLayout bottomPanel = new GroupLayout(description);
 		description.setLayout(bottomPanel);
 		bottomPanel.setAutoCreateGaps(true);
@@ -58,11 +99,19 @@ public class DisplayMenuPage extends JPanel {
 				bottomPanel.createSequentialGroup()
 				.addComponent(itemName)
 				.addComponent(price)
+				.addComponent(gap)
+				.addComponent(selectTableLabel)
+				.addComponent(tableList)
+				.addComponent(addCommand)
 		);
 		bottomPanel.setVerticalGroup(
 				bottomPanel.createParallelGroup()
 				.addComponent(itemName)
-				.addComponent(price)	
+				.addComponent(price)
+				.addComponent(gap)
+				.addComponent(selectTableLabel)
+				.addComponent(tableList)
+				.addComponent(addCommand)
 		);
 		
 		//Final Layout
@@ -87,6 +136,11 @@ public class DisplayMenuPage extends JPanel {
 
 	}
 	
+	protected void addCommandButtonActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		//To implement
+	}
+
 	public void updateMenu(List<MenuItem> menu){
 		grid.removeAll();
 		for(MenuItem item : menu){
@@ -101,14 +155,15 @@ public class DisplayMenuPage extends JPanel {
 					price.setText(button.getClientProperty("price")+"$");
 					itemName.setVisible(true);
 					price.setVisible(true);
-					itemName.revalidate();
-					itemName.repaint();
-					price.revalidate();
-					price.repaint();
+					gap.setVisible(true);
+					selectTableLabel.setVisible(true);
+					tableList.setVisible(true);
+					addCommand.setVisible(true);
 				}
 			});
 		}
 	}
+	
 	public JLabel getMenuLabel(){
 		return menuName;
 	}
