@@ -98,54 +98,33 @@ public class RestoAppPage extends JFrame{
 		//END ERROR MESSAGE
 		tableVisualizer = new TableVisualizer();
 		
-		//ADD TABLE
-		//display errors to fix
+		//ADD TABLE															here
 		tableNumberLabel = new JLabel();
-		tableNumberLabel.setText("Table Number:          ");
+		tableNumberLabel.setText("Table Num.:");
 		tableNumberBox = new JTextField();
 		xyCoordLabel = new JLabel();
-		xyCoordLabel.setText("X & Y Coordinates:  ");
+		xyCoordLabel.setText("(X,Y) coord.:");
 		xCoordBox = new JTextField();
 		yCoordBox = new JTextField();
 		widthLengthLabel = new JLabel();
-		widthLengthLabel.setText("Width & Length:       ");
+		widthLengthLabel.setText("W & L:");
 		widthBox = new JTextField();
 		lengthBox = new JTextField();
 		numberOfSeatLabel = new JLabel();
-		numberOfSeatLabel.setText("Number Of seats:    ");
+		numberOfSeatLabel.setText("Seat qty.:");
 		numberOfSeatBox = new JTextField();
 		createTable = new JButton();
 		createTable.setText("Create Table");
 		createTable.addActionListener(new ActionListener() {
 			
-			//"CreateTableButtonAxtionPerformed" fused in here
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				error = null;
-				if(tableNumberBox.getText() == ("") || 
-						xCoordBox.getText() == ("") || 
-						yCoordBox.getText() == ("") || 
-						 widthBox.getText() == ("") || 
-						lengthBox.getText() == ("") || 
-						numberOfSeatBox.getText() == ("")) {
-					createTable.setEnabled(false);
-				} else {
-					try {
-						RestoAppController.addTable(Integer.parseInt(tableNumberBox.getText()),
-								Integer.parseInt(xCoordBox.getText()),
-								Integer.parseInt(yCoordBox.getText()),
-								Integer.parseInt(widthBox.getText()),
-								Integer.parseInt(lengthBox.getText()),
-								Integer.parseInt(numberOfSeatBox.getText()));
-					} 
-					//...what?
-					catch (NumberFormatException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (InvalidInputException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+				try {
+					createTableButtonActionPerformed(e);
+				} catch(NullPointerException ex){
+					error = "Please check inputs";
+					errorMessage.setText(error);
 				}
 			}
 		});
@@ -274,28 +253,30 @@ public class RestoAppPage extends JFrame{
 				.addComponent(errorMessage)
 				//END ERROR MESSAGE
 				
-				//ADD TABLE HORIZONTAL
+				//ADD TABLE HORIZONTAL										here
 				.addGroup(layout.createSequentialGroup()
-						.addComponent(tableNumberLabel)
+						.addComponent(tableNumberLabel, 40, 40, 70)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(tableNumberBox, 200, 200, 400)))
+								.addComponent(tableNumberBox, 200, 200, 200)))
 				
 				.addGroup(layout.createSequentialGroup()
-						.addComponent(xyCoordLabel)
+						.addComponent(xyCoordLabel,40, 40, 70)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(xCoordBox, 200, 200, 200)
-								.addComponent(yCoordBox, 200, 200, 200)))
+								.addComponent(xCoordBox, 100, 100, 100))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(yCoordBox, 100, 100, 100)))
 				
 				.addGroup(layout.createSequentialGroup()
-						.addComponent(widthLengthLabel)
+						.addComponent(widthLengthLabel, 40, 40, 70)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(widthBox, 200, 200, 200)
-								.addComponent(lengthBox, 200, 200, 200)))
-				
+								.addComponent(widthBox, 100, 100, 100))
+						.addGroup(layout.createParallelGroup()
+								.addComponent(lengthBox, 100, 100, 100)))
+
 				.addGroup(layout.createSequentialGroup()
-						.addComponent(numberOfSeatLabel)
+						.addComponent(numberOfSeatLabel, 40, 40, 70)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(numberOfSeatBox, 200, 200, 400)
+								.addComponent(numberOfSeatBox, 200, 200, 200)
 								.addComponent(createTable)))
 				//END ADD TABLE
 
@@ -326,6 +307,8 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {tableNumberBox, numberOfSeatBox, createTable});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {tableNumberBox, xCoordBox, yCoordBox, widthBox, numberOfSeatBox, createTable});
 		//VERTICAL
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -333,7 +316,7 @@ public class RestoAppPage extends JFrame{
 				.addComponent(errorMessage)
 				//END ERROR MESSAGE
 				
-				//ADD TABLE VERTICAL
+				//ADD TABLE VERTICAL						here
 				.addGroup(layout.createParallelGroup()
 						.addComponent(tableNumberLabel)
 						.addComponent(tableNumberBox))
@@ -413,6 +396,29 @@ public class RestoAppPage extends JFrame{
 		pack();
 	}
 	
+	//ADD TABLE								here
+	protected void createTableButtonActionPerformed(ActionEvent e) {
+		error = null;
+		if(tableNumberBox.getText() != ("") || 
+				xCoordBox.getText() != ("") || 
+				yCoordBox.getText() != ("") || 
+				 widthBox.getText() != ("") || 
+				lengthBox.getText() != ("") || 
+				numberOfSeatBox.getText() != ("")) {
+			try {
+				RestoAppController.addTable(Integer.parseInt(tableNumberBox.getText()),
+						Integer.parseInt(xCoordBox.getText()), 
+						Integer.parseInt(yCoordBox.getText()), 
+						Integer.parseInt(widthBox.getText()), 
+						Integer.parseInt(lengthBox.getText()), 
+						Integer.parseInt(numberOfSeatBox.getText()));
+			}
+			catch(InvalidInputException e1){
+				error = e1.getMessage();
+				errorMessage.setText(error);
+			}
+		}
+	}
 	
 	protected void moveTableButtonActionPerformed(ActionEvent e, Table t) {
 		new MoveTableFrame(this, t);
