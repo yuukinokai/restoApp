@@ -40,6 +40,20 @@ public class RestoAppPage extends JFrame{
 	private String error = null;
 	private TableVisualizer tableVisualizer;
 	private JPanel leftMenu;
+
+	//ADD TABLE
+	private JLabel tableNumberLabel;
+	private JTextField tableNumberBox;
+	private JLabel xyCoordLabel;
+	private JTextField xCoordBox;
+	private JTextField yCoordBox;
+	private JLabel widthLengthLabel;
+	private JTextField widthBox;
+	private JTextField lengthBox;
+	private JLabel numberOfSeatLabel;
+	private JTextField numberOfSeatBox;
+	private JButton createTable;
+	//END ADD TABLE
 	
 	//DELETE TABLE
 	private JLabel selectTableLabel;
@@ -80,6 +94,59 @@ public class RestoAppPage extends JFrame{
 		//END ERROR MESSAGE
 		tableVisualizer = new TableVisualizer();
 		
+		//ADD TABLE
+		//display errors to fix
+		tableNumberLabel = new JLabel();
+		tableNumberLabel.setText("Table Number:          ");
+		tableNumberBox = new JTextField();
+		xyCoordLabel = new JLabel();
+		xyCoordLabel.setText("X & Y Coordinates:  ");
+		xCoordBox = new JTextField();
+		yCoordBox = new JTextField();
+		widthLengthLabel = new JLabel();
+		widthLengthLabel.setText("Width & Length:       ");
+		widthBox = new JTextField();
+		lengthBox = new JTextField();
+		numberOfSeatLabel = new JLabel();
+		numberOfSeatLabel.setText("Number Of seats:    ");
+		numberOfSeatBox = new JTextField();
+		createTable = new JButton();
+		createTable.setText("Create Table");
+		createTable.addActionListener(new ActionListener() {
+			
+			//"CreateTableButtonAxtionPerformed" fused in here
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				error = null;
+				if(tableNumberBox.getText() == ("") || 
+						xCoordBox.getText() == ("") || 
+						yCoordBox.getText() == ("") || 
+						 widthBox.getText() == ("") || 
+						lengthBox.getText() == ("") || 
+						numberOfSeatBox.getText() == ("")) {
+					createTable.setEnabled(false);
+				} else {
+					try {
+						RestoAppController.addTable(Integer.parseInt(tableNumberBox.getText()),
+								Integer.parseInt(xCoordBox.getText()),
+								Integer.parseInt(yCoordBox.getText()),
+								Integer.parseInt(widthBox.getText()),
+								Integer.parseInt(lengthBox.getText()),
+								Integer.parseInt(numberOfSeatBox.getText()));
+					} 
+					//...what?
+					catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (InvalidInputException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				}
+			}
+		});
+		//END ADD TABLE
+
 		//DELETE TABLE
 		selectTableLabel = new JLabel();
 		currentTableList = new JComboBox<Table>();
@@ -181,7 +248,31 @@ public class RestoAppPage extends JFrame{
 				.addComponent(errorMessage)
 				//END ERROR MESSAGE
 				
+				//ADD TABLE HORIZONTAL
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(tableNumberLabel)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(tableNumberBox, 200, 200, 400)))
 				
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(xyCoordLabel)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(xCoordBox, 200, 200, 200)
+								.addComponent(yCoordBox, 200, 200, 200)))
+				
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(widthLengthLabel)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(widthBox, 200, 200, 200)
+								.addComponent(lengthBox, 200, 200, 200)))
+				
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(numberOfSeatLabel)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(numberOfSeatBox, 200, 200, 400)
+								.addComponent(createTable)))
+				//END ADD TABLE
+
 				//DELETE TABLE HORIZONTAL
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(selectTableLabel)
@@ -214,6 +305,29 @@ public class RestoAppPage extends JFrame{
 				.addComponent(errorMessage)
 				//END ERROR MESSAGE
 				
+				//ADD TABLE VERTICAL
+				.addGroup(layout.createParallelGroup()
+						.addComponent(tableNumberLabel)
+						.addComponent(tableNumberBox))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(xyCoordLabel)
+						.addComponent(xCoordBox)
+						.addComponent(yCoordBox))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(widthLengthLabel)
+						.addComponent(widthBox)
+						.addComponent(lengthBox))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(numberOfSeatLabel)
+						.addComponent(numberOfSeatBox))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(createTable))
+				//END ADD TABLE VERTICAL
+
 				//DELETE TABLE VERTICAL
 				.addGroup(layout.createParallelGroup()
 						.addComponent(selectTableLabel)

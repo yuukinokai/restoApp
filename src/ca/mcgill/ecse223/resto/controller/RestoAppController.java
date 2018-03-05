@@ -56,6 +56,39 @@ public class RestoAppController {
 		}
 	}
 	
+	public static void addTable(int number, int x, int y, int width, int length, int numberOfSeat) throws InvalidInputException{
+		if(x < 0 || y < 0 || width <= 0 || length <= 0 || numberOfSeat >= 8) {
+			throw new InvalidInputException("Table specifications invalid");
+		}
+		
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		//Checks for overlap with existing tables and if declared table number is already in use
+		for(Table t : currentTables) {
+			if (t.checkOverlap(x,y,length, width)) {
+				throw new InvalidInputException("Position overlaps with existing table");
+			}
+			if(t.getNumber() == number) {
+				throw new RuntimeException();
+			}
+		}
+		Table specificTable;
+		try {
+			specificTable = restoApp.addTable(number, x, y, width, length);
+		} catch (Exception e) {
+			throw new InvalidInputException("Table number already exists");
+		}
+		for(int i = 0; i < numberOfSeat; i++) {
+			specificTable.addSeat();
+		}
+		//save
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
 
 	public static void moveTable(Table table, int x, int y) throws InvalidInputException {
 		
