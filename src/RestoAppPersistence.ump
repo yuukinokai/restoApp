@@ -8,6 +8,7 @@ class RestoApp {
   public void reinitialize() {
     Reservation.reinitializeAutouniqueResNumber(this.getReservations());
     Order.reinitializeAutouniqueNumber(this.getOrders());
+    MenuItem.reinitializeUniqueMenuItemName(this.menu.getItems());
     Table.reinitializeUniqueNumber(this.getTables());
   }
 }
@@ -18,7 +19,7 @@ class Reservation {
   private static final long serialVersionUID = 2315072607928790501L;
   
   public static void reinitializeAutouniqueResNumber(List<Reservation> reservations) {
-    nextNumber = 0; 
+    int nextNumber = 0; 
     for (Reservation reservation : reservations) {
       if (reservation.getReservationNumber() > nextNumber) {
         nextNumber = reservation.getReservationNumber();
@@ -34,10 +35,11 @@ class Table {
   private static final long serialVersionUID = 8896099581655989380L;
   
   public static void reinitializeUniqueNumber(List<Table> tables) {
-    tablesByNumber = new HashMap<Integer, Route>();
+    tablesByNumber = new HashMap<Integer, Table>();
     for (Table table : tables) {
       tablesByNumber.put(table.getNumber(), table);
     }
+  }
 }
 
 class Seat {
@@ -59,6 +61,7 @@ class Order {
       }
     }
     nextNumber++;
+  }
 }
 
 class OrderItem {
@@ -77,6 +80,13 @@ class MenuItem {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = -1776230320092632776L;
+  
+    public static void reinitializeUniqueMenuItemName(List<MenuItem> menuItems) {
+    menuItemsByNumber = new HashMap<Integer, MenuItem>();
+    for (MenuItem menuItem : menuItems) {
+      menuItemsByName.put(menuItems.getName(), menuItem);
+    }
+  }
 }
 
 class PricedMenuItem {

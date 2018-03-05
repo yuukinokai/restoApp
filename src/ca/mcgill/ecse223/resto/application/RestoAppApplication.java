@@ -40,13 +40,13 @@ public class RestoAppApplication {
 		if (restoApp == null) {
 			restoApp = new RestoApp();
 		}
-		//else {
-		//	restoApp.reinitialize();
-		//}
-		Table t = restoApp.addTable(0, 0, 0, 5, 10);
-		restoApp.addCurrentTable(t);
-		t = restoApp.addTable(1, 20,20, 10, 10);
-		restoApp.addCurrentTable(t);
+		else {
+			restoApp.reinitialize();
+		}
+//		Table t = restoApp.addTable(0, 0, 0, 5, 10);
+//		restoApp.addCurrentTable(t);
+//		t = restoApp.addTable(1, 20,20, 10, 10);
+//		restoApp.addCurrentTable(t);
 		return restoApp;
 	}
 	

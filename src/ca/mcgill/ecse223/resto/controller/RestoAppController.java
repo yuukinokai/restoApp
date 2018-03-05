@@ -57,10 +57,15 @@ public class RestoAppController {
 		}
 	}
 	
+
 public static void updateTable(Table table, int newNumber, int numberofSeats) throws InvalidInputException{
 	
 		if(newNumber < 0 || numberofSeats < 0) {
 			throw new InvalidInputException("Cannot has negative number of seats or table number");
+		}
+		
+		if(numberofSeats > 8) {
+			throw new InvalidInputException("There are too many seats for the table");
 		}
 		
 		if(table == null) {
@@ -109,8 +114,41 @@ public static void updateTable(Table table, int newNumber, int numberofSeats) th
 			System.out.println(e.getMessage());
 			throw e;
 		}
+}
+	public static void addTable(int number, int x, int y, int width, int length, int numberOfSeat) throws InvalidInputException{
+		if(x < 0 || y < 0 || width <= 0 || length <= 0 || numberOfSeat >= 8) {
+			throw new InvalidInputException("Table specifications invalid");
+		}
+		
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		//Checks for overlap with existing tables and if declared table number is already in use
+		for(Table t : currentTables) {
+			if (t.checkOverlap(x,y,length, width)) {
+				throw new InvalidInputException("Position overlaps with existing table");
+			}
+			if(t.getNumber() == number) {
+				throw new RuntimeException();
+			}
+		}
+		Table specificTable;
+		try {
+			specificTable = restoApp.addTable(number, x, y, width, length);
+		} catch (Exception e) {
+			throw new InvalidInputException("Table number already exists");
+		}
+		for(int i = 0; i < numberOfSeat; i++) {
+			specificTable.addSeat();
+		}
+		//save
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+			throw e;
+		}
 	}
-	
 
 	public static void moveTable(Table table, int x, int y) throws InvalidInputException {
 		
@@ -144,20 +182,24 @@ public static void updateTable(Table table, int newNumber, int numberofSeats) th
 		List<MenuItem> listItems = new ArrayList<MenuItem>();
 		RestoApp restoApp = RestoAppApplication.load();
 		Menu menu = restoApp.getMenu();
-		for(MenuItem menuItem : menu.getMenuItems() ){
+		for(MenuItem menuItem : menu.getMenuItems()){
 			boolean current = menuItem.hasCurrentPricedMenuItem();
 			ItemCategory category = menuItem.getItemCategory();
 			if(current && category.equals(itemCategory)){
-				listItems.add(menuItem);
+				listItems.add(menuItem);	
 			}	
 		}
-		try {
-			RestoAppApplication.save();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw e;
-		}
 		return listItems;
+	}
+	
+	public static List<ItemCategory> getItemCategory(){
+		ItemCategory [] itemcategories = ItemCategory.values();
+		List <ItemCategory> itemCategories = new ArrayList <ItemCategory>();
+		for (ItemCategory aItemcategory:itemcategories) {
+			itemCategories.add(aItemcategory);
+		}
+		RestoAppApplication.save();
+		return itemCategories;
 	}
 	
   //public void rotateTable(Table table);
