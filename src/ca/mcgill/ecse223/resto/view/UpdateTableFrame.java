@@ -36,7 +36,6 @@ public UpdateTableFrame(RestoAppPage app, Table table) {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			frame.dispose();
-			// TODO Auto-generated method stub
 			
 		}
 	});
@@ -54,7 +53,7 @@ public UpdateTableFrame(RestoAppPage app, Table table) {
 				frame.dispose();
 				
 			} catch (NumberFormatException ex) {
-		        JOptionPane.showMessageDialog(null, "Please enter valid Table Number", null, JOptionPane.ERROR_MESSAGE);
+		        JOptionPane.showMessageDialog(null, "Please enter valid Table Number and Number of Seats", null, JOptionPane.ERROR_MESSAGE);
 
 			} catch (InvalidInputException ex) {
 		        JOptionPane.showMessageDialog(null, ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
@@ -106,7 +105,6 @@ public UpdateTableFrame(RestoAppPage app, Table table) {
 			    		  )
 			);
 	
-    // Set the x, y, width and height properties
     frame.pack();
     frame.setVisible(true);
 }

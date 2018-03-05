@@ -86,7 +86,11 @@ public static void updateTable(Table table, int newNumber, int numberofSeats) th
 			}
 		}
 		
-		if(!table.setNumber(newNumber)) {
+		if(table.getNumber() == (newNumber)) {
+			table.setNumber(newNumber);
+			
+		}
+		else if(!table.setNumber(newNumber)) {
 			throw new InvalidInputException("Cannot set due to duplicate number");
 		}
 			table.setNumber(newNumber);	
@@ -175,6 +179,7 @@ public static void updateTable(Table table, int newNumber, int numberofSeats) th
 			System.out.println(e.getMessage());
 			throw e;
 		}
+		
 	}
 
 	public static List<MenuItem> displayMenu(ItemCategory itemCategory) throws InvalidInputException{
