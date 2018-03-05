@@ -43,6 +43,10 @@ public class RestoAppPage extends JFrame{
 	private HashMap<Integer, Table> tables;
 	//END DELETE TABLE
 	
+	//UPDATE TABLE
+	private JButton updateTable;
+	//END UPDATE TABLE
+	
 	//MOVE TABLE
 	private JButton moveTable;
 	//END MOVE TABLE
@@ -98,6 +102,28 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		//END DELETE TABLE
+		
+		//UPDATE TABLE
+		updateTable = new JButton();
+		updateTable.setText("Update Table");
+		updateTable.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				error = null;
+				try {
+					Table t = (Table)currentTableList.getSelectedItem();
+					if (t == null) {
+						throw new NullPointerException();
+					}
+					updateTableButtonActionPerformed(event, t);
+				} catch (NullPointerException ex) {
+					errorMessage.setText("Please select a valid table");
+				}
+				
+			}
+		});
+		//END UPDATE TABLE
 		
 		//MOVE TABLE 
 		moveTable = new JButton();
@@ -167,6 +193,7 @@ public class RestoAppPage extends JFrame{
 						.addComponent(selectTableLabel)
 						.addGroup(layout.createParallelGroup()
 								.addComponent(currentTableList, 200, 200, 400)
+								.addComponent(updateTable)
 								.addComponent(deleteTable)
 								.addComponent(moveTable)))
 								
@@ -182,6 +209,7 @@ public class RestoAppPage extends JFrame{
 				);
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
@@ -199,6 +227,10 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createParallelGroup()
 						.addComponent(deleteTable))
 				//END DELETE TABLE
+				//UPDATE TABLE
+				.addGroup(layout.createParallelGroup()
+						.addComponent(updateTable))
+				//END UPDATE TABLE
 				.addGroup(layout.createParallelGroup()
 						.addComponent(moveTable))
 				//DISPLAY MENU VERTICAL
@@ -218,6 +250,10 @@ public class RestoAppPage extends JFrame{
 	
 	protected void moveTableButtonActionPerformed(ActionEvent e, Table t) {
 		new MoveTableFrame(this, t);
+	}
+	
+	protected void updateTableButtonActionPerformed(ActionEvent e, Table t) {
+		new UpdateTableFrame(this, t);
 	}
 
 	protected void deleteTableButtonActionPerformed(ActionEvent evt, Table table) {

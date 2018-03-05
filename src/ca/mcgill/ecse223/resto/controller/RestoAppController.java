@@ -10,6 +10,7 @@ import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
@@ -53,6 +54,60 @@ public class RestoAppController {
 		}
 		catch (RuntimeException e) {
 			throw new InvalidInputException(e.getMessage());
+		}
+	}
+	
+public static void updateTable(Table table, int newNumber, int numberofSeats) throws InvalidInputException{
+	
+		if(newNumber < 0 || numberofSeats < 0) {
+			throw new InvalidInputException("Cannot has negative number of seats or table number");
+		}
+		
+		if(table == null) {
+			throw new InvalidInputException("There is no table");
+		}
+		
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		boolean reserved = table.hasReservations();
+		
+		if(reserved) {
+			throw new InvalidInputException("Table is reserved");
+		}
+		
+		for (Order currentOrder : restoApp.getCurrentOrders()) {
+			List<Table> tableList = currentOrder.getTables();
+			if (tableList.contains(table)) {
+				throw new InvalidInputException("Table in use");
+			}
+		}
+		
+		if(!table.setNumber(newNumber)) {
+			throw new InvalidInputException("Cannot set due to duplicate number");
+		}
+			table.setNumber(newNumber);	
+		
+		
+		int n = table.numberOfCurrentSeats();
+		if(n < numberofSeats) {
+			for(int i = 0; i < numberofSeats - n; i++) {
+				Seat seat = table.addSeat();
+				table.addCurrentSeat(seat);
+			}
+		}
+		else {
+			for(int i = 0; i < n - numberofSeats; i++) {
+				Seat seat = table.getCurrentSeat(0);
+				table.removeCurrentSeat(seat);
+				i++;
+			}
+		}
+		
+		try {
+			RestoAppApplication.save();
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+			throw e;
 		}
 	}
 	
