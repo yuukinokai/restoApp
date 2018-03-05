@@ -138,6 +138,7 @@ public static void updateTable(Table table, int newNumber, int numberofSeats) th
 		Table specificTable;
 		try {
 			specificTable = restoApp.addTable(number, x, y, width, length);
+			restoApp.addCurrentTable(specificTable);
 		} catch (Exception e) {
 			throw new InvalidInputException("Table number already exists");
 		}
