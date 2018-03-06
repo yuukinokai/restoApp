@@ -137,7 +137,13 @@ public class RestoAppController {
 				throw new InvalidInputException("Table number already exists");
 			}
 		}
-		Table specificTable = new Table(number, x, y, width, length, restoApp);
+		Table specificTable;
+		
+		try {
+			specificTable = new Table(number, x, y, width, length, restoApp);
+		} catch (Exception e) {
+			throw new InvalidInputException("Table already exists");
+		}
 		
 		try {
 			restoApp.addTable(specificTable);
