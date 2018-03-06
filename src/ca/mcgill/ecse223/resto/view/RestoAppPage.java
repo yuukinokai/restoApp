@@ -425,7 +425,7 @@ public class RestoAppPage extends JFrame{
 	}
 	
 	protected void updateTableButtonActionPerformed(ActionEvent e, Table t) {
-		//new UpdateTableFrame(this, t);
+		new UpdateTableFrame(this, t);
 	}
 
 	protected void deleteTableButtonActionPerformed(ActionEvent evt, Table table) {

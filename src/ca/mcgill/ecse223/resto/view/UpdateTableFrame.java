@@ -15,9 +15,7 @@ public UpdateTableFrame(RestoAppPage app, Table table) {
     JFrame frame = new JFrame("UpdateTableFrame");
     frame.setResizable(false);
     frame.setAlwaysOnTop(true);
-    
-    //hmmm github is triggering
-    
+   
     //COMPONENTS
     JLabel label_TableNumber = new JLabel("Table Number");
     JLabel label_NumberOfSeats = new JLabel("Number of Seats");
