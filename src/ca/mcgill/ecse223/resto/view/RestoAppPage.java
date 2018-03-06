@@ -419,6 +419,12 @@ public class RestoAppPage extends JFrame{
 			}
 			
 			refreshData();
+			tableNumberBox.setText("");
+			xCoordBox.setText("");
+			yCoordBox.setText("");
+			widthBox.setText("");
+			lengthBox.setText("");
+			numberOfSeatBox.setText("");
 		}
 	}
 	
