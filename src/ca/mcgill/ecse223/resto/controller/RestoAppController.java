@@ -26,6 +26,7 @@ public class RestoAppController {
 	public static List<Table> getCurrentTables() {
 		return RestoAppApplication.getRestoApp().getCurrentTables();
 	}
+	
 	public static List<Order> getCurrentOrders() {
 		return RestoAppApplication.getRestoApp().getCurrentOrders();
 	}
@@ -58,7 +59,7 @@ public class RestoAppController {
 	}
 	
 
-public static void updateTable(Table table, int newNumber, int numberofSeats) throws InvalidInputException{
+	public static void updateTable(Table table, int newNumber, int numberofSeats) throws InvalidInputException{
 	
 		if(newNumber < 0 || numberofSeats < 0) {
 			throw new InvalidInputException("Cannot has negative number of seats or table number");
@@ -119,6 +120,7 @@ public static void updateTable(Table table, int newNumber, int numberofSeats) th
 			throw e;
 		}
 }
+	
 	public static void addTable(int number, int x, int y, int width, int length, int numberOfSeat) throws InvalidInputException{
 		if(x < 0 || y < 0 || width <= 0 || length <= 0 || numberOfSeat >= 8) {
 			throw new InvalidInputException("Table specifications invalid");
@@ -132,15 +134,16 @@ public static void updateTable(Table table, int newNumber, int numberofSeats) th
 				throw new InvalidInputException("Position overlaps with existing table");
 			}
 			if(t.getNumber() == number) {
-				throw new RuntimeException();
+				throw new InvalidInputException("Table number already exists");
 			}
 		}
-		Table specificTable;
+		Table specificTable = new Table(number, x, y, width, length, restoApp);
+		
 		try {
-			specificTable = restoApp.addTable(number, x, y, width, length);
+			restoApp.addTable(specificTable);
 			restoApp.addCurrentTable(specificTable);
 		} catch (Exception e) {
-			throw new InvalidInputException("Table number already exists");
+			throw new RuntimeException();
 		}
 		for(int i = 0; i < numberOfSeat; i++) {
 			specificTable.addSeat();

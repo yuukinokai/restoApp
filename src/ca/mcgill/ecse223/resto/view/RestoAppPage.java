@@ -308,7 +308,7 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {tableNumberBox, numberOfSeatBox, createTable});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {tableNumberBox, xCoordBox, yCoordBox, widthBox, numberOfSeatBox, createTable});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {tableNumberBox, xCoordBox, yCoordBox, widthBox, lengthBox, numberOfSeatBox, createTable});
 		//VERTICAL
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -417,6 +417,8 @@ public class RestoAppPage extends JFrame{
 				error = e1.getMessage();
 				errorMessage.setText(error);
 			}
+			
+			refreshData();
 		}
 	}
 	
@@ -425,7 +427,7 @@ public class RestoAppPage extends JFrame{
 	}
 	
 	protected void updateTableButtonActionPerformed(ActionEvent e, Table t) {
-		//new UpdateTableFrame(this, t);
+		new UpdateTableFrame(this, t);
 	}
 
 	protected void deleteTableButtonActionPerformed(ActionEvent evt, Table table) {
@@ -485,6 +487,7 @@ public class RestoAppPage extends JFrame{
 		}
 		
 	}
+	
 	public void refreshData() {
 		// TODO Auto-generated method stub
 		// error
