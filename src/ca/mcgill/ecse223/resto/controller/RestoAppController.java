@@ -193,9 +193,11 @@ public class RestoAppController {
 	}
 
 	public static List<MenuItem> displayMenu(ItemCategory itemCategory) throws InvalidInputException{
-		
+		if(itemCategory == null){
+			throw new InvalidInputException("Item Category is null");
+		}
 		List<MenuItem> listItems = new ArrayList<MenuItem>();
-		RestoApp restoApp = RestoAppApplication.load();
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		Menu menu = restoApp.getMenu();
 		for(MenuItem menuItem : menu.getMenuItems()){
 			boolean current = menuItem.hasCurrentPricedMenuItem();
