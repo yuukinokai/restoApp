@@ -15,6 +15,8 @@ import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.OrderItem;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 
 
 
@@ -217,6 +219,40 @@ public class RestoAppController {
 		}
 		RestoAppApplication.save();
 		return itemCategories;
+	}
+	public static void addOrder(Date date,MenuItem item, int tableNumber,int seatIndex,int quantity) throws InvalidInputException{
+		if(item == null){
+			throw new InvalidInputException("Select an item");
+		}
+		if(seatIndex < 0){
+			throw new InvalidInputException("Seat Number is invalid");
+		}
+		if(tableNumber < 0){
+			throw new InvalidInputException("Table number is invalid");
+		}
+		if(quantity <= 0){
+			throw new InvalidInputException("Quantity is invalid");
+		}
+		if(date == null){
+			throw new InvalidInputException("Date is invalid");
+		}
+		
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> list = restoApp.getCurrentTables();
+		Table table = list.get(tableNumber);
+		Seat seat = table.getSeat(seatIndex);
+		PricedMenuItem pricedItem = item.getCurrentPricedMenuItem();
+
+		Order order = new Order(date,restoApp,table);
+		OrderItem orderItem = new OrderItem (quantity,pricedItem,order,seat);
+		seat.addOrderItem(orderItem);
+		
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
 	}
 	
   //public void rotateTable(Table table);
