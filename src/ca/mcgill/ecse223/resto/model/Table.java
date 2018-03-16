@@ -19,6 +19,7 @@ public class Table implements Serializable
   // MEMBER VARIABLES
   //------------------------
 
+  
   //Table Attributes
   private int number;
   private int x;
@@ -56,12 +57,15 @@ public class Table implements Serializable
     }
     reservations = new ArrayList<Reservation>();
     orders = new ArrayList<Order>();
+    
+  
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
+  
   public boolean setNumber(int aNumber)
   {
     boolean wasSet = false;

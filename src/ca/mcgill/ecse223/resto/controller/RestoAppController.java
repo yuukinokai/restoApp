@@ -17,6 +17,7 @@ import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.PricedMenuItem;
+import ca.mcgill.ecse223.resto.model.Reservation;
 
 
 
@@ -245,7 +246,6 @@ public class RestoAppController {
 
 		Order order = new Order(date,restoApp,table);
 		OrderItem orderItem = new OrderItem (quantity,pricedItem,order,seat);
-		seat.addOrderItem(orderItem);
 		
 		try {
 			RestoAppApplication.save();
@@ -254,6 +254,36 @@ public class RestoAppController {
 			throw e;
 		}
 	}
-	
+	public static void addReservation(Date dateTime, int numberInParty, String contactName, String contactEmail, String contactPhone, Table... allTables) throws InvalidInputException{
+		if(allTables == null){
+			throw new InvalidInputException("Select at least one table");
+		}
+		if(dateTime == null){
+			throw new InvalidInputException("Select a date/time");
+		}
+		if(contactName == null || contactEmail == null || contactPhone == null){
+			throw new InvalidInputException("Invalid contact info");
+		}
+
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		for(Table table : allTables){
+			for(Table t: currentTables){
+				if(table == t ){
+					Reservation reservation = new Reservation(dateTime,numberInParty,contactName,contactEmail,contactPhone,restoApp,table);	
+				}
+			}
+		}
+		
+		//save
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+
   //public void rotateTable(Table table);
 }
