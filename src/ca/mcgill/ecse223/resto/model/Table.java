@@ -1,11 +1,13 @@
+/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 31 "../../../../../RestoAppPersistence.ump"
-// line 25 "../../../../../RestoApp.ump"
+// line 32 "../../../../../RestoAppPersistence.ump"
+// line 2 "../../../../../TableState.ump"
+// line 27 "../../../../../RestoApp.ump"
 public class Table implements Serializable
 {
 
@@ -19,13 +21,18 @@ public class Table implements Serializable
   // MEMBER VARIABLES
   //------------------------
 
-  
   //Table Attributes
   private int number;
   private int x;
   private int y;
   private int width;
   private int length;
+
+  //Table State Machines
+  public enum Status { Available, InUse }
+  public enum StatusInUse { Null, Ordering, AllSeatsBilled }
+  private Status status;
+  private StatusInUse statusInUse;
 
   //Table Associations
   private List<Seat> seats;
@@ -57,15 +64,14 @@ public class Table implements Serializable
     }
     reservations = new ArrayList<Reservation>();
     orders = new ArrayList<Order>();
-    
-  
+    setStatusInUse(StatusInUse.Null);
+    setStatus(Status.Available);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  
   public boolean setNumber(int aNumber)
   {
     boolean wasSet = false;
@@ -147,6 +153,158 @@ public class Table implements Serializable
   public int getLength()
   {
     return length;
+  }
+
+  public String getStatusFullName()
+  {
+    String answer = status.toString();
+    if (statusInUse != StatusInUse.Null) { answer += "." + statusInUse.toString(); }
+    return answer;
+  }
+
+  public Status getStatus()
+  {
+    return status;
+  }
+
+  public StatusInUse getStatusInUse()
+  {
+    return statusInUse;
+  }
+
+  public boolean toggleAvailableStatus()
+  {
+    boolean wasEventProcessed = false;
+    
+    Status aStatus = status;
+    StatusInUse aStatusInUse = statusInUse;
+    switch (aStatus)
+    {
+      case Available:
+        // line 6 "../../../../../TableState.ump"
+        do: addOrder(Order aOrder)
+        setStatus(Status.InUse);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    switch (aStatusInUse)
+    {
+      case AllSeatsBilled:
+        exitStatus();
+        // line 19 "../../../../../TableState.ump"
+        order = getRestoApp.getCurrentOrder(); do: for(order: aOrder){table = order.getTables();                                                                                                }if(table.contains(table)){getRestoApp.removeCurrentOrder(order)};
+        setStatus(Status.Available);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean addOrder(Order aOrder)
+  {
+    if (orders.contains(aOrder)) { return false; }
+    boolean wasEventProcessed = false;
+    
+    StatusInUse aStatusInUse = statusInUse;
+    switch (aStatusInUse)
+    {
+      case Ordering:
+        exitStatusInUse();
+        // line 11 "../../../../../TableState.ump"
+        order = getRestoApp.addOrder(aOrder); getRestoApp.addCurrentOrder(order);
+        setStatusInUse(StatusInUse.Ordering);
+        wasEventProcessed = true;
+        break;
+      case AllSeatsBilled:
+        exitStatusInUse();
+        // line 20 "../../../../../TableState.ump"
+        order = getRestoApp.addOrder(aOrder); getRestoApp.addCurrentOrder(order);
+        setStatusInUse(StatusInUse.Ordering);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean addBill(List<Seat> seats)
+  {
+    boolean wasEventProcessed = false;
+    
+    StatusInUse aStatusInUse = statusInUse;
+    switch (aStatusInUse)
+    {
+      case Ordering:
+        if (Table.numberOfCurrentSeats<seats.length())
+        {
+          exitStatusInUse();
+        // line 12 "../../../../../TableState.ump"
+          Bill = aBill do: seats.addBill(aBill)
+          setStatusInUse(StatusInUse.Ordering);
+          wasEventProcessed = true;
+          break;
+        }
+        exitStatusInUse();
+        // line 13 "../../../../../TableState.ump"
+        Bill = aBill do: seats.addBill(aBill)
+        setStatusInUse(StatusInUse.AllSeatsBilled);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private void exitStatus()
+  {
+    switch(status)
+    {
+      case InUse:
+        exitStatusInUse();
+        break;
+    }
+  }
+
+  private void setStatus(Status aStatus)
+  {
+    status = aStatus;
+
+    // entry actions and do activities
+    switch(status)
+    {
+      case InUse:
+        if (statusInUse == StatusInUse.Null) { setStatusInUse(StatusInUse.Ordering); }
+        break;
+    }
+  }
+
+  private void exitStatusInUse()
+  {
+    switch(statusInUse)
+    {
+      case Ordering:
+        setStatusInUse(StatusInUse.Null);
+        break;
+      case AllSeatsBilled:
+        setStatusInUse(StatusInUse.Null);
+        break;
+    }
+  }
+
+  private void setStatusInUse(StatusInUse aStatusInUse)
+  {
+    statusInUse = aStatusInUse;
+    if (status != Status.InUse && aStatusInUse != StatusInUse.Null) { setStatus(Status.InUse); }
   }
 
   public Seat getSeat(int index)
@@ -654,7 +812,7 @@ public class Table implements Serializable
     }
   }
 
-  // line 37 "../../../../../RestoAppPersistence.ump"
+  // line 38 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeUniqueNumber(List<Table> tables){
     tablesByNumber = new HashMap<Integer, Table>();
     for (Table table : tables) {
@@ -662,12 +820,12 @@ public class Table implements Serializable
     }
   }
 
-  // line 35 "../../../../../RestoApp.ump"
+  // line 37 "../../../../../RestoApp.ump"
    public String toString(){
     return "Table #" + this.getNumber();
   }
 
-  // line 40 "../../../../../RestoApp.ump"
+  // line 42 "../../../../../RestoApp.ump"
    public boolean checkOverlap(int x, int y, int length, int width){
     boolean xOverlap = (Math.abs(2 * x - 2* this.x + length - this.length) < (length + this.length));
 	  boolean yOverlap = (Math.abs(2 * y - 2* this.y + width - this.width) < (width + this.width));
@@ -678,7 +836,7 @@ public class Table implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 34 "../../../../../RestoAppPersistence.ump"
+  // line 35 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 8896099581655989380L ;
 
   

@@ -7,7 +7,7 @@ import java.util.*;
 import java.sql.Date;
 
 // line 3 "../../../../../RestoAppPersistence.ump"
-// line 4 "../../../../../RestoApp.ump"
+// line 6 "../../../../../RestoApp.ump"
 public class RestoApp implements Serializable
 {
 
@@ -810,6 +810,7 @@ public class RestoApp implements Serializable
    public void reinitialize(){
     Reservation.reinitializeAutouniqueResNumber(this.getReservations());
     Order.reinitializeAutouniqueNumber(this.getOrders());
+    MenuItem.reinitializeUniqueMenuItemName(this.menu.getItems());
     Table.reinitializeUniqueNumber(this.getTables());
   }
   
