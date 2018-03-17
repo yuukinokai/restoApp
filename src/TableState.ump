@@ -9,15 +9,15 @@ class Table
         
         Ordering{
           addOrder(Order aOrder) -> /{order = getRestoApp.addOrder(aOrder); getRestoApp.addCurrentOrder(order);} Ordering;
-         addBill(List<Seat> seats) [Table.numberOfCurrentSeats  <seats.length()] ->/{Bill = aBill do: seats.addBill(aBill)}  Ordering;
+         addBill(List<Seat> seats) [numberOfCurrentSeats()  <seats.size()] ->/{Bill = aBill do: seats.addBill(aBill)}  Ordering;
           addBill(List<Seat> seats) ->/{Bill = aBill do: seats.addBill(aBill)} AllSeatsBilled;
         }
          
         
        
         AllSeatsBilled{
-          toggleAvailableStatus() -> /{order = getRestoApp.getCurrentOrder(); do: for(order: aOrder){table = order.getTables();                                                                                                }if(table.contains(table)){getRestoApp.removeCurrentOrder(order)};} Available;
-       addOrder(Order aOrder) ->/{order = getRestoApp.addOrder(aOrder); getRestoApp.addCurrentOrder(order);} Ordering;
+          toggleAvailableStatus() -> /{order = getRestoApp.getCurrentOrder(); do: for(order: aOrder){table = order.getTables()};                                                                                                }if(table.contains(table)){getRestoApp.removeCurrentOrder(order)};} Available;
+       addOrder(Order aOrder) ->/{Order order = getRestoApp.addOrder(aOrder); getRestoApp.addCurrentOrder(order);} Ordering;
        }
    }
   }

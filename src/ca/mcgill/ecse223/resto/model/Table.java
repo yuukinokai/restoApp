@@ -177,26 +177,12 @@ public class Table implements Serializable
     boolean wasEventProcessed = false;
     
     Status aStatus = status;
-    StatusInUse aStatusInUse = statusInUse;
     switch (aStatus)
     {
       case Available:
         // line 6 "../../../../../TableState.ump"
         do: addOrder(Order aOrder)
         setStatus(Status.InUse);
-        wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    switch (aStatusInUse)
-    {
-      case AllSeatsBilled:
-        exitStatus();
-        // line 19 "../../../../../TableState.ump"
-        order = getRestoApp.getCurrentOrder(); do: for(order: aOrder){table = order.getTables();                                                                                                }if(table.contains(table)){getRestoApp.removeCurrentOrder(order)};
-        setStatus(Status.Available);
         wasEventProcessed = true;
         break;
       default:
@@ -221,13 +207,6 @@ public class Table implements Serializable
         setStatusInUse(StatusInUse.Ordering);
         wasEventProcessed = true;
         break;
-      case AllSeatsBilled:
-        exitStatusInUse();
-        // line 20 "../../../../../TableState.ump"
-        order = getRestoApp.addOrder(aOrder); getRestoApp.addCurrentOrder(order);
-        setStatusInUse(StatusInUse.Ordering);
-        wasEventProcessed = true;
-        break;
       default:
         // Other states do respond to this event
     }
@@ -243,7 +222,7 @@ public class Table implements Serializable
     switch (aStatusInUse)
     {
       case Ordering:
-        if (Table.numberOfCurrentSeats<seats.length())
+        if (numberOfCurrentSeats()<seats.size())
         {
           exitStatusInUse();
         // line 12 "../../../../../TableState.ump"
