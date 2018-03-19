@@ -3,7 +3,7 @@
 
 
 
-// line 2 "TableState.ump"
+// line 1 "TableState.ump"
 public class Table
 {
 
@@ -11,8 +11,11 @@ public class Table
   // MEMBER VARIABLES
   //------------------------
 
+  //Table Attributes
+  private boolean almostAllPaid;
+
   //Table State Machines
-  public enum Status { Available, InUse }
+  public enum Status { Available, InUse, Billing }
   public enum StatusInUse { Null, Ordering, AllSeatsBilled }
   private Status status;
   private StatusInUse statusInUse;
@@ -23,6 +26,7 @@ public class Table
 
   public Table()
   {
+    almostAllPaid = false;
     setStatusInUse(StatusInUse.Null);
     setStatus(Status.Available);
   }
@@ -30,6 +34,24 @@ public class Table
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setAlmostAllPaid(boolean aAlmostAllPaid)
+  {
+    boolean wasSet = false;
+    almostAllPaid = aAlmostAllPaid;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean getAlmostAllPaid()
+  {
+    return almostAllPaid;
+  }
+
+  public boolean isAlmostAllPaid()
+  {
+    return almostAllPaid;
+  }
 
   public String getStatusFullName()
   {
@@ -48,37 +70,34 @@ public class Table
     return statusInUse;
   }
 
-  public boolean toggleAvailableStatus()
+  public boolean addToOrder(Order aOrder)
   {
     boolean wasEventProcessed = false;
     
     Status aStatus = status;
+    StatusInUse aStatusInUse = statusInUse;
     switch (aStatus)
     {
       case Available:
-        // line 6 "TableState.ump"
-        do: addOrder(Order aOrder)
-        setStatus(Status.InUse);
+        // line 5 "TableState.ump"
+        addOrder(aOrder);
+				getRestoApp().addOrder(aOrder); 
+				getRestoApp().addCurrentOrder(aOrder);
+        setStatusInUse(StatusInUse.Ordering);
         wasEventProcessed = true;
         break;
       default:
         // Other states do respond to this event
     }
 
-    return wasEventProcessed;
-  }
-
-  public boolean addOrder(Order aOrder)
-  {
-    boolean wasEventProcessed = false;
-    
-    StatusInUse aStatusInUse = statusInUse;
     switch (aStatusInUse)
     {
       case Ordering:
         exitStatusInUse();
-        // line 11 "TableState.ump"
-        order = getRestoApp.addOrder(aOrder); getRestoApp.addCurrentOrder(order);
+        // line 14 "TableState.ump"
+        addOrder(aOrder);
+					getRestoApp().addOrder(aOrder); 
+					getRestoApp().addCurrentOrder(aOrder);
         setStatusInUse(StatusInUse.Ordering);
         wasEventProcessed = true;
         break;
@@ -89,7 +108,7 @@ public class Table
     return wasEventProcessed;
   }
 
-  public boolean addBill(List<Seat> seats)
+  public boolean payBill(Bill aBill)
   {
     boolean wasEventProcessed = false;
     
@@ -97,20 +116,24 @@ public class Table
     switch (aStatusInUse)
     {
       case Ordering:
-        if (Table.numberOfCurrentSeats<seats.size())
+        if (!(almostAllPaid()))
         {
-          exitStatusInUse();
-        // line 12 "TableState.ump"
-          Bill = aBill do: seats.addBill(aBill)
-          setStatusInUse(StatusInUse.Ordering);
+          exitStatus();
+        // line 20 "TableState.ump"
+          seats.addBill(aBill);
+          setStatus(Status.Billing);
           wasEventProcessed = true;
           break;
         }
-        exitStatusInUse();
-        // line 13 "TableState.ump"
-        Bill = aBill do: seats.addBill(aBill)
-        setStatusInUse(StatusInUse.AllSeatsBilled);
-        wasEventProcessed = true;
+        if (almostAllPaid())
+        {
+          exitStatusInUse();
+        // line 25 "TableState.ump"
+          seats.addBill(aBill);
+          setStatusInUse(StatusInUse.AllSeatsBilled);
+          wasEventProcessed = true;
+          break;
+        }
         break;
       default:
         // Other states do respond to this event
@@ -164,4 +187,10 @@ public class Table
   public void delete()
   {}
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "almostAllPaid" + ":" + getAlmostAllPaid()+ "]";
+  }
 }

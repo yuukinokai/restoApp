@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 32 "../../../../../RestoAppPersistence.ump"
-// line 2 "../../../../../TableState.ump"
+// line 1 "../../../../../TableState.ump"
 // line 27 "../../../../../RestoApp.ump"
 public class Table implements Serializable
 {
@@ -172,38 +172,43 @@ public class Table implements Serializable
     return statusInUse;
   }
 
-  public boolean toggleAvailableStatus()
+  public boolean addToOrder(Order aOrder)
   {
     boolean wasEventProcessed = false;
     
     Status aStatus = status;
+    StatusInUse aStatusInUse = statusInUse;
     switch (aStatus)
     {
       case Available:
-        // line 6 "../../../../../TableState.ump"
-        do: addOrder(Order aOrder)
-        setStatus(Status.InUse);
+        // line 4 "../../../../../TableState.ump"
+        addOrder(aOrder);
+				getRestoApp().addOrder(aOrder); 
+				getRestoApp().addCurrentOrder(aOrder);
+        setStatusInUse(StatusInUse.Ordering);
         wasEventProcessed = true;
         break;
       default:
         // Other states do respond to this event
     }
 
-    return wasEventProcessed;
-  }
-
-  public boolean addOrder(Order aOrder)
-  {
-    if (orders.contains(aOrder)) { return false; }
-    boolean wasEventProcessed = false;
-    
-    StatusInUse aStatusInUse = statusInUse;
     switch (aStatusInUse)
     {
       case Ordering:
         exitStatusInUse();
-        // line 11 "../../../../../TableState.ump"
-        order = getRestoApp.addOrder(aOrder); getRestoApp.addCurrentOrder(order);
+        // line 13 "../../../../../TableState.ump"
+        addOrder(aOrder);
+					getRestoApp().addOrder(aOrder); 
+					getRestoApp().addCurrentOrder(aOrder);
+        setStatusInUse(StatusInUse.Ordering);
+        wasEventProcessed = true;
+        break;
+      case AllSeatsBilled:
+        exitStatusInUse();
+        // line 31 "../../../../../TableState.ump"
+        addOrder(aOrder);
+					getRestoApp().addOrder(aOrder); 
+					getRestoApp().addCurrentOrder(aOrder);
         setStatusInUse(StatusInUse.Ordering);
         wasEventProcessed = true;
         break;
@@ -214,7 +219,7 @@ public class Table implements Serializable
     return wasEventProcessed;
   }
 
-  public boolean addBill(List<Seat> seats)
+  public boolean payBill(Bill aBill)
   {
     boolean wasEventProcessed = false;
     
@@ -222,19 +227,50 @@ public class Table implements Serializable
     switch (aStatusInUse)
     {
       case Ordering:
-        if (numberOfCurrentSeats()<seats.size())
+        if (!(almostAllPaid()))
         {
           exitStatusInUse();
-        // line 12 "../../../../../TableState.ump"
-          Bill = aBill do: seats.addBill(aBill)
+        // line 19 "../../../../../TableState.ump"
+          seats.addBill(aBill);
           setStatusInUse(StatusInUse.Ordering);
           wasEventProcessed = true;
           break;
         }
-        exitStatusInUse();
-        // line 13 "../../../../../TableState.ump"
-        Bill = aBill do: seats.addBill(aBill)
-        setStatusInUse(StatusInUse.AllSeatsBilled);
+        if (almostAllPaid())
+        {
+          exitStatusInUse();
+        // line 24 "../../../../../TableState.ump"
+          seats.addBill(aBill);
+          setStatusInUse(StatusInUse.AllSeatsBilled);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean resetTable()
+  {
+    boolean wasEventProcessed = false;
+    
+    StatusInUse aStatusInUse = statusInUse;
+    switch (aStatusInUse)
+    {
+      case AllSeatsBilled:
+        exitStatus();
+        // line 37 "../../../../../TableState.ump"
+        List<Order> orders = getRestoApp().getCurrentOrders();
+	            for(Order order: orders){
+	                List <Table> tables = order.getTables();
+	                if(tables.contains(this)){
+	                  getRestoApp().removeCurrentOrder(order);
+	                }
+	            }
+        setStatus(Status.Available);
         wasEventProcessed = true;
         break;
       default:
@@ -797,6 +833,12 @@ public class Table implements Serializable
     for (Table table : tables) {
       tablesByNumber.put(table.getNumber(), table);
     }
+  }
+
+  // line 52 "../../../../../TableState.ump"
+   private Boolean almostAllPaid(){
+    // TODO: Check almost everyone has paid.
+		return false;
   }
 
   // line 37 "../../../../../RestoApp.ump"
