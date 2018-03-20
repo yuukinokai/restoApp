@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.resto.controller;
 
 import java.util.*;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -221,7 +222,8 @@ public class RestoAppController {
 		RestoAppApplication.save();
 		return itemCategories;
 	}
-	public static void addOrder(Date date,MenuItem item, int tableNumber,int seatIndex,int quantity) throws InvalidInputException{
+	
+	public static void addOrder(Date date, Time time, MenuItem item, int tableNumber,int seatIndex,int quantity) throws InvalidInputException{
 		if(item == null){
 			throw new InvalidInputException("Select an item");
 		}
@@ -237,6 +239,9 @@ public class RestoAppController {
 		if(date == null){
 			throw new InvalidInputException("Date is invalid");
 		}
+		if (time == null) {
+			throw new InvalidInputException("Time is invalid");
+		}
 		
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		List<Table> list = restoApp.getCurrentTables();
@@ -244,7 +249,7 @@ public class RestoAppController {
 		Seat seat = table.getSeat(seatIndex);
 		PricedMenuItem pricedItem = item.getCurrentPricedMenuItem();
 
-		Order order = new Order(date,restoApp,table);
+		Order order = new Order(date, time, restoApp,table);
 		OrderItem orderItem = new OrderItem (quantity,pricedItem,order,seat);
 		
 		try {
@@ -254,12 +259,15 @@ public class RestoAppController {
 			throw e;
 		}
 	}
-	public static void addReservation(Date dateTime, int numberInParty, String contactName, String contactEmail, String contactPhone, Table... allTables) throws InvalidInputException{
+	public static void addReservation(Date date, Time time, int numberInParty, String contactName, String contactEmail, String contactPhone, Table... allTables) throws InvalidInputException{
 		if(allTables == null){
 			throw new InvalidInputException("Select at least one table");
 		}
-		if(dateTime == null){
-			throw new InvalidInputException("Select a date/time");
+		if(date == null){
+			throw new InvalidInputException("Select a date");
+		}
+		if(time == null) {
+			throw new InvalidInputException("Select a date");
 		}
 		if(contactName == null || contactEmail == null || contactPhone == null){
 			throw new InvalidInputException("Invalid contact info");
@@ -270,7 +278,7 @@ public class RestoAppController {
 		for(Table table : allTables){
 			for(Table t: currentTables){
 				if(table == t ){
-					Reservation reservation = new Reservation(dateTime,numberInParty,contactName,contactEmail,contactPhone,restoApp,table);	
+					Reservation reservation = new Reservation(date, time, numberInParty,contactName,contactEmail,contactPhone,restoApp,table);	
 				}
 			}
 		}
