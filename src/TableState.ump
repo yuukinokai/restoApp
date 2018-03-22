@@ -81,6 +81,7 @@ class Table {
 	      			for (Seat seat :item.getSeats()) {
 	      				if (!seat.hasBills()) {
 	      					allBilled = false;
+	      					break;
 	      				}
 	      			}
 	      		}

@@ -140,12 +140,11 @@ public class RestoAppController {
 			if (t.checkOverlap(table.getX(),table.getY(),table.getLength(), table.getWidth())) {
 				throw new InvalidInputException("Table overlaps with another current Table");
 			}
-			restoApp.addCurrentTable(table);
 		}
+		restoApp.addCurrentTable(table);
 		try {
 			RestoAppApplication.save();
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
 			throw e;
 		}
@@ -249,44 +248,7 @@ public class RestoAppController {
 		RestoAppApplication.save();
 		return itemCategories;
 	}
-	
-	public static void addOrder(Date date, Time time, MenuItem item, int tableNumber,int seatIndex,int quantity) throws InvalidInputException{
-		if(item == null){
-			throw new InvalidInputException("Select an item");
-		}
-		if(seatIndex < 0){
-			throw new InvalidInputException("Seat Number is invalid");
-		}
-		if(tableNumber < 0){
-			throw new InvalidInputException("Table number is invalid");
-		}
-		if(quantity <= 0){
-			throw new InvalidInputException("Quantity is invalid");
-		}
-		if(date == null){
-			throw new InvalidInputException("Date is invalid");
-		}
-		if (time == null) {
-			throw new InvalidInputException("Time is invalid");
-		}
-		
-		RestoApp restoApp = RestoAppApplication.getRestoApp();
-		List<Table> list = restoApp.getCurrentTables();
-		Table table = list.get(tableNumber);
-		Seat seat = table.getSeat(seatIndex);
-		PricedMenuItem pricedItem = item.getCurrentPricedMenuItem();
 
-		Order order = new Order(date, time, restoApp,table);
-		OrderItem orderItem = new OrderItem (quantity,pricedItem,order,seat);
-		
-		try {
-			RestoAppApplication.save();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw e;
-		}
-	}
-	
 	public static void addReservation(Date date, Time time, int numberInParty, String contactName, String contactEmail, String contactPhone, Table... allTables) throws InvalidInputException{
 		if(allTables == null){
 			throw new InvalidInputException("Select at least one table");
@@ -330,6 +292,7 @@ public class RestoAppController {
 		for (Order currentOrder : restoApp.getCurrentOrders()) {
 			if (currentOrder.getTables().contains(table)) {
 				isFree = false;
+				break;
 			}
 		}
 		return isFree;
@@ -345,6 +308,7 @@ public class RestoAppController {
 			for (OrderItem item : currentOrder.getOrderItems()) {
 				if (item.getSeats().contains(seat)) {
 					isFree = false;
+					break;
 				}
 			}
 		}
@@ -392,8 +356,43 @@ public class RestoAppController {
 		}
 	}
   
-	public static void endOrder(Order order) {
+	public static void endOrder(Order order) throws InvalidInputException{
+		if (order == null) {
+			throw new InvalidInputException("Invalid Order");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		if (!restoApp.getCurrentOrders().contains(order)) {
+			throw new InvalidInputException("Order not active");
+		}
+		List<Table> tables = order.getTables();
+		for (Table table : tables) {
+			if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders()-1).equals(order)) {
+				endOrder(order);
+			}
+		}
+		if (allTablesAvailableOrDifferentCurrentOrder(tables, order)) {
+			restoApp.removeCurrentOrder(order);
+		}
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
 		
+	}
+	
+	public static boolean allTablesAvailableOrDifferentCurrentOrder(List<Table> tables, Order order) {
+		boolean canRemove = true;
+		for (Table table : tables) {
+			if (table.getStatusFullName() != "Available") {
+				if (table.getOrder(table.numberOfOrders()-1).equals(order)) {
+					canRemove = false;
+					break;
+				}
+			}
+		}
+		return canRemove;
 	}
 	
 	//public void rotateTable(Table table);

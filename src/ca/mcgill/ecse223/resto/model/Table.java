@@ -962,6 +962,7 @@ public class Table implements Serializable
 	      			for (Seat seat :item.getSeats()) {
 	      				if (!seat.hasBills()) {
 	      					allBilled = false;
+	      					break;
 	      				}
 	      			}
 	      		}
