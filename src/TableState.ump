@@ -56,20 +56,37 @@ class Table {
    
    // check that the provided quantity is an integer greater than 0
    private boolean quantityNotNegative(int quantity) {
-      // TODO
-      return false;
+      // DONE
+      return quantity>0;
    }
 
    // check that the provided order item is the last item of the current order of the table
    private boolean iIsLastItem(OrderItem i) {
-      // TODO
+      // DONE
+      Order order = i.getOrder();
+      if (order.numberOfOrderItems() == 1){
+      	return true;
+      }
       return false;
    }
 
    // check that all seats of the table have a bill that belongs to the current order of the table 
    private boolean allSeatsBilled() {
-      // TODO
-      return false;
+      // DONE
+      boolean allBilled = true;
+	      restoApp = this.getRestoApp();
+	      for (Order order : restoApp.getCurrentOrders()){
+	      	if (order.getTables().contains(this)) {
+	      		for (OrderItem item : order.getOrderItems()) {
+	      			for (Seat seat :item.getSeats()) {
+	      				if (!seat.hasBills()) {
+	      					allBilled = false;
+	      				}
+	      			}
+	      		}
+	      	}
+	      }
+      return allBilled;
    }
 
 }

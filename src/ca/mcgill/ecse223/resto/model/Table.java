@@ -929,8 +929,8 @@ public class Table implements Serializable
    */
   // line 59 "../../../../../TableState.ump"
    private boolean quantityNotNegative(int quantity){
-    // TODO
-      return false;
+    // DONE
+      return quantity>0;
   }
 
 
@@ -939,7 +939,11 @@ public class Table implements Serializable
    */
   // line 65 "../../../../../TableState.ump"
    private boolean iIsLastItem(OrderItem i){
-    // TODO
+    // DONE
+      Order order = i.getOrder();
+      if (order.numberOfOrderItems() == 1){
+      	return true;
+      }
       return false;
   }
 
@@ -947,10 +951,23 @@ public class Table implements Serializable
   /**
    * check that all seats of the table have a bill that belongs to the current order of the table
    */
-  // line 71 "../../../../../TableState.ump"
+  // line 75 "../../../../../TableState.ump"
    private boolean allSeatsBilled(){
-    // TODO
-      return false;
+    // DONE
+      boolean allBilled = true;
+	      restoApp = this.getRestoApp();
+	      for (Order order : restoApp.getCurrentOrders()){
+	      	if (order.getTables().contains(this)) {
+	      		for (OrderItem item : order.getOrderItems()) {
+	      			for (Seat seat :item.getSeats()) {
+	      				if (!seat.hasBills()) {
+	      					allBilled = false;
+	      				}
+	      			}
+	      		}
+	      	}
+	      }
+      return allBilled;
   }
   
   //------------------------
