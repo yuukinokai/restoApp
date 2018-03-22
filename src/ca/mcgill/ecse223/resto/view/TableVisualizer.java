@@ -22,7 +22,7 @@ public class TableVisualizer extends JPanel{
 	private static final long serialVersionUID = 5765666411683246454L;
 	private List<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
 	private HashMap<Rectangle2D, Table> tables;
-	private RestoApp restoApp = RestoAppApplication.getRestoApp();
+	private List<Table> tablesList = new ArrayList<Table>();
 	
 	public TableVisualizer(){
 		super();
@@ -36,22 +36,33 @@ public class TableVisualizer extends JPanel{
 		repaint();
 	}
 	
+	public void setTables(List<Table> tablesList) {
+		this.tablesList = tablesList;
+		repaint();
+	}
+	
 	private void drawTables(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g.create();
 		rectangles.clear();
 		tables.clear();
-		for (Table table : restoApp.getCurrentTables()) {
+		for (Table table : tablesList) {
 			if (table != null) {
-				Rectangle2D rectangle = new Rectangle2D.Float(table.getLength(),table.getWidth(), table.getX(), table.getY());
+				Rectangle2D rectangle = new Rectangle2D.Float(table.getX(), table.getY(), table.getLength(),table.getWidth() );
 				rectangles.add(rectangle);
+				
 				tables.put(rectangle, table);
 				g2d.setColor(Color.WHITE);
 				g2d.fill(rectangle);
 				g2d.setColor(Color.BLACK);
 				g2d.draw(rectangle);
+				
+				String seatNumber = String.valueOf(table.getSeats().size());
+				
+				int width = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getWidth()/2);
+				int height = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getHeight()/2);
+				g2d.drawString(Integer.toString(table.getSeats().size()),  table.getX()+table.getLength()/2-width,  table.getY()+table.getWidth()/2);
 			}
-		}
-		
+		}	
 	}
 	
 	@Override
@@ -59,5 +70,4 @@ public class TableVisualizer extends JPanel{
 		super.paintComponent(g);
 		drawTables(g);
 	}
-
 }

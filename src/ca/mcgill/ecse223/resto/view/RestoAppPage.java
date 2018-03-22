@@ -38,7 +38,6 @@ public class RestoAppPage extends JFrame{
 
 	private JLabel errorMessage;
 	private String error = null;
-	private TableVisualizer tableVisualizer;
 	private JPanel leftMenu;
 
 	//ADD TABLE
@@ -96,7 +95,6 @@ public class RestoAppPage extends JFrame{
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
 		//END ERROR MESSAGE
-		tableVisualizer = new TableVisualizer();
 		
 		//ADD TABLE															here
 		tableNumberLabel = new JLabel();
@@ -412,6 +410,13 @@ public class RestoAppPage extends JFrame{
 						Integer.parseInt(widthBox.getText()), 
 						Integer.parseInt(lengthBox.getText()), 
 						Integer.parseInt(numberOfSeatBox.getText()));
+				tableNumberBox.setText("");
+				xCoordBox.setText("");
+				yCoordBox.setText("");
+				widthBox.setText("");
+				lengthBox.setText("");
+				numberOfSeatBox.setText("");
+				
 			}
 			catch(InvalidInputException e1){
 				error = e1.getMessage();
@@ -419,12 +424,7 @@ public class RestoAppPage extends JFrame{
 			}
 			
 			refreshData();
-			tableNumberBox.setText("");
-			xCoordBox.setText("");
-			yCoordBox.setText("");
-			widthBox.setText("");
-			lengthBox.setText("");
-			numberOfSeatBox.setText("");
+
 		}
 	}
 	
@@ -505,11 +505,14 @@ public class RestoAppPage extends JFrame{
 //					tables = new HashMap<Integer, Table>();
 //					currentTableList.removeAllItems();
 //					Integer index = 0;
-
+					
 					model.removeAllElements();
 					for (Table table : RestoAppController.getCurrentTables()) {
 						model.addElement(table);
 					};
+					
+					restoMap.setTables(RestoAppController.getCurrentTables());
+					
 					selectedTable = -1;
 					currentTableList.setSelectedIndex(selectedTable);
 				}
