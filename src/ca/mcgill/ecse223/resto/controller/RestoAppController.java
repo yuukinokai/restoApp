@@ -286,6 +286,7 @@ public class RestoAppController {
 			throw e;
 		}
 	}
+	
 	public static void addReservation(Date date, Time time, int numberInParty, String contactName, String contactEmail, String contactPhone, Table... allTables) throws InvalidInputException{
 		if(allTables == null){
 			throw new InvalidInputException("Select at least one table");
@@ -320,5 +321,80 @@ public class RestoAppController {
 		}
 	}
 
-  //public void rotateTable(Table table);
+	public static boolean isAvailable(Table table) throws InvalidInputException{
+		boolean isFree = true;
+		if (table == null) {
+			throw new InvalidInputException("Invalid Table");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		for (Order currentOrder : restoApp.getCurrentOrders()) {
+			if (currentOrder.getTables().contains(table)) {
+				isFree = false;
+			}
+		}
+		return isFree;
+	}
+	
+	public static boolean isAvailable(Seat seat) throws InvalidInputException{
+		boolean isFree = true;
+		if (seat == null) {
+			throw new InvalidInputException("Invalid Seat");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		for (Order currentOrder : restoApp.getCurrentOrders()) {
+			for (OrderItem item : currentOrder.getOrderItems()) {
+				if (item.getSeats().contains(seat)) {
+					isFree = false;
+				}
+			}
+		}
+		return isFree;
+	}
+	
+	public static void startOVer(List<Table> tables) throws InvalidInputException{
+		if (tables == null) {
+			throw new InvalidInputException("Invalid Input");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		for (Table table : tables) {
+			if (!currentTables.contains(table)) {
+				throw new InvalidInputException("Table not in CurrentTables list");
+			}
+		}
+		boolean orderCreated = false;
+		Order newOrder = null;
+		for (Table table : tables) {
+			if (orderCreated) {
+				table.addToOrder(newOrder);
+			}
+			else {
+				Order lastOrder = null;
+				if (table.numberOfOrders() > 0) {
+					lastOrder = table.getOrder(table.numberOfOrders()-1);
+				}
+				table.startOrder();
+				if (table.numberOfOrders() > 0 && !table.getOrder(table.numberOfOrders()-1).equals(lastOrder)) {
+					orderCreated = true;
+					newOrder = table.getOrder(table.numberOfOrders()-1);
+				}
+			}
+		}
+		if(orderCreated == false) {
+			throw new InvalidInputException();
+		}
+		restoApp.addCurrentOrder(newOrder);
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+  
+	public static void endOrder(Order order) {
+		
+	}
+	
+	//public void rotateTable(Table table);
 }
