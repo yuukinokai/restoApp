@@ -14,7 +14,9 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class TableVisualizer extends JPanel{
@@ -51,12 +53,24 @@ public class TableVisualizer extends JPanel{
 				rectangles.add(rectangle);
 				
 				tables.put(rectangle, table);
-				g2d.setColor(Color.WHITE);
+				if (table.getStatusFullName() == "Available") {
+					g2d.setColor(Color.GREEN);
+				}
+				else {
+					g2d.setColor(Color.RED);
+				}
+				
 				g2d.fill(rectangle);
 				g2d.setColor(Color.BLACK);
 				g2d.draw(rectangle);
 				
-				String seatNumber = String.valueOf(table.getSeats().size());
+				int seatsAvailable = table.getSeats().size();
+				for (Seat seat : table.getSeats()) {
+					if (!RestoAppController.isAvailable(seat)) {
+						seatsAvailable -= 1;
+					}
+				}
+				String seatNumber = String.valueOf(seatsAvailable);
 				
 				int width = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getWidth()/2);
 				int height = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getHeight()/2);

@@ -283,11 +283,8 @@ public class RestoAppController {
 		}
 	}
 
-	public static boolean isAvailable(Table table) throws InvalidInputException{
+	public static boolean isAvailable(Table table){
 		boolean isFree = true;
-		if (table == null) {
-			throw new InvalidInputException("Invalid Table");
-		}
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		for (Order currentOrder : restoApp.getCurrentOrders()) {
 			if (currentOrder.getTables().contains(table)) {
@@ -298,11 +295,8 @@ public class RestoAppController {
 		return isFree;
 	}
 	
-	public static boolean isAvailable(Seat seat) throws InvalidInputException{
+	public static boolean isAvailable(Seat seat){
 		boolean isFree = true;
-		if (seat == null) {
-			throw new InvalidInputException("Invalid Seat");
-		}
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		for (Order currentOrder : restoApp.getCurrentOrders()) {
 			for (OrderItem item : currentOrder.getOrderItems()) {
