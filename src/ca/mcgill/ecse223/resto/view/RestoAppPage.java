@@ -35,6 +35,7 @@ public class RestoAppPage extends JFrame{
 	
 	private static final long serialVersionUID = -3496706717743749508L;
 	private DefaultComboBoxModel model = new DefaultComboBoxModel<Table>();
+	private DefaultComboBoxModel model2 = new DefaultComboBoxModel<Table>();
 
 	private JLabel errorMessage;
 	private String error = null;
@@ -53,6 +54,15 @@ public class RestoAppPage extends JFrame{
 	private JTextField numberOfSeatBox;
 	private JButton createTable;
 	//END ADD TABLE
+	
+	//ADD EXISTING TABLE
+	private JLabel existingTableLabel;
+	private JComboBox<Table> existingTableList;
+	private JButton addExistingTable;
+	private Integer selectedExistingTable = -1;
+	private HashMap<Integer, Table> existingTables;
+	
+	//END EXISTING TABLE
 	
 	//DELETE TABLE
 	private JLabel selectTableLabel;
@@ -127,6 +137,41 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		//END ADD TABLE
+		
+		//ADD EXISTING TABLE
+		existingTableLabel = new JLabel();
+		existingTableList = new JComboBox<Table>();
+		existingTableList.setModel(model2);
+		existingTableList.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+		        selectedExistingTable = cb.getSelectedIndex();
+			}
+		});
+		addExistingTable = new JButton();
+		existingTableLabel.setText("Select Table");
+		addExistingTable.setText("Add Table");
+		addExistingTable.addActionListener(new java.awt.event.ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				error = null;
+				try {
+					Table t = (Table)existingTableList.getSelectedItem();
+					if (t == null) {
+						throw new NullPointerException();
+					}
+					addExistingTableButtonActionPerformed(evt, (Table)existingTableList.getSelectedItem());
+				}
+				catch (NullPointerException ex) {
+					error = "Please select a valid table";
+					errorMessage.setText(error);
+				}
+				
+			}
+		});
+		
+		//END EXISTING TABLE
 
 		//DELETE TABLE
 		selectTableLabel = new JLabel();
@@ -277,6 +322,14 @@ public class RestoAppPage extends JFrame{
 								.addComponent(numberOfSeatBox, 200, 200, 200)
 								.addComponent(createTable)))
 				//END ADD TABLE
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(existingTableLabel, 40, 40, 70)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(existingTableList, 200, 200, 200)
+								.addComponent(addExistingTable)))
+				//ADD EXISTING TABLE
+				
+				//END EXISTING TABLE
 
 				//DELETE TABLE HORIZONTAL
 				.addGroup(layout.createSequentialGroup()
@@ -301,6 +354,8 @@ public class RestoAppPage extends JFrame{
 				);
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {existingTableList, addExistingTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
@@ -336,6 +391,15 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createParallelGroup()
 						.addComponent(createTable))
 				//END ADD TABLE VERTICAL
+				
+				//ADD EXISTING TABLE
+				.addGroup(layout.createParallelGroup()
+						.addComponent(existingTableLabel)
+						.addComponent(existingTableList))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(addExistingTable))
+				
+				//END EXISTING TABLE
 
 				//DELETE TABLE VERTICAL
 				.addGroup(layout.createParallelGroup()
@@ -435,6 +499,18 @@ public class RestoAppPage extends JFrame{
 	protected void updateTableButtonActionPerformed(ActionEvent e, Table t) {
 		new UpdateTableFrame(this, t);
 	}
+	
+	protected void addExistingTableButtonActionPerformed(ActionEvent evt, Table table) {
+		error = null;
+		try {
+			RestoAppController.addCurrentTable(table);
+		} catch (Exception e) {
+			error = e.getMessage();
+			errorMessage.setText(error);
+		}
+		
+		refreshData();
+	}
 
 	protected void deleteTableButtonActionPerformed(ActionEvent evt, Table table) {
 		// DELETE TABLE BUTTON
@@ -510,11 +586,20 @@ public class RestoAppPage extends JFrame{
 					for (Table table : RestoAppController.getCurrentTables()) {
 						model.addElement(table);
 					};
+					model2.removeAllElements();
+					for (Table table : RestoAppController.getTables()) {
+						List<Table> currentDisplayed = RestoAppController.getCurrentTables();
+						if (!currentDisplayed.contains(table)) {
+							model2.addElement(table);
+						}
+					};
 					
 					restoMap.setTables(RestoAppController.getCurrentTables());
 					
+					selectedExistingTable = -1;
 					selectedTable = -1;
 					currentTableList.setSelectedIndex(selectedTable);
+					existingTableList.setSelectedIndex(selectedExistingTable);
 				}
 
 		

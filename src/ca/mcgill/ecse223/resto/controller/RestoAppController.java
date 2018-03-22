@@ -31,6 +31,10 @@ public class RestoAppController {
 		return RestoAppApplication.getRestoApp().getCurrentTables();
 	}
 	
+	public static List<Table> getTables() {
+		return RestoAppApplication.getRestoApp().getTables();
+	}
+	
 	public static List<Order> getCurrentOrders() {
 		return RestoAppApplication.getRestoApp().getCurrentOrders();
 	}
@@ -62,7 +66,6 @@ public class RestoAppController {
 		}
 	}
 	
-
 	public static void updateTable(Table table, int newNumber, int numberofSeats) throws InvalidInputException{
 	
 		if(newNumber < 0 || numberofSeats < 0) {
@@ -124,6 +127,30 @@ public class RestoAppController {
 			throw e;
 		}
 }
+	
+	public static void addCurrentTable(Table table) throws InvalidInputException{
+		if (table == null) {
+			throw new InvalidInputException("Invalid Table");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp(); 
+		for(Table t : restoApp.getCurrentTables()) {
+			if (t == table) {
+				continue;
+			}
+			if (t.checkOverlap(table.getX(),table.getY(),table.getLength(), table.getWidth())) {
+				throw new InvalidInputException("Table overlaps with another current Table");
+			}
+			restoApp.addCurrentTable(table);
+		}
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
+	}
 	
 	public static void addTable(int number, int x, int y, int width, int length, int numberOfSeat) throws InvalidInputException{
 		if(x < 0 || y < 0 || width <= 0 || length <= 0 || numberOfSeat >= 8) {
