@@ -249,8 +249,8 @@ public class RestoAppController {
 		return itemCategories;
 	}
 
-	public static void addReservation(Date date, Time time, int numberInParty, String contactName, String contactEmail, String contactPhone, Table... allTables) throws InvalidInputException{
-		if(allTables == null){
+	public static void addReservation(Date date, Time time, int numberInParty, String contactName, String contactEmail, String contactPhone, List<Table> tables) throws InvalidInputException{
+		if(tables == null){
 			throw new InvalidInputException("Select at least one table");
 		}
 		if(date == null){
@@ -265,13 +265,30 @@ public class RestoAppController {
 
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		List<Table> currentTables = restoApp.getCurrentTables();
-		for(Table table : allTables){
-			for(Table t: currentTables){
-				if(table == t ){
-					Reservation reservation = new Reservation(date, time, numberInParty,contactName,contactEmail,contactPhone,restoApp,table);	
+		int seatCapacity = 0;
+		for(Table table : tables){
+			if(!currentTables.contains(table)){
+				throw new InvalidInputException("No Tables exist");
+			}
+			seatCapacity += table.numberOfCurrentSeats();
+			List<Reservation> reservations= table.getReservations();
+			for(Reservation reservation: reservations){
+				if(reservation.doesOverlap(date,time)){
+					throw new InvalidInputException("Reservation overlap");
 				}
 			}
 		}
+		if(seatCapacity < numberInParty){
+			throw new InvalidInputException("Not enough seats");
+		}
+		Table[] tableArray;
+		tableArray = new Table[tables.size()];
+		int i = 0;
+		for(Table table: tables){
+			tableArray[i]=table;
+			i++;
+		}
+		Reservation res = new Reservation(date,time,numberInParty,contactName,contactEmail,contactPhone, restoApp,tableArray);
 		
 		//save
 		try {

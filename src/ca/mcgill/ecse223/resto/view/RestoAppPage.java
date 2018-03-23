@@ -529,7 +529,7 @@ public class RestoAppPage extends JFrame{
 		refreshData();
 	}
 	
-	private void displayMenuButtonActionPerformed(ActionEvent evt) {
+	protected void displayMenuButtonActionPerformed(ActionEvent evt) {
 		// DISPLAY MENU BUTTON
 		// clear error message
 		error = null;
