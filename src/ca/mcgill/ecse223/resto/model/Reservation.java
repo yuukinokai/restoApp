@@ -69,9 +69,15 @@ public class Reservation implements Serializable
   @SuppressWarnings("deprecation")
   public boolean doesOverlap(Date date, Time time){
 	  if(this.date == date){
-		  if(Math.abs(this.time.getHours()-time.getHours())>=2){
-			  if((this.time.getMinutes()-time.getMinutes())>=0){
+		  if(Math.abs(this.time.getHours()-time.getHours()) > 2){
+			  return false;
+		  }
+		  if(Math.abs(this.time.getHours()-time.getHours()) == 2){
+			  if((this.time.getMinutes()-time.getMinutes())<=0){
 				  return false;
+			  }
+			  else{
+				  return true;
 			  }
 		  }
 	  }
