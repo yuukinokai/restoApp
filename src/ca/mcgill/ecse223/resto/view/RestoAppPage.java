@@ -89,6 +89,9 @@ public class RestoAppPage extends JFrame{
 	private HashMap<Integer, ItemCategory> items;
 	//END DISPLAY MENU
 	
+	//AddReservation
+	private JButton reserveTable;
+	
 	//JPANELS
 	private DisplayMenuPage menu = new DisplayMenuPage();
 	private TableVisualizer restoMap = new TableVisualizer();
@@ -246,7 +249,23 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		//END MOVE TABLE
-		
+		//RESERVE TABLE
+				reserveTable = new JButton();
+				reserveTable.setText("Reserve Table");
+				reserveTable.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						error = null;
+						try {
+							reserveTableButtonActionPerformed(e);
+						} catch (NullPointerException ex) {
+							errorMessage.setText("Error");
+						}
+						
+					}
+				});
+		//RESERVE TABLE
+				
 		//DISPLAY MENU
 		selectMenuLabel = new JLabel();
 		itemCategoryList = new JComboBox<String>(new String[0]);
@@ -338,7 +357,8 @@ public class RestoAppPage extends JFrame{
 								.addComponent(currentTableList, 200, 200, 400)
 								.addComponent(updateTable)
 								.addComponent(deleteTable)
-								.addComponent(moveTable)))
+								.addComponent(moveTable)
+								.addComponent(reserveTable)))
 								
 				//END DELETE TABLE 
 				
@@ -358,6 +378,7 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, reserveTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {tableNumberBox, numberOfSeatBox, createTable});
@@ -414,6 +435,9 @@ public class RestoAppPage extends JFrame{
 				//END UPDATE TABLE
 				.addGroup(layout.createParallelGroup()
 						.addComponent(moveTable))
+				//RESERVE TABLE
+				.addGroup(layout.createParallelGroup()
+						.addComponent(reserveTable))
 				//DISPLAY MENU VERTICAL
 				.addGroup(layout.createParallelGroup()
 						.addComponent(selectMenuLabel)
@@ -500,6 +524,9 @@ public class RestoAppPage extends JFrame{
 		new UpdateTableFrame(this, t);
 	}
 	
+	protected void reserveTableButtonActionPerformed(ActionEvent e){
+		new ReserveTableFrame(this);
+	}
 	protected void addExistingTableButtonActionPerformed(ActionEvent evt, Table table) {
 		error = null;
 		try {
