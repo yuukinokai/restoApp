@@ -257,9 +257,10 @@ public class RestoAppController {
 			throw new InvalidInputException("Select a date");
 		}
 		if(time == null) {
-			throw new InvalidInputException("Select a date");
+			throw new InvalidInputException("Select a time");
 		}
-		if(contactName == null || contactEmail == null || contactPhone == null){
+		
+		if(contactName.isEmpty() || contactEmail.isEmpty() || contactPhone.isEmpty()){
 			throw new InvalidInputException("Invalid contact info");
 		}
 
@@ -273,7 +274,7 @@ public class RestoAppController {
 			seatCapacity += table.numberOfCurrentSeats();
 			List<Reservation> reservations= table.getReservations();
 			for(Reservation reservation: reservations){
-				if(reservation.doesOverlap(date,time)){
+				if(reservation.checkOverlap(date,time)){
 					throw new InvalidInputException("Reservation overlap");
 				}
 			}

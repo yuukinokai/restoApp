@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
@@ -66,23 +68,7 @@ public class Reservation implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
-  @SuppressWarnings("deprecation")
-  public boolean doesOverlap(Date date, Time time){
-	  if(this.date == date){
-		  if(Math.abs(this.time.getHours()-time.getHours()) > 2){
-			  return false;
-		  }
-		  if(Math.abs(this.time.getHours()-time.getHours()) == 2){
-			  if((this.time.getMinutes()-time.getMinutes())<=0){
-				  return false;
-			  }
-			  else{
-				  return true;
-			  }
-		  }
-	  }
-	  return true;
-  }
+
   public boolean setDate(Date aDate)
   {
     boolean wasSet = false;
@@ -373,7 +359,7 @@ public class Reservation implements Serializable
     }
   }
 
-  // line 22 "../../../../../RestoAppPersistence.ump"
+  // line 26 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeAutouniqueResNumber(List<Reservation> reservations){
     int nextNumber = 0; 
     for (Reservation reservation : reservations) {
@@ -382,6 +368,19 @@ public class Reservation implements Serializable
       }
     }
     nextNumber++;
+  }
+
+  // line 37 "../../../../../RestoAppPersistence.ump"
+   public boolean checkOverlap(Date aDate, Time aTime){
+    LocalDateTime aDateTime = LocalDateTime.parse(aDate + " " + aTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	    LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	    LocalDateTime aNewDateTime = aDateTime.plusHours(2);
+	    LocalDateTime newDateTime = dateTime.plusHours(2);
+
+	   if(aNewDateTime.isBefore(dateTime) || aDateTime.isAfter(newDateTime)) {
+		   return false;
+	   }
+	  	return true;
   }
 
 
@@ -401,7 +400,7 @@ public class Reservation implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 19 "../../../../../RestoAppPersistence.ump"
+  // line 23 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 2315072607928790501L ;
 
   

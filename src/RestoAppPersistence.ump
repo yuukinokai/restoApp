@@ -15,6 +15,10 @@ class RestoApp {
 
 class Reservation {
   depend java.io.Serializable;
+  depend java.time.LocalDateTime;
+
+  depend java.time.format.DateTimeFormatter;
+  
   isA Serializable;
   private static final long serialVersionUID = 2315072607928790501L;
   
@@ -27,6 +31,20 @@ class Reservation {
     }
     nextNumber++;
   }
+  
+   public boolean checkOverlap(Date aDate, Time aTime) {
+	   
+	    LocalDateTime aDateTime = LocalDateTime.parse(aDate + " " + aTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	    LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	    LocalDateTime aNewDateTime = aDateTime.plusHours(2);
+	    LocalDateTime newDateTime = aDateTime.plusHours(2);
+
+	   if(aNewDateTime.isBefore(dateTime) || aDateTime.isAfter(newDateTime)) {
+		   return false;
+	   }
+	  	return true;
+   }
+  
 }
 
 class Table {

@@ -5,10 +5,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import com.github.lgooddatepicker.components.*;
+
 
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
@@ -22,14 +28,25 @@ public ReserveTableFrame(RestoAppPage app) {
     frame.setAlwaysOnTop(true);
   //Date date, Time time, int numberInParty, String contactName, String contactEmail, String contactPhone, List<Table>
     //COMPONENTS
+    
+    DatePicker datePicker = new DatePicker();
+    TimePicker timePicker = new TimePicker();
+
+    JLabel date = new JLabel("Date");
+    JLabel time = new JLabel("Time");
     JLabel numberInParty = new JLabel("# People");
     JLabel contactName = new JLabel("Name");
     JLabel contactEmail = new JLabel("Email");
     JLabel contactPhone = new JLabel("Phone");
+    JLabel tables = new JLabel("Tables");
+    JLabel tablesDesc = new JLabel("(enter the table number(s) seperated by a comma)");
+
     JTextField textNumberInParty  = new JTextField();
-    JTextField textName = new JTextField();
-    JTextField textEmail = new JTextField();
-    JTextField textPhone = new JTextField();
+    JTextField textContactName = new JTextField();
+    JTextField textContactEmail = new JTextField();
+    JTextField textContactPhone = new JTextField();
+    JTextField textTables = new JTextField();
+
     JButton btnReserve = new JButton("Reserve");
     JButton btnClose = new JButton("Close");
     
@@ -53,22 +70,62 @@ public ReserveTableFrame(RestoAppPage app) {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			try {
-//				//int x = Integer.parseInt(txtX.getText());
-//				//int y = Integer.parseInt(txtY.getText());
-//
-//				//RestoAppController.moveTable(t, x, y);
-//				
-//				frame.dispose();
-//				app.refreshData();
-//			} catch (NumberFormatException ex) {
-//		        JOptionPane.showMessageDialog(null, "Please enter coordinates in integer", null, JOptionPane.ERROR_MESSAGE);
-//
-//			} catch (InvalidInputException ex) {
-//		        JOptionPane.showMessageDialog(null, ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
-//			}  catch (Exception ex) {
-//		        JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
-//			}
+			try {
+				LocalDate aLocalDate = datePicker.getDate();
+				Date aDate = new Date(aLocalDate.getYear()-1900, aLocalDate.getMonthValue(), aLocalDate.getDayOfMonth());
+				LocalTime aLocalTime = timePicker.getTime();
+				Time aTime = new Time(aLocalTime.getHour(), aLocalTime.getMinute(), aLocalTime.getSecond());
+				
+			    LocalDateTime aDateTime = LocalDateTime.of(aLocalDate, aLocalTime);
+			    if (aDateTime.isBefore(LocalDateTime.now())) {
+			    	throw new InvalidInputException("Cannot reserve in the past");
+			    }
+				
+				int numberInParty=0;
+				try{
+					numberInParty = Integer.parseInt(textNumberInParty.getText());
+				} catch (NumberFormatException ex) {
+			        JOptionPane.showMessageDialog(null, "Please enter the number of people in integer", null, JOptionPane.ERROR_MESSAGE);
+				}
+				String contactName = textContactName.getText();
+				String contactEmail = textContactEmail.getText();
+				String contactPhone = textContactPhone.getText();
+				List<Table> tableList = RestoAppController.getCurrentTables();
+				ArrayList<Table> selectedTables = new ArrayList<Table>();
+				
+				String[] tables = textTables.getText().split(",");
+				ArrayList<Integer> tableNumbers = new ArrayList<Integer>();
+				for (String n: tables) {
+					int number = -1;
+					try {
+						number = Integer.parseInt(n);
+					} catch (NumberFormatException ex) {
+				        JOptionPane.showMessageDialog(null, "Invalid table number", null, JOptionPane.ERROR_MESSAGE);
+				        return;
+					}
+					tableNumbers.add(number);
+					
+				}
+				
+				for (Table t: tableList) {
+					if (tableNumbers.contains(t.getNumber())){
+						selectedTables.add(t);
+					}
+				}
+				
+				if( selectedTables.size() < tableNumbers.size()) {
+					throw new InvalidInputException("One more more selected table doesn't exist");
+				}
+				
+				RestoAppController.addReservation(aDate, aTime, numberInParty, contactName, contactEmail, contactPhone, selectedTables);				
+				frame.dispose();
+				app.refreshData();
+
+			} catch (InvalidInputException ex) {
+		        JOptionPane.showMessageDialog(null, ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+			}  catch (Exception ex) {
+		        JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+			}
 //			 
 			
 		}
@@ -89,15 +146,23 @@ java.awt.Container contentPane = frame.getContentPane();
 				.addGroup(				
 					layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup()
+								.addComponent(date)
+								.addComponent(time)
 								.addComponent(contactName)
 								.addComponent(contactEmail)
 								.addComponent(contactPhone)
-								.addComponent(numberInParty))
+								.addComponent(numberInParty)
+								.addComponent(tables))
 						.addGroup(layout.createParallelGroup()
-								.addComponent(textName)
-								.addComponent(textEmail)
-								.addComponent(textPhone)
-								.addComponent(textNumberInParty)))
+								.addComponent(datePicker)
+								.addComponent(timePicker)
+								.addComponent(textContactName)
+								.addComponent(textContactEmail)
+								.addComponent(textContactPhone)
+								.addComponent(textNumberInParty)
+								.addComponent(textTables)
+								.addComponent(tablesDesc)
+								))
 				.addGroup(
 						layout.createSequentialGroup()
 							.addComponent(btnReserve)
@@ -107,21 +172,34 @@ java.awt.Container contentPane = frame.getContentPane();
 			layout.setVerticalGroup(
 			   layout.createSequentialGroup()
 			      .addGroup(layout.createParallelGroup()
+				           .addComponent(date)
+				           .addComponent(datePicker))
+			      .addGroup(layout.createParallelGroup()
+				           .addComponent(time)
+				           .addComponent(timePicker)
+				           )
+			      .addGroup(layout.createParallelGroup()
 			           .addComponent(contactName)
-			           .addComponent(textName))
+			           .addComponent(textContactName))
 			      .addGroup(layout.createParallelGroup()
 				           .addComponent(contactEmail)
-				           .addComponent(textEmail))
+				           .addComponent(textContactEmail))
 			      .addGroup(layout.createParallelGroup()
 				           .addComponent(contactPhone)
-				           .addComponent(textPhone))
+				           .addComponent(textContactPhone))
 			      .addGroup(layout.createParallelGroup()
 				           .addComponent(numberInParty)
 				           .addComponent(textNumberInParty))
 			      .addGroup(layout.createParallelGroup()
+			    		  .addComponent(tables)
+			    		  .addComponent(textTables))
+			      .addGroup(layout.createParallelGroup()
+			    		  .addComponent(tablesDesc))
+			      .addGroup(layout.createParallelGroup()
 			    		  .addComponent(btnReserve)
 			    		  .addComponent(btnClose)
 			    		  )
+
 			);
 	
     // Set the x, y, width and height properties
