@@ -64,8 +64,8 @@ public class TableVisualizer extends JPanel{
 				g2d.setColor(Color.BLACK);
 				g2d.draw(rectangle);
 				
-				int seatsAvailable = table.getSeats().size();
-				for (Seat seat : table.getSeats()) {
+				int seatsAvailable = table.getCurrentSeats().size();
+				for (Seat seat : table.getCurrentSeats()) {
 					if (!RestoAppController.isAvailable(seat)) {
 						seatsAvailable -= 1;
 					}
