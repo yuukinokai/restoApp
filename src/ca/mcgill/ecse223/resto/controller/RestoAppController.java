@@ -407,5 +407,84 @@ public class RestoAppController {
 		return canRemove;
 	}
 	
+	public static void updateMenuItem(String name, String newName, Double price) throws InvalidInputException{
+		if(name == null){
+			throw new InvalidInputException("Select an item");
+		}
+		if(price < 0){
+			throw new InvalidInputException("Invalid price");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		Menu menu = restoApp.getMenu();
+		
+		if(!menu.checkItemName(newName)){
+			throw new InvalidInputException("Name already exists");
+		}
+		for(MenuItem menuItem : menu.getMenuItems()){
+			if(menuItem.getName().equals(name)){
+				if(newName != null){
+					menuItem.setName(newName);
+					break;
+				}
+				if(price != null){
+					new PricedMenuItem(price, restoApp, menuItem);
+					break;
+				}
+			}
+		}
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+
+	public static void removeItem(String name) throws InvalidInputException{
+		if(name == null){
+			throw new InvalidInputException("Select an item");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		Menu menu = restoApp.getMenu();
+
+		for(MenuItem menuItem : menu.getMenuItems()){
+			if(menuItem.getName().equals(name)){
+				restoApp.removePricedMenuItem(menuItem.getCurrentPricedMenuItem());
+				break;
+			}
+		}
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
+	}
+	public static void addNewItem(String name, Double price) throws InvalidInputException{
+		if(name == null){
+			throw new InvalidInputException("Invalid name input");
+		}
+		if(price < 0 || price == null){
+			throw new InvalidInputException("Invalid price input");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		Menu menu = restoApp.getMenu();
+		
+		if(!menu.checkItemName(name)){
+			throw new InvalidInputException("Name already exists");
+		}
+		
+		MenuItem newItem = new MenuItem (name, menu);
+		PricedMenuItem item = new PricedMenuItem(price,restoApp,newItem);
+
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+
 	//public void rotateTable(Table table);
 }

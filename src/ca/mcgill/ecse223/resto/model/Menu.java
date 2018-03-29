@@ -42,6 +42,15 @@ public class Menu implements Serializable
   // INTERFACE
   //------------------------
 
+  public boolean checkItemName(String str){
+	  for(MenuItem menuItem : menuItems){
+		  if(menuItem.getName().equals(str)){
+			  return false;
+		  }
+	  }
+	  return true;
+  }
+  
   public MenuItem getMenuItem(int index)
   {
     MenuItem aMenuItem = menuItems.get(index);
