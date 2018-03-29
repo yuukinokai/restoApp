@@ -375,7 +375,7 @@ public class Reservation implements Serializable
     LocalDateTime aDateTime = LocalDateTime.parse(aDate + " " + aTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	    LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	    LocalDateTime aNewDateTime = aDateTime.plusHours(2);
-	    LocalDateTime newDateTime = dateTime.plusHours(2);
+	    LocalDateTime newDateTime = aDateTime.plusHours(2);
 
 	   if(aNewDateTime.isBefore(dateTime) || aDateTime.isAfter(newDateTime)) {
 		   return false;
