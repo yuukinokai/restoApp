@@ -10,7 +10,7 @@ import java.sql.Time;
 import java.util.*;
 
 // line 16 "../../../../../RestoAppPersistence.ump"
-// line 17 "../../../../../RestoApp.ump"
+// line 18 "../../../../../RestoApp.ump"
 public class Reservation implements Serializable
 {
 
@@ -375,7 +375,7 @@ public class Reservation implements Serializable
     LocalDateTime aDateTime = LocalDateTime.parse(aDate + " " + aTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	    LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	    LocalDateTime aNewDateTime = aDateTime.plusHours(2);
-	    LocalDateTime newDateTime = dateTime.plusHours(2);
+	    LocalDateTime newDateTime = aDateTime.plusHours(2);
 
 	   if(aNewDateTime.isBefore(dateTime) || aDateTime.isAfter(newDateTime)) {
 		   return false;

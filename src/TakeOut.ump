@@ -1,0 +1,9 @@
+class TakeOut {
+  isA Table;
+  
+  public TakeOut (RestoApp aRestoApp)
+  {
+    super(0, 0, 0, 0, 0, aRestoApp);
+  }
+
+}
