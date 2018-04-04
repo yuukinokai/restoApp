@@ -931,13 +931,8 @@ public class Table implements Serializable
   /**
    * check that the provided quantity is an integer greater than 0
    */
-<<<<<<< HEAD
   // line 63 "../../../../../TableState.ump"
    private boolean quantityNotNegative(int quantity){
-=======
-  // line 59 "../../../../../TableState.ump"
-   private boolean quantityNotNegative(int quantity){
->>>>>>> branch 'master' of https://github.com/W2018-ECSE223/Group06.git
     // DONE
       return quantity>0;
   }
@@ -946,13 +941,8 @@ public class Table implements Serializable
   /**
    * check that the provided order item is the last item of the current order of the table
    */
-<<<<<<< HEAD
   // line 69 "../../../../../TableState.ump"
    private boolean iIsLastItem(OrderItem i){
-=======
-  // line 65 "../../../../../TableState.ump"
-   private boolean iIsLastItem(OrderItem i){
->>>>>>> branch 'master' of https://github.com/W2018-ECSE223/Group06.git
     // DONE
       Order order = i.getOrder();
       if (order.numberOfOrderItems() == 1){
@@ -965,13 +955,8 @@ public class Table implements Serializable
   /**
    * check that all seats of the table have a bill that belongs to the current order of the table
    */
-<<<<<<< HEAD
   // line 79 "../../../../../TableState.ump"
    private boolean allSeatsBilled(){
-=======
-  // line 75 "../../../../../TableState.ump"
-   private boolean allSeatsBilled(){
->>>>>>> branch 'master' of https://github.com/W2018-ECSE223/Group06.git
     // DONE
       boolean allBilled = true;
 	      restoApp = this.getRestoApp();
