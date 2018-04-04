@@ -103,6 +103,15 @@ class Menu {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = -7403802774454467836L;
+  
+  public boolean checkItemName(String str){
+	  for(MenuItem menuItem : menuItems){
+		  if(menuItem.getName().equals(str)){
+			  return false;
+		  }
+	  }
+	  return true;
+  }
 }
 
 class MenuItem {
@@ -129,3 +138,5 @@ class Bill {
   isA Serializable;
   private static final long serialVersionUID = 1301576255893682821L;
 }
+
+

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 102 "../../../../../RestoAppPersistence.ump"
-// line 55 "../../../../../RestoApp.ump"
+// line 56 "../../../../../RestoApp.ump"
 public class Menu implements Serializable
 {
 
@@ -164,6 +164,16 @@ public class Menu implements Serializable
     {
       existingRestoApp.delete();
     }
+  }
+
+  // line 108 "../../../../../RestoAppPersistence.ump"
+   public boolean checkItemName(String str){
+    for(MenuItem menuItem : menuItems){
+		  if(menuItem.getName().equals(str)){
+			  return false;
+		  }
+	  }
+	  return true;
   }
   
   //------------------------
