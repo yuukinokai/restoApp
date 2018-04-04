@@ -25,6 +25,7 @@ public class TableVisualizer extends JPanel{
 	private List<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
 	private HashMap<Rectangle2D, Table> tables;
 	private List<Table> tablesList = new ArrayList<Table>();
+	private Table selectedTable;
 	
 	public TableVisualizer(){
 		super();
@@ -35,6 +36,20 @@ public class TableVisualizer extends JPanel{
 		tables = new HashMap<Rectangle2D, Table>();
 		this.setSize(500,300);
 		this.setBackground(Color.lightGray);
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				for (Rectangle2D rectangle : rectangles) {
+					if (rectangle.contains(x, y)) {
+						selectedTable = tables.get(rectangle);
+						break;
+					}
+				}
+				repaint();
+			}
+		});
 		repaint();
 	}
 	
@@ -49,7 +64,7 @@ public class TableVisualizer extends JPanel{
 		tables.clear();
 		for (Table table : tablesList) {
 			if (table != null) {
-				Rectangle2D rectangle = new Rectangle2D.Float(table.getX(), table.getY(), table.getLength(),table.getWidth() );
+				Rectangle2D rectangle = new Rectangle2D.Float(table.getX()*10, table.getY()*10, table.getLength()*10,table.getWidth()*10 );
 				rectangles.add(rectangle);
 				
 				tables.put(rectangle, table);
@@ -74,7 +89,13 @@ public class TableVisualizer extends JPanel{
 				
 				int width = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getWidth()/2);
 				int height = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getHeight()/2);
-				g2d.drawString(Integer.toString(table.getSeats().size()),  table.getX()+table.getLength()/2-width,  table.getY()+table.getWidth()/2);
+				g2d.drawString(Integer.toString(table.getSeats().size()),  table.getX()*10+table.getLength()*10/2-width,  table.getY()*10+table.getWidth()*10/2);
+				
+				String tableDetails;
+				if (selectedTable != null && selectedTable.equals(table)) {
+					tableDetails = "Table number : " + RestoAppController.getTableNumber(selectedTable);
+					g2d.drawString(tableDetails, table.getX()*10+table.getLength()*10/2,  table.getY()*10+table.getWidth()*10/2);
+				}
 			}
 		}	
 	}

@@ -182,7 +182,8 @@ public class RestoAppController {
 			throw new RuntimeException();
 		}
 		for(int i = 0; i < numberOfSeat; i++) {
-			specificTable.addSeat();
+			Seat seat = specificTable.addSeat();
+			specificTable.addCurrentSeat(seat);
 		}
 		//save
 		try {
@@ -484,6 +485,11 @@ public class RestoAppController {
 			System.out.println(e.getMessage());
 			throw e;
 		}
+	}
+
+	public static String getTableNumber(Table table) {
+		// TODO Auto-generated method stub
+		return String.valueOf(table.getNumber());
 	}
 
 	//public void rotateTable(Table table);
