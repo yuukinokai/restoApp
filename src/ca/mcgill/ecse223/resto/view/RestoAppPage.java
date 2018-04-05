@@ -45,13 +45,13 @@ public class RestoAppPage extends JFrame{
 	private JPanel leftMenu;
 
 	//ADD TABLE
-	private JButton createTable;
+	private MyButton createTable;
 	//END ADD TABLE
 	
 	//ADD EXISTING TABLE
 	private JLabel existingTableLabel;
 	private JComboBox<Table> existingTableList;
-	private JButton addExistingTable;
+	private MyButton addExistingTable;
 	private Integer selectedExistingTable = -1;
 	private HashMap<Integer, Table> existingTables;
 	
@@ -60,37 +60,37 @@ public class RestoAppPage extends JFrame{
 	//DELETE TABLE
 	private JLabel selectTableLabel;
 	private JComboBox<Table> currentTableList;
-	private JButton deleteTable;
+	private MyButton deleteTable;
 	private Integer selectedTable = -1;
 	private HashMap<Integer, Table> tables;
 	//END DELETE TABLE
 	
 	//UPDATE TABLE
-	private JButton updateTable;
+	private MyButton updateTable;
 	//END UPDATE TABLE
 	
 	//MOVE TABLE
-	private JButton moveTable;
+	private MyButton moveTable;
 	//END MOVE TABLE
 	
 	//DISPLAY MENU
 	String list[] = {"Appetizer", "Main", "Dessert", "AlcoholicBeverage", "NonAlcoholicBeverage"};
 	private JLabel selectMenuLabel;
 	private JComboBox<String>itemCategoryList;
-	private JButton displayMenu;
+	private MyButton displayMenu;
 	private Integer selectedMenu=-1;
 	private HashMap<Integer, ItemCategory> items;
 	//END DISPLAY MENU
 	
 	//AddReservation
-	private JButton reserveTable;
+	private MyButton reserveTable;
 	
 	//END ADD RESERVATION
 	
 	//START ORDER
 	private JLabel otherFeatures = new JLabel();
 	private JLabel orderTables = new JLabel();
-	private JButton startOrder;
+	private MyButton startOrder;
     private JLabel tablesDesc = new JLabel();
     private JTextField textTables = new JTextField();
 	//END START ORDER
@@ -98,7 +98,7 @@ public class RestoAppPage extends JFrame{
     //END ORDER
     private JLabel orderLabel;
 	private JComboBox<Order> currentOrderList;
-	private JButton endOrder;
+	private MyButton endOrder;
 	private Integer selectedOrder = -1;
 	private HashMap<Integer, Order> orders;
 	
@@ -113,15 +113,13 @@ public class RestoAppPage extends JFrame{
 	
 	private void initComponents() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// TODO Auto-generated method stub
 		//ERROR MESSAGE
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
 		//END ERROR MESSAGE
 		
 		//ADD TABLE			
-		createTable = new JButton();
-		createTable.setBorder(new RoundedBorder(10));
+		createTable = new MyButton();
 		createTable.setText("Create Table");
 		createTable.addActionListener(new ActionListener() {
 			
@@ -141,13 +139,18 @@ public class RestoAppPage extends JFrame{
 		existingTableLabel = new JLabel();
 		existingTableList = new JComboBox<Table>();
 		existingTableList.setModel(model2);
+
+		
 		existingTableList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 		        selectedExistingTable = cb.getSelectedIndex();
 			}
 		});
-		addExistingTable = new JButton();
+		existingTableList.setEditable(true);
+        existingTableList.getEditor().getEditorComponent().setBackground(Color.WHITE);
+		
+		addExistingTable = new MyButton();
 		addExistingTable.setBorder(new RoundedBorder(10));
 		existingTableLabel.setText("Select Table");
 		addExistingTable.setText("Add Table");
@@ -177,13 +180,15 @@ public class RestoAppPage extends JFrame{
 		selectTableLabel = new JLabel();
 		currentTableList = new JComboBox<Table>();
 		currentTableList.setModel(model);
+		currentTableList.setEditable(true);
+        currentTableList.getEditor().getEditorComponent().setBackground(Color.WHITE);
 		currentTableList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 		        selectedTable = cb.getSelectedIndex();
 			}
 		});
-		deleteTable = new JButton();
+		deleteTable = new MyButton();
 		deleteTable.setBorder(new RoundedBorder(10));
 		selectTableLabel.setText("Select Table");
 		deleteTable.setText("Delete Table");
@@ -205,7 +210,7 @@ public class RestoAppPage extends JFrame{
 		//END DELETE TABLE
 		
 		//UPDATE TABLE
-		updateTable = new JButton();
+		updateTable = new MyButton();
 		updateTable.setBorder(new RoundedBorder(10));
 		updateTable.setText("Update Table");
 		updateTable.addActionListener(new ActionListener() {
@@ -228,7 +233,7 @@ public class RestoAppPage extends JFrame{
 		//END UPDATE TABLE
 		
 		//MOVE TABLE 
-		moveTable = new JButton();
+		moveTable = new MyButton();
 		moveTable.setBorder(new RoundedBorder(10));
 		moveTable.setText("Move Table");
 		moveTable.addActionListener(new ActionListener() {
@@ -256,6 +261,8 @@ public class RestoAppPage extends JFrame{
 		for(String str : list){
 			itemCategoryList.addItem(str);
 		}
+		itemCategoryList.setEditable(true);
+        itemCategoryList.getEditor().getEditorComponent().setBackground(Color.WHITE);
 		itemCategoryList.setSelectedIndex(-1);
 		itemCategoryList.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -267,7 +274,7 @@ public class RestoAppPage extends JFrame{
 		});
 		selectMenuLabel.setText("Select Menu");
 		//selectedMenu = null;
-		displayMenu = new JButton("Display Menu");
+		displayMenu = new MyButton("Display Menu");
 		displayMenu.setBorder(new RoundedBorder(10));
 		selectedMenu = null;
 		displayMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -291,7 +298,7 @@ public class RestoAppPage extends JFrame{
 		orderTables.setText("Tables");
 		tablesDesc = new JLabel();
 		tablesDesc.setText("(enter the table number(s) seperated by a comma)");
-		startOrder = new JButton();
+		startOrder = new MyButton();
 		startOrder.setBorder(new RoundedBorder(10));
 		startOrder.setText("Start Order");
 		startOrder.addActionListener(new ActionListener() {
@@ -311,13 +318,15 @@ public class RestoAppPage extends JFrame{
 		orderLabel = new JLabel();
 		currentOrderList = new JComboBox<Order>();
 		currentOrderList.setModel(model3);
+		currentOrderList.setEditable(true);
+        currentOrderList.getEditor().getEditorComponent().setBackground(Color.WHITE);
 		currentOrderList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 		        selectedOrder = cb.getSelectedIndex();
 			}
 		});
-		endOrder = new JButton();
+		endOrder = new MyButton();
 		endOrder.setBorder(new RoundedBorder(10));
 		orderLabel.setText("Select Order");
 		endOrder.setText("End Order");
@@ -339,7 +348,7 @@ public class RestoAppPage extends JFrame{
 		});
 		
 		//RESERVE TABLE
-		reserveTable = new JButton();
+		reserveTable = new MyButton();
 		reserveTable.setBorder(new RoundedBorder(10));
 		reserveTable.setText("Reserve Table");
 		reserveTable.addActionListener(new ActionListener() {
@@ -360,8 +369,9 @@ public class RestoAppPage extends JFrame{
 		
 		
 		//LEFT MENU LAYOUT(JPANEL)
-		 
+		this.getContentPane().setBackground( Color.WHITE );
 		leftMenu = new JPanel();
+		leftMenu.setBackground( Color.WHITE );
 		GroupLayout layout = new GroupLayout(leftMenu);
 		leftMenu.setLayout(layout);
 		layout.setAutoCreateGaps(true);
@@ -376,14 +386,16 @@ public class RestoAppPage extends JFrame{
 				//END ERROR MESSAGE
 				
 				//ADD TABLE HORIZONTAL
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(createTable))
+				
+						
 				//END ADD TABLE
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(existingTableLabel, 40, 40, 70)
 						.addGroup(layout.createParallelGroup()
 								.addComponent(existingTableList, 200, 200, 200)
-								.addComponent(addExistingTable)))
+								.addComponent(addExistingTable)
+								.addComponent(createTable)))
+				
 				//ADD EXISTING TABLE
 				
 				//END EXISTING TABLE
@@ -429,8 +441,8 @@ public class RestoAppPage extends JFrame{
 				);
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, endOrder, createTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, endOrder, createTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {existingTableList, addExistingTable});
@@ -450,8 +462,7 @@ public class RestoAppPage extends JFrame{
 				
 				//ADD TABLE VERTICAL
 				
-				.addGroup(layout.createParallelGroup()
-						.addComponent(createTable))
+
 				//END ADD TABLE VERTICAL
 				
 				//ADD EXISTING TABLE
@@ -460,6 +471,8 @@ public class RestoAppPage extends JFrame{
 						.addComponent(existingTableList))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(addExistingTable))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(createTable))
 				
 				//END EXISTING TABLE
 

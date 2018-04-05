@@ -47,10 +47,8 @@ public ReserveTableFrame(RestoAppPage app) {
     JTextField textContactPhone = new JTextField();
     JTextField textTables = new JTextField();
 
-    JButton btnReserve = new JButton("Reserve");
-    btnReserve.setBorder(new RoundedBorder(10));
-    JButton btnClose = new JButton("Close");
-    btnClose.setBorder(new RoundedBorder(10));
+    MyButton btnReserve = new MyButton("Reserve");
+    MyButton btnClose = new MyButton("Close");
     
     //END COMPONENTS
     

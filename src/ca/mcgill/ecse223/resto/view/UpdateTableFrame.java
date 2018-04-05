@@ -15,14 +15,15 @@ public UpdateTableFrame(RestoAppPage app, Table table) {
     JFrame frame = new JFrame("UpdateTableFrame");
     frame.setResizable(false);
     frame.setAlwaysOnTop(true);
+    
    
     //COMPONENTS
     JLabel label_TableNumber = new JLabel("Table Number");
     JLabel label_NumberOfSeats = new JLabel("Number of Seats");
     JTextField text_TableNumber = new JTextField();
     JTextField text_NumberOfSeats = new JTextField();
-    JButton button_Update = new JButton("Update");
-    JButton button_Close = new JButton("Close");
+    MyButton button_Update = new MyButton("Update");
+    MyButton button_Close = new MyButton("Close");
     
     //END COMPONENTS
     

@@ -21,8 +21,10 @@ public MoveTableFrame(RestoAppPage app, Table t) {
     JLabel lblY = new JLabel("Y value");
     JTextField txtX = new JTextField();
     JTextField txtY = new JTextField();
-    JButton btnMove = new JButton("Move");
-    JButton btnClose = new JButton("Close");
+    MyButton btnMove = new MyButton("Move");
+    btnMove.setBorder(new RoundedBorder(10));
+    MyButton btnClose = new MyButton("Close");
+    btnClose.setBorder(new RoundedBorder(10));
     
     //END COMPONENTS
     

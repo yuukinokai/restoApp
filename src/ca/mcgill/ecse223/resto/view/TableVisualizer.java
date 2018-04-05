@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.resto.view;
 
+import java.awt.color.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -36,7 +37,7 @@ public class TableVisualizer extends JPanel{
 	private void init() {
 		tables = new HashMap<RoundRectangle2D, Table>();
 		this.setSize(500,300);
-		this.setBackground(Color.lightGray);
+		this.setBackground(Color.WHITE);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -71,10 +72,10 @@ public class TableVisualizer extends JPanel{
 				
 				tables.put(rectangle, table);
 				if (table.getStatusFullName() == "Available") {
-					g2d.setColor(Color.GREEN);
+					g2d.setColor(new Color(152,255,153));
 				}
 				else {
-					g2d.setColor(Color.RED);
+					g2d.setColor(new Color(255, 102, 102));
 				}
 				
 				g2d.fill(rectangle);
@@ -96,7 +97,7 @@ public class TableVisualizer extends JPanel{
 				String tableDetails;
 				if (selectedTable != null && selectedTable.equals(table)) {
 					tableDetails = "Table number : " + RestoAppController.getTableNumber(selectedTable);
-					g2d.drawString(tableDetails, table.getX()*10+table.getLength()*10/2,  table.getY()*10+table.getWidth()*10/2);
+					g2d.drawString(tableDetails, table.getX()*10+table.getLength()*10,  table.getY()*10+table.getWidth()*10/2);
 				}
 			}
 		}	

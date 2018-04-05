@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -50,7 +49,7 @@ public class DisplayMenuPage extends JPanel {
 	private JLabel selectSeatLabel;
 	private JComboBox<Seat> seatList;
 	private Integer selectedSeat = -1;
-	private JButton addOrder;
+	private MyButton addOrder;
 
 	private DefaultComboBoxModel tableModel = new DefaultComboBoxModel<Table>();
 	private DefaultComboBoxModel seatModel = new DefaultComboBoxModel<Seat>();
@@ -67,7 +66,7 @@ public class DisplayMenuPage extends JPanel {
 
 	private void init() {
 		this.setSize(200, 250);
-		setBackground(Color.lightGray);
+		setBackground(Color.WHITE);
 		
 		//JLabel menu name
 		menuName = new JLabel("Menu",JLabel.CENTER);
@@ -78,9 +77,11 @@ public class DisplayMenuPage extends JPanel {
 		//JPanel(grid)
 		grid = new JPanel();
 		grid.setLayout(new GridLayout(3,3));
+		grid.setBackground( Color.WHITE );
 
 		//JPanel description
 		description = new JPanel();
+		description.setBackground( Color.WHITE );
 		
 		//Gap
 		gap = new JLabel("    ");
@@ -100,6 +101,8 @@ public class DisplayMenuPage extends JPanel {
 		
 		//Table JComboBox
 		tableList = new JComboBox<Table>();
+		tableList.setEditable(true);
+        tableList.getEditor().getEditorComponent().setBackground(Color.WHITE);
 		tableList.setMaximumSize(new Dimension(150,20));
 		tableList.setVisible(false);
 		tableList.setModel(tableModel);
@@ -127,8 +130,9 @@ public class DisplayMenuPage extends JPanel {
 			}
 		});
 		
-		//Order JButton
-		addOrder = new JButton("Add Order");
+		//Order MyButton
+		addOrder = new MyButton("Add Order");
+		addOrder.setBorder(new RoundedBorder(10));
 		addOrder.setVisible(false);
 		addOrder.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -199,8 +203,10 @@ public class DisplayMenuPage extends JPanel {
 
 	public void updateMenu(List<MenuItem> menu){
 		grid.removeAll();
+
 		for(MenuItem item : menu){
-			JButton button = new JButton(item.getName());
+			MyButton button = new MyButton(item.getName());
+			button.setBorder(new RoundedBorder(10));
 			button.putClientProperty("price",item.getCurrentPricedMenuItem().getPrice());
 			grid.add(button);
 			button.addActionListener(new java.awt.event.ActionListener() {

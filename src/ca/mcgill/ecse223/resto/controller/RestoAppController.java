@@ -386,12 +386,12 @@ public class RestoAppController {
 				//System.out.println("Table" + table.getNumber());
 				if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders()-1).equals(order)) {
 					table.endOrder(order);
-					if (allTablesAvailableOrDifferentCurrentOrder(tables, order)) {
-						restoApp.removeCurrentOrder(order);
-						//System.out.println("removed");
-						RestoAppApplication.save();
-					}
 				}
+			}
+			if (allTablesAvailableOrDifferentCurrentOrder(tables, order)) {
+				restoApp.removeCurrentOrder(order);
+				//System.out.println("removed");
+				RestoAppApplication.save();
 			}
 			
 		} catch (Exception e) {
@@ -404,11 +404,11 @@ public class RestoAppController {
 	public static boolean allTablesAvailableOrDifferentCurrentOrder(List<Table> tables, Order order) {
 		boolean canRemove = true;
 		for (Table table : tables) {
-			if (table.getStatusFullName() != "Available") {
-				if (table.getOrder(table.numberOfOrders()-1).equals(order)) {
-					canRemove = false;
-					break;
-				}
+			if (table.getStatusFullName() != "Available" || table.getOrder(table.numberOfOrders()-1).equals(order)) {
+				
+				canRemove = false;
+				break;
+				
 			}
 		}
 		return canRemove;

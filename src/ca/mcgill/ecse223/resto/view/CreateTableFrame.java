@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -54,7 +53,7 @@ public class CreateTableFrame extends JPanel {
 		numberOfSeatLabel.setText("Seat qty.:");
 		numberOfSeatBox = new JTextField();
 		
-		JButton create = new JButton("Create Table");
+		MyButton create = new MyButton("Create Table");
 		create.setBorder(new RoundedBorder(10));
 		
 		create.addActionListener(new ActionListener() {
@@ -92,7 +91,7 @@ public class CreateTableFrame extends JPanel {
 			}
 		});
 		
-		JButton close = new JButton("Close");
+		MyButton close = new MyButton("Close");
 		close.setBorder(new RoundedBorder(10));
 	    close.addActionListener(new ActionListener() {
 			
