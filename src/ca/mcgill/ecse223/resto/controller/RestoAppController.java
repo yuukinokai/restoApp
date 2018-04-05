@@ -379,7 +379,8 @@ public class RestoAppController {
 		if (!restoApp.getCurrentOrders().contains(order)) {
 			throw new InvalidInputException("Order not active");
 		}
-		List<Table> tables = order.getTables();
+		List<Table> tablesList = order.getTables();
+		Table[] tables = tablesList.toArray(new Table[tablesList.size()]);
 
 		try {
 			for (Table table : tables) {
@@ -388,7 +389,7 @@ public class RestoAppController {
 					table.endOrder(order);
 				}
 			}
-			if (allTablesAvailableOrDifferentCurrentOrder(tables, order)) {
+			if (allTablesAvailableOrDifferentCurrentOrder(tablesList, order)) {
 				restoApp.removeCurrentOrder(order);
 				//System.out.println("removed");
 				RestoAppApplication.save();
