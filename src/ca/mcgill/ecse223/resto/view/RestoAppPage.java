@@ -45,16 +45,6 @@ public class RestoAppPage extends JFrame{
 	private JPanel leftMenu;
 
 	//ADD TABLE
-	private JLabel tableNumberLabel;
-	private JTextField tableNumberBox;
-	private JLabel xyCoordLabel;
-	private JTextField xCoordBox;
-	private JTextField yCoordBox;
-	private JLabel widthLengthLabel;
-	private JTextField widthBox;
-	private JTextField lengthBox;
-	private JLabel numberOfSeatLabel;
-	private JTextField numberOfSeatBox;
 	private JButton createTable;
 	//END ADD TABLE
 	
@@ -130,33 +120,19 @@ public class RestoAppPage extends JFrame{
 		//END ERROR MESSAGE
 		
 		//ADD TABLE			
-		tableNumberLabel = new JLabel();
-		tableNumberLabel.setText("Table Num.:");
-		tableNumberBox = new JTextField();
-		xyCoordLabel = new JLabel();
-		xyCoordLabel.setText("(X,Y) coord.:");
-		xCoordBox = new JTextField();
-		yCoordBox = new JTextField();
-		widthLengthLabel = new JLabel();
-		widthLengthLabel.setText("W & L:");
-		widthBox = new JTextField();
-		lengthBox = new JTextField();
-		numberOfSeatLabel = new JLabel();
-		numberOfSeatLabel.setText("Seat qty.:");
-		numberOfSeatBox = new JTextField();
 		createTable = new JButton();
+		createTable.setBorder(new RoundedBorder(10));
 		createTable.setText("Create Table");
 		createTable.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				error = null;
 				try {
 					createTableButtonActionPerformed(e);
-				} catch(NullPointerException ex){
-					error = "Please check inputs";
-					errorMessage.setText(error);
+				} catch (NullPointerException ex) {
+					errorMessage.setText("Error");
 				}
+				
 			}
 		});
 		//END ADD TABLE
@@ -172,6 +148,7 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		addExistingTable = new JButton();
+		addExistingTable.setBorder(new RoundedBorder(10));
 		existingTableLabel.setText("Select Table");
 		addExistingTable.setText("Add Table");
 		addExistingTable.addActionListener(new java.awt.event.ActionListener() {
@@ -207,6 +184,7 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		deleteTable = new JButton();
+		deleteTable.setBorder(new RoundedBorder(10));
 		selectTableLabel.setText("Select Table");
 		deleteTable.setText("Delete Table");
 		deleteTable.addActionListener(new java.awt.event.ActionListener() {
@@ -228,6 +206,7 @@ public class RestoAppPage extends JFrame{
 		
 		//UPDATE TABLE
 		updateTable = new JButton();
+		updateTable.setBorder(new RoundedBorder(10));
 		updateTable.setText("Update Table");
 		updateTable.addActionListener(new ActionListener() {
 			
@@ -250,6 +229,7 @@ public class RestoAppPage extends JFrame{
 		
 		//MOVE TABLE 
 		moveTable = new JButton();
+		moveTable.setBorder(new RoundedBorder(10));
 		moveTable.setText("Move Table");
 		moveTable.addActionListener(new ActionListener() {
 			
@@ -288,6 +268,7 @@ public class RestoAppPage extends JFrame{
 		selectMenuLabel.setText("Select Menu");
 		//selectedMenu = null;
 		displayMenu = new JButton("Display Menu");
+		displayMenu.setBorder(new RoundedBorder(10));
 		selectedMenu = null;
 		displayMenu.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -311,6 +292,7 @@ public class RestoAppPage extends JFrame{
 		tablesDesc = new JLabel();
 		tablesDesc.setText("(enter the table number(s) seperated by a comma)");
 		startOrder = new JButton();
+		startOrder.setBorder(new RoundedBorder(10));
 		startOrder.setText("Start Order");
 		startOrder.addActionListener(new ActionListener() {
 			@Override
@@ -336,6 +318,7 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		endOrder = new JButton();
+		endOrder.setBorder(new RoundedBorder(10));
 		orderLabel.setText("Select Order");
 		endOrder.setText("End Order");
 		endOrder.addActionListener(new java.awt.event.ActionListener() {
@@ -357,6 +340,7 @@ public class RestoAppPage extends JFrame{
 		
 		//RESERVE TABLE
 		reserveTable = new JButton();
+		reserveTable.setBorder(new RoundedBorder(10));
 		reserveTable.setText("Reserve Table");
 		reserveTable.addActionListener(new ActionListener() {
 			@Override
@@ -393,29 +377,7 @@ public class RestoAppPage extends JFrame{
 				
 				//ADD TABLE HORIZONTAL
 				.addGroup(layout.createSequentialGroup()
-						.addComponent(tableNumberLabel, 40, 40, 70)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(tableNumberBox, 200, 200, 200)))
-				
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(xyCoordLabel,40, 40, 70)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(xCoordBox, 40, 40, 97))
-						.addGroup(layout.createParallelGroup()
-								.addComponent(yCoordBox, 40, 40, 97)))
-				
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(widthLengthLabel, 40, 40, 70)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(widthBox, 40, 40, 97))
-						.addGroup(layout.createParallelGroup()
-								.addComponent(lengthBox, 40, 40, 97)))
-
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(numberOfSeatLabel, 40, 40, 70)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(numberOfSeatBox, 200, 200, 200)
-								.addComponent(createTable)))
+						.addComponent(createTable))
 				//END ADD TABLE
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(existingTableLabel, 40, 40, 70)
@@ -465,12 +427,12 @@ public class RestoAppPage extends JFrame{
 				//.addComponent(tableVisualizer)
 				//END DISPLAY MENU
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, numberOfSeatLabel, widthLengthLabel, xyCoordLabel, tableNumberLabel, selectTableLabel, otherFeatures, orderTables});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, numberOfSeatLabel, widthLengthLabel, xyCoordLabel, tableNumberLabel, selectTableLabel, otherFeatures, orderTables});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, endOrder});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, endOrder});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, endOrder, createTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, endOrder, createTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
@@ -478,8 +440,7 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, reserveTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {tableNumberBox, numberOfSeatBox, createTable});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {tableNumberBox, xCoordBox, yCoordBox, widthBox, lengthBox, numberOfSeatBox, createTable});
+
 		//VERTICAL
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
@@ -488,23 +449,6 @@ public class RestoAppPage extends JFrame{
 				//END ERROR MESSAGE
 				
 				//ADD TABLE VERTICAL
-				.addGroup(layout.createParallelGroup()
-						.addComponent(tableNumberLabel)
-						.addComponent(tableNumberBox))
-				
-				.addGroup(layout.createParallelGroup()
-						.addComponent(xyCoordLabel)
-						.addComponent(xCoordBox)
-						.addComponent(yCoordBox))
-				
-				.addGroup(layout.createParallelGroup()
-						.addComponent(widthLengthLabel)
-						.addComponent(widthBox)
-						.addComponent(lengthBox))
-				
-				.addGroup(layout.createParallelGroup()
-						.addComponent(numberOfSeatLabel)
-						.addComponent(numberOfSeatBox))
 				
 				.addGroup(layout.createParallelGroup()
 						.addComponent(createTable))
@@ -595,42 +539,10 @@ public class RestoAppPage extends JFrame{
 		pack();
 	}
 	
-	//ADD TABLE								here
+	//ADD TABLE	
 	protected void createTableButtonActionPerformed(ActionEvent e) {
-		error = null;
-		if(tableNumberBox.getText() == ("") || 
-				xCoordBox.getText() == ("") || 
-				yCoordBox.getText() == ("") || 
-				 widthBox.getText() == ("") || 
-				lengthBox.getText() == ("") || 
-				numberOfSeatBox.getText() != ("")) {
-			error = "Invalid Inputs";
-			errorMessage.setText(error);
-			return;
-		}
-		try {
-			RestoAppController.addTable(Integer.parseInt(tableNumberBox.getText()),
-					Integer.parseInt(xCoordBox.getText()), 
-					Integer.parseInt(yCoordBox.getText()), 
-					Integer.parseInt(widthBox.getText()), 
-					Integer.parseInt(lengthBox.getText()), 
-					Integer.parseInt(numberOfSeatBox.getText()));
-			tableNumberBox.setText("");
-			xCoordBox.setText("");
-			yCoordBox.setText("");
-			widthBox.setText("");
-			lengthBox.setText("");
-			numberOfSeatBox.setText("");
-			
-		}
-		catch(InvalidInputException e1){
-			error = e1.getMessage();
-			errorMessage.setText(error);
-		}
+		new CreateTableFrame(this);
 		
-		refreshData();
-
-	
 	}
 	
 	protected void moveTableButtonActionPerformed(ActionEvent e, Table t) {

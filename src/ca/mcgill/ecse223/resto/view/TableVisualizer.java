@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +23,8 @@ import ca.mcgill.ecse223.resto.model.Table;
 public class TableVisualizer extends JPanel{
 
 	private static final long serialVersionUID = 5765666411683246454L;
-	private List<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
-	private HashMap<Rectangle2D, Table> tables;
+	private List<RoundRectangle2D> rectangles = new ArrayList<RoundRectangle2D>();
+	private HashMap<RoundRectangle2D, Table> tables;
 	private List<Table> tablesList = new ArrayList<Table>();
 	private Table selectedTable;
 	
@@ -33,7 +34,7 @@ public class TableVisualizer extends JPanel{
 	}
 
 	private void init() {
-		tables = new HashMap<Rectangle2D, Table>();
+		tables = new HashMap<RoundRectangle2D, Table>();
 		this.setSize(500,300);
 		this.setBackground(Color.lightGray);
 		addMouseListener(new MouseAdapter() {
@@ -41,7 +42,7 @@ public class TableVisualizer extends JPanel{
 			public void mousePressed(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
-				for (Rectangle2D rectangle : rectangles) {
+				for (RoundRectangle2D rectangle : rectangles) {
 					if (rectangle.contains(x, y)) {
 						selectedTable = tables.get(rectangle);
 						break;
@@ -64,7 +65,8 @@ public class TableVisualizer extends JPanel{
 		tables.clear();
 		for (Table table : tablesList) {
 			if (table != null) {
-				Rectangle2D rectangle = new Rectangle2D.Float(table.getX()*10, table.getY()*10, table.getLength()*10,table.getWidth()*10 );
+				RoundRectangle2D rectangle = new RoundRectangle2D.Float(table.getX()*10, table.getY()*10, table.getLength()*10,table.getWidth()*10, 10, 10 );
+				
 				rectangles.add(rectangle);
 				
 				tables.put(rectangle, table);

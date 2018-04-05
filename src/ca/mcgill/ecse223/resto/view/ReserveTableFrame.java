@@ -48,7 +48,9 @@ public ReserveTableFrame(RestoAppPage app) {
     JTextField textTables = new JTextField();
 
     JButton btnReserve = new JButton("Reserve");
+    btnReserve.setBorder(new RoundedBorder(10));
     JButton btnClose = new JButton("Close");
+    btnClose.setBorder(new RoundedBorder(10));
     
     //END COMPONENTS
     
