@@ -380,22 +380,20 @@ public class RestoAppController {
 			throw new InvalidInputException("Order not active");
 		}
 		List<Table> tables = order.getTables();
-		
-		for (Table table : tables) {
-			System.out.println("Table" + table.getNumber());
-			if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders()-1).equals(order)) {
-				table.endOrder(order);
-				System.out.println("ended");
-			}
-		}
-		
-		System.out.println("done");
-		if (allTablesAvailableOrDifferentCurrentOrder(tables, order)) {
-			restoApp.removeCurrentOrder(order);
-			System.out.println("removed");
-		}
+
 		try {
-			RestoAppApplication.save();
+			for (Table table : tables) {
+				//System.out.println("Table" + table.getNumber());
+				if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders()-1).equals(order)) {
+					table.endOrder(order);
+					if (allTablesAvailableOrDifferentCurrentOrder(tables, order)) {
+						restoApp.removeCurrentOrder(order);
+						//System.out.println("removed");
+						RestoAppApplication.save();
+					}
+				}
+			}
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			throw e;

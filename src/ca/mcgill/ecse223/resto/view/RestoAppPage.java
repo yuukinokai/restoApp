@@ -598,35 +598,39 @@ public class RestoAppPage extends JFrame{
 	//ADD TABLE								here
 	protected void createTableButtonActionPerformed(ActionEvent e) {
 		error = null;
-		if(tableNumberBox.getText() != ("") || 
-				xCoordBox.getText() != ("") || 
-				yCoordBox.getText() != ("") || 
-				 widthBox.getText() != ("") || 
-				lengthBox.getText() != ("") || 
+		if(tableNumberBox.getText() == ("") || 
+				xCoordBox.getText() == ("") || 
+				yCoordBox.getText() == ("") || 
+				 widthBox.getText() == ("") || 
+				lengthBox.getText() == ("") || 
 				numberOfSeatBox.getText() != ("")) {
-			try {
-				RestoAppController.addTable(Integer.parseInt(tableNumberBox.getText()),
-						Integer.parseInt(xCoordBox.getText()), 
-						Integer.parseInt(yCoordBox.getText()), 
-						Integer.parseInt(widthBox.getText()), 
-						Integer.parseInt(lengthBox.getText()), 
-						Integer.parseInt(numberOfSeatBox.getText()));
-				tableNumberBox.setText("");
-				xCoordBox.setText("");
-				yCoordBox.setText("");
-				widthBox.setText("");
-				lengthBox.setText("");
-				numberOfSeatBox.setText("");
-				
-			}
-			catch(InvalidInputException e1){
-				error = e1.getMessage();
-				errorMessage.setText(error);
-			}
-			
-			refreshData();
-
+			error = "Invalid Inputs";
+			errorMessage.setText(error);
+			return;
 		}
+		try {
+			RestoAppController.addTable(Integer.parseInt(tableNumberBox.getText()),
+					Integer.parseInt(xCoordBox.getText()), 
+					Integer.parseInt(yCoordBox.getText()), 
+					Integer.parseInt(widthBox.getText()), 
+					Integer.parseInt(lengthBox.getText()), 
+					Integer.parseInt(numberOfSeatBox.getText()));
+			tableNumberBox.setText("");
+			xCoordBox.setText("");
+			yCoordBox.setText("");
+			widthBox.setText("");
+			lengthBox.setText("");
+			numberOfSeatBox.setText("");
+			
+		}
+		catch(InvalidInputException e1){
+			error = e1.getMessage();
+			errorMessage.setText(error);
+		}
+		
+		refreshData();
+
+	
 	}
 	
 	protected void moveTableButtonActionPerformed(ActionEvent e, Table t) {
@@ -674,6 +678,11 @@ public class RestoAppPage extends JFrame{
 			
 			for (Table t: tableList) {
 				if (tableNumbers.contains(t.getNumber())){
+					if (t.getStatusFullName() != "Available") {
+						error = "Table(s) already has an oder";
+						errorMessage.setText(error);
+				        return;
+					}
 					selectedTables.add(t);
 				}
 			}
