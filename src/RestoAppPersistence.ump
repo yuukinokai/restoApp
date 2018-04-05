@@ -91,6 +91,9 @@ class Order {
     }
     nextNumber++;
   }
+    public String toString() {
+	  return "Order #" + this.getNumber();
+   }  
 }
 
 class OrderItem {

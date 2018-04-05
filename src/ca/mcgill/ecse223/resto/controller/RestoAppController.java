@@ -57,7 +57,9 @@ public class RestoAppController {
 		if (error != null) {
 			throw new InvalidInputException(error);
 		}
+		
 		restoApp.removeCurrentTable(table);
+		
 		try {
 			RestoAppApplication.save();
 		}
@@ -328,7 +330,7 @@ public class RestoAppController {
 		return isFree;
 	}
 	
-	public static void startOVer(List<Table> tables) throws InvalidInputException{
+	public static void startOrder(List<Table> tables) throws InvalidInputException{
 		if (tables == null) {
 			throw new InvalidInputException("Invalid Input");
 		}
@@ -378,13 +380,19 @@ public class RestoAppController {
 			throw new InvalidInputException("Order not active");
 		}
 		List<Table> tables = order.getTables();
+		
 		for (Table table : tables) {
+			System.out.println("Table" + table.getNumber());
 			if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders()-1).equals(order)) {
-				endOrder(order);
+				table.endOrder(order);
+				System.out.println("ended");
 			}
 		}
+		
+		System.out.println("done");
 		if (allTablesAvailableOrDifferentCurrentOrder(tables, order)) {
 			restoApp.removeCurrentOrder(order);
+			System.out.println("removed");
 		}
 		try {
 			RestoAppApplication.save();

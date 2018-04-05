@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.resto.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -29,6 +30,7 @@ import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Order;
 
 
 public class RestoAppPage extends JFrame{
@@ -36,6 +38,7 @@ public class RestoAppPage extends JFrame{
 	private static final long serialVersionUID = -3496706717743749508L;
 	private DefaultComboBoxModel model = new DefaultComboBoxModel<Table>();
 	private DefaultComboBoxModel model2 = new DefaultComboBoxModel<Table>();
+	private DefaultComboBoxModel model3 = new DefaultComboBoxModel<Order>();
 
 	private JLabel errorMessage;
 	private String error = null;
@@ -101,6 +104,13 @@ public class RestoAppPage extends JFrame{
     private JLabel tablesDesc = new JLabel();
     private JTextField textTables = new JTextField();
 	//END START ORDER
+    
+    //END ORDER
+    private JLabel orderLabel;
+	private JComboBox<Order> currentOrderList;
+	private JButton endOrder;
+	private Integer selectedOrder = -1;
+	private HashMap<Integer, Order> orders;
 	
 	//JPANELS
 	private DisplayMenuPage menu = new DisplayMenuPage();
@@ -119,7 +129,7 @@ public class RestoAppPage extends JFrame{
 		errorMessage.setForeground(Color.RED);
 		//END ERROR MESSAGE
 		
-		//ADD TABLE															here
+		//ADD TABLE			
 		tableNumberLabel = new JLabel();
 		tableNumberLabel.setText("Table Num.:");
 		tableNumberBox = new JTextField();
@@ -315,6 +325,35 @@ public class RestoAppPage extends JFrame{
 		});
 		//END START ORDER
 		
+		//END ORDER
+		orderLabel = new JLabel();
+		currentOrderList = new JComboBox<Order>();
+		currentOrderList.setModel(model3);
+		currentOrderList.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+		        selectedOrder = cb.getSelectedIndex();
+			}
+		});
+		endOrder = new JButton();
+		orderLabel.setText("Select Order");
+		endOrder.setText("End Order");
+		endOrder.addActionListener(new java.awt.event.ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				error = null;
+				try {
+					endOrderButtonPerformed(evt, (Order)currentOrderList.getSelectedItem());
+				}
+				catch (NullPointerException ex) {
+					error = "Please select a valid Order";
+					errorMessage.setText(error);
+				}
+				
+			}
+
+		});
 		
 		//RESERVE TABLE
 		reserveTable = new JButton();
@@ -414,19 +453,24 @@ public class RestoAppPage extends JFrame{
 						.addGroup(layout.createParallelGroup()
 								.addComponent(textTables, 200, 200, 400)
 								.addComponent(tablesDesc)
-								.addComponent(startOrder)
+								.addComponent(startOrder)))
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(orderLabel)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(currentOrderList, 200, 200, 400)
+								.addComponent(endOrder)
 								.addComponent(reserveTable)))
 						
 				
 				//.addComponent(tableVisualizer)
 				//END DISPLAY MENU
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {selectMenuLabel, existingTableLabel, numberOfSeatLabel, widthLengthLabel, xyCoordLabel, tableNumberLabel, selectTableLabel, otherFeatures, orderTables});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {selectMenuLabel, existingTableLabel, numberOfSeatLabel, widthLengthLabel, xyCoordLabel, tableNumberLabel, selectTableLabel, otherFeatures, orderTables});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, numberOfSeatLabel, widthLengthLabel, xyCoordLabel, tableNumberLabel, selectTableLabel, otherFeatures, orderTables});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, numberOfSeatLabel, widthLengthLabel, xyCoordLabel, tableNumberLabel, selectTableLabel, otherFeatures, orderTables});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, endOrder});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, endOrder});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
@@ -443,7 +487,7 @@ public class RestoAppPage extends JFrame{
 				.addComponent(errorMessage)
 				//END ERROR MESSAGE
 				
-				//ADD TABLE VERTICAL						here
+				//ADD TABLE VERTICAL
 				.addGroup(layout.createParallelGroup()
 						.addComponent(tableNumberLabel)
 						.addComponent(tableNumberBox))
@@ -506,6 +550,11 @@ public class RestoAppPage extends JFrame{
 						.addComponent(tablesDesc))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(startOrder))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(orderLabel)
+						.addComponent(currentOrderList))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(endOrder))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(reserveTable))
 				
@@ -606,11 +655,41 @@ public class RestoAppPage extends JFrame{
 	private void startOrderButtonActionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		try {
+			List<Table> tableList = RestoAppController.getCurrentTables();
+			List<Table> selectedTables = new ArrayList<Table>();
+			String[] tables = textTables.getText().split(",");
+			ArrayList<Integer> tableNumbers = new ArrayList<Integer>();
+			for (String n: tables) {
+				int number = -1;
+				try {
+					number = Integer.parseInt(n);
+				} catch (NumberFormatException ex) {
+					error = "Invalid table number";
+					errorMessage.setText(error);
+			        return;
+				}
+				tableNumbers.add(number);
+				
+			}
+			
+			for (Table t: tableList) {
+				if (tableNumbers.contains(t.getNumber())){
+					selectedTables.add(t);
+				}
+			}
+			
+			if( selectedTables.size() < tableNumbers.size()) {
+				error = "One more more selected table doesn't exist";
+				errorMessage.setText(error);
+		        return;
+			}
+			RestoAppController.startOrder(selectedTables);
 			
 		}catch(Exception ex){
 			error =  ex.getMessage();
 			errorMessage.setText(error);
 		}
+		
 		refreshData();
 	}
 
@@ -629,6 +708,23 @@ public class RestoAppPage extends JFrame{
 		
 		// update visuals
 		refreshData();
+	}
+	
+	private void endOrderButtonPerformed(ActionEvent evt, Order order) {
+		// TODO Auto-generated method stub
+		error = null;
+		
+		// call the controller
+		try {
+			RestoAppController.endOrder(order);
+		} catch (Exception e) {
+			error = e.getMessage();
+			errorMessage.setText(error);
+		}
+		
+		// update visuals
+		refreshData();
+		
 	}
 	
 	
@@ -685,6 +781,7 @@ public class RestoAppPage extends JFrame{
 //					tables = new HashMap<Integer, Table>();
 //					currentTableList.removeAllItems();
 //					Integer index = 0;
+					textTables.setText(null);
 					
 					model.removeAllElements();
 					for (Table table : RestoAppController.getCurrentTables()) {
@@ -697,15 +794,23 @@ public class RestoAppPage extends JFrame{
 							model2.addElement(table);
 						}
 					};
+					model3.removeAllElements();
+					for (Order order : RestoAppController.getCurrentOrders()) {
+						model3.addElement(order);
+						
+						}
+					};
 					
 					restoMap.setTables(RestoAppController.getCurrentTables());
 					
 					selectedExistingTable = -1;
 					selectedTable = -1;
+					selectedOrder = -1;
 					currentTableList.setSelectedIndex(selectedTable);
 					existingTableList.setSelectedIndex(selectedExistingTable);
+					currentOrderList.setSelectedIndex(selectedOrder);
 				}
 
 		
 	}
-}
+
