@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.resto.view;
 import java.awt.color.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
@@ -28,6 +30,7 @@ public class TableVisualizer extends JPanel{
 	private HashMap<RoundRectangle2D, Table> tables;
 	private List<Table> tablesList = new ArrayList<Table>();
 	private Table selectedTable;
+	private JLabel tableName;
 	
 	public TableVisualizer(){
 		super();
@@ -35,9 +38,16 @@ public class TableVisualizer extends JPanel{
 	}
 
 	private void init() {
-		tables = new HashMap<RoundRectangle2D, Table>();
 		this.setSize(500,300);
 		this.setBackground(Color.WHITE);
+		
+		tableName = new JLabel("Select Table To See Number");
+		Font font = new Font("Century Gothic", Font.BOLD, 20);
+		tableName.setFont(font);
+		//tableName.setHorizontalTextPosition(JLabel.LEFT);
+		this.add(tableName);
+		tables = new HashMap<RoundRectangle2D, Table>();
+		
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -94,10 +104,11 @@ public class TableVisualizer extends JPanel{
 				int height = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getHeight()/2);
 				g2d.drawString(Integer.toString(table.getSeats().size()),  table.getX()*10+table.getLength()*10/2-width,  table.getY()*10+table.getWidth()*10/2);
 				
-				String tableDetails;
+				//String tableDetails;
 				if (selectedTable != null && selectedTable.equals(table)) {
-					tableDetails = "Table number : " + RestoAppController.getTableNumber(selectedTable);
-					g2d.drawString(tableDetails, table.getX()*10+table.getLength()*10,  table.getY()*10+table.getWidth()*10/2);
+					tableName.setText("Table Number " + RestoAppController.getTableNumber(selectedTable));
+					//tableDetails = "Table number : " + RestoAppController.getTableNumber(selectedTable);
+					//g2d.drawString(tableDetails, table.getX()*10+table.getLength()*10,  table.getY()*10+table.getWidth()*10/2);
 				}
 			}
 		}	

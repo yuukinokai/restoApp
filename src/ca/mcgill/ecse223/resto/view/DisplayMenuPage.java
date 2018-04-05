@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -13,13 +14,16 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.MenuItem;
+import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
@@ -42,17 +46,22 @@ public class DisplayMenuPage extends JPanel {
 	
 	private JLabel itemName;
 	
-	private JComboBox<Table> tableList;
-	private JLabel selectTableLabel;
-	private Integer selectedTable = -1;
+	private JComboBox<Order> orderList;
+	private JLabel selectOrderLabel;
+	private Integer selectedOrder = -1;
 	
 	private JLabel selectSeatLabel;
-	private JComboBox<Seat> seatList;
-	private Integer selectedSeat = -1;
-	private MyButton addOrder;
+	private JTextField seatList;
+	
+	private JLabel quantityLabel;
+	private JTextField quantityField;
 
-	private DefaultComboBoxModel tableModel = new DefaultComboBoxModel<Table>();
-	private DefaultComboBoxModel seatModel = new DefaultComboBoxModel<Seat>();
+	private MyButton addOrder;
+	
+	private MenuItem selectedMenuItem = null;
+
+	private DefaultComboBoxModel orderModel = new DefaultComboBoxModel<Order>();
+
 
 	public DisplayMenuPage() {
 		super();
@@ -96,39 +105,37 @@ public class DisplayMenuPage extends JPanel {
 		price.setVisible(false);
 		
 		//Table JLabel
-		selectTableLabel = new JLabel("Select Table");
-		selectTableLabel.setVisible(false);
+		selectOrderLabel = new JLabel("Select Order");
+		selectOrderLabel.setVisible(false);
 		
 		//Table JComboBox
-		tableList = new JComboBox<Table>();
-		tableList.setEditable(true);
-        tableList.getEditor().getEditorComponent().setBackground(Color.WHITE);
-		tableList.setMaximumSize(new Dimension(150,20));
-		tableList.setVisible(false);
-		tableList.setModel(tableModel);
-		tableList.addActionListener(new java.awt.event.ActionListener() {
+		orderList = new JComboBox<Order>();
+		orderList.setEditable(true);
+        orderList.getEditor().getEditorComponent().setBackground(Color.WHITE);
+		orderList.setMaximumSize(new Dimension(150,20));
+		orderList.setVisible(false);
+		orderList.setModel(orderModel);
+		orderList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
-		        selectedTable = cb.getSelectedIndex();
+		        selectedOrder = cb.getSelectedIndex();
 			}
 		});
 		
 		//Seat JLabel
-		selectSeatLabel = new JLabel("Select Seat");
+		selectSeatLabel = new JLabel("Enter Seats (separated with a coma)");
 		selectSeatLabel.setVisible(false);
 		
 		//Seat JComboBox
-		seatList = new JComboBox<Seat>();
-		seatList.setMaximumSize(new Dimension(150,20));
+		seatList = new JTextField();
 		seatList.setVisible(false);
-		seatList.setModel(seatModel);
-		seatList.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
-		        selectedSeat = cb.getSelectedIndex();
-		        updateModel();
-			}
-		});
+		seatList.setMaximumSize(new Dimension(150,20));
+		
+		quantityLabel = new JLabel("Quantity");
+		quantityLabel.setVisible(false);
+		quantityField = new JTextField();
+		quantityField.setVisible(false);
+		quantityField.setMaximumSize(new Dimension(150,20));
 		
 		//Order MyButton
 		addOrder = new MyButton("Add Order");
@@ -139,7 +146,8 @@ public class DisplayMenuPage extends JPanel {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				error =null;
 				try{
-					addOrderButtonActionPerformed(evt);
+					
+					addOrderButtonActionPerformed(evt, (Order) orderList.getSelectedItem());
 				}
 				catch(NullPointerException ex){
 					errorMessage.setText("Error");
@@ -156,10 +164,12 @@ public class DisplayMenuPage extends JPanel {
 				.addComponent(itemName)
 				.addComponent(price)
 				.addComponent(gap)
-				.addComponent(selectTableLabel)
-				.addComponent(tableList)
+				.addComponent(selectOrderLabel)
+				.addComponent(orderList)
 				.addComponent(selectSeatLabel)
 				.addComponent(seatList)
+				.addComponent(quantityLabel)
+				.addComponent(quantityField)
 				.addComponent(addOrder)
 		);
 		bottomPanel.setVerticalGroup(
@@ -167,10 +177,12 @@ public class DisplayMenuPage extends JPanel {
 				.addComponent(itemName)
 				.addComponent(price)
 				.addComponent(gap)
-				.addComponent(selectTableLabel)
-				.addComponent(tableList)
+				.addComponent(selectOrderLabel)
+				.addComponent(orderList)
 				.addComponent(selectSeatLabel)
 				.addComponent(seatList)
+				.addComponent(quantityLabel)
+				.addComponent(quantityField)
 				.addComponent(addOrder)
 		);
 		
@@ -196,9 +208,54 @@ public class DisplayMenuPage extends JPanel {
 		updateModel();
 	}
 	
-	protected void addOrderButtonActionPerformed(ActionEvent evt) {
+	protected void addOrderButtonActionPerformed(ActionEvent evt, Order order) {
 		// TODO Auto-generated method stub
 		//To implement
+		try {
+			List<Table> tableList = order.getTables();
+			List<Seat> seats = new ArrayList<Seat>();
+			for (Table table : tableList) {
+				for(Seat seat : table.getSeats()) {
+					seats.add(seat);
+				}
+			}
+			List<Seat> selectedSeats = new ArrayList<Seat>();
+			String[] seatsNumbers = seatList.getText().split(",");
+			ArrayList<Integer> seatNumbers = new ArrayList<Integer>();
+			for (String n: seatsNumbers) {
+				int number = -1;
+				try {
+					number = Integer.parseInt(n);
+				} catch (NumberFormatException ex) {
+					error = "Invalid table number";
+					errorMessage.setText(error);
+			        return;
+				}
+				seatNumbers.add(number);
+				
+			}
+			
+			for(int seatNumber : seatNumbers) {
+				if (seatNumber > seats.size()) {
+					JOptionPane.showMessageDialog(null, "One or more entered seats doesn't exist", null, JOptionPane.ERROR_MESSAGE);
+			        return;
+				}
+				selectedSeats.add(seats.get(seatNumber));
+			}
+			
+			if( selectedSeats.size() < seatNumbers.size()) {
+				JOptionPane.showMessageDialog(null, "One or more entered seats doesn't exist", null, JOptionPane.ERROR_MESSAGE);
+		        return;
+			}
+			
+			
+			RestoAppController.orderMenuItem(Integer.parseInt(quantityField.getText()), selectedMenuItem, order, selectedSeats);
+			
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+		}
+		updateModel();
+		
 	}
 
 	public void updateMenu(List<MenuItem> menu){
@@ -208,6 +265,7 @@ public class DisplayMenuPage extends JPanel {
 			MyButton button = new MyButton(item.getName());
 			button.setBorder(new RoundedBorder(10));
 			button.putClientProperty("price",item.getCurrentPricedMenuItem().getPrice());
+			button.putClientProperty("item", item);
 			grid.add(button);
 			button.addActionListener(new java.awt.event.ActionListener() {
 				@SuppressWarnings("deprecation")
@@ -218,11 +276,14 @@ public class DisplayMenuPage extends JPanel {
 					itemName.setVisible(true);
 					price.setVisible(true);
 					gap.setVisible(true);
-					selectTableLabel.setVisible(true);
-					tableList.setVisible(true);
+					selectOrderLabel.setVisible(true);
+					orderList.setVisible(true);
 					selectSeatLabel.setVisible(true);
 					seatList.setVisible(true);
+					quantityLabel.setVisible(true);
+					quantityField.setVisible(true);
 					addOrder.setVisible(true);
+					selectedMenuItem = (MenuItem) button.getClientProperty("item");
 				}
 			});
 		}
@@ -236,20 +297,14 @@ public class DisplayMenuPage extends JPanel {
 		return grid;
 	}
 	public void updateModel() {
-		tableModel.removeAllElements();
-		for (Table table : RestoAppController.getCurrentTables()) {
-			tableModel.addElement(table);
+		quantityField.setText("");
+		seatList.setText("");
+		orderModel.removeAllElements();
+		for (Order order : RestoAppController.getCurrentOrders()) {
+			orderModel.addElement(order);
 		}
-		selectedTable = -1;
-		tableList.setSelectedIndex(selectedTable);
-
-		if(selectedTable != -1){
-			seatModel.removeAllElements();
-			List<Seat> list = RestoAppApplication.getRestoApp().getTable(selectedTable).getSeats();
-			for(Seat seat : list){
-				seatModel.addElement(seat);
-			}
-		}
+		selectedOrder = -1;
+		orderList.setSelectedIndex(selectedOrder);
 	}
 	
 }

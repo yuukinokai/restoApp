@@ -91,9 +91,15 @@ class Order {
     }
     nextNumber++;
   }
-    public String toString() {
-	  return "Order #" + this.getNumber();
-   }  
+   public String toString(){
+	   List<Table> tables = this.getTables();
+	   String tableList = " : Tables ";
+	   for (Table table : tables) {
+		   tableList += "#" + table.getNumber() + " ";
+	   }
+	   
+	return "Order #" + this.getNumber() + tableList;
+  }
 }
 
 class OrderItem {

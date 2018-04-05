@@ -493,9 +493,50 @@ public class RestoAppController {
 			throw e;
 		}
 	}
+	
+	public static void orderMenuItem(int quantity, MenuItem menuItem, Order order, List<Seat> seats) throws InvalidInputException{
+		if (quantity <= 0 || menuItem == null || seats == null) {
+			throw new InvalidInputException("Invalid Inputs");
+		}
+		
+		List<Table> tables = order.getTables();
+		boolean itemCreated = false;
+		OrderItem orderItem = null;
+		
+		if (!menuItem.hasCurrentPricedMenuItem()) {
+			throw new InvalidInputException("Menuitem doesn't have price");
+		}
+		PricedMenuItem pmi = menuItem.getCurrentPricedMenuItem();
+		
+				
+		for (Seat seat : seats) {
+			Table table = seat.getTable();
+			if (!tables.contains(table) || !table.getCurrentSeats().contains(seat) || table.getStatusFullName() == "Available") {
+				throw new InvalidInputException("Order and seats don't match");
+			}
+			
+			if (itemCreated) {
+				if (orderItem != null) {
+					table.addToOrderItem(orderItem, seat);
+				}
+				
+			}
+			else {
+				table.orderItem(quantity, order, seat, pmi);
+				itemCreated = true;
+				orderItem = order.getOrderItem(order.numberOfOrderItems()-1);
+			}
+		}
+		
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
 
 	public static String getTableNumber(Table table) {
-		// TODO Auto-generated method stub
 		return String.valueOf(table.getNumber());
 	}
 

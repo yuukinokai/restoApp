@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 105 "../../../../../RestoAppPersistence.ump"
+// line 111 "../../../../../RestoAppPersistence.ump"
 // line 56 "../../../../../RestoApp.ump"
 public class Menu implements Serializable
 {
@@ -166,7 +166,7 @@ public class Menu implements Serializable
     }
   }
 
-  // line 111 "../../../../../RestoAppPersistence.ump"
+  // line 117 "../../../../../RestoAppPersistence.ump"
    public boolean checkItemName(String str){
     for(MenuItem menuItem : menuItems){
 		  if(menuItem.getName().equals(str)){
@@ -180,7 +180,7 @@ public class Menu implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 108 "../../../../../RestoAppPersistence.ump"
+  // line 114 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = -7403802774454467836L ;
 
   

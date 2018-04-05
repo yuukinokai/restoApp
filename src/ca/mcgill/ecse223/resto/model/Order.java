@@ -530,7 +530,13 @@ public class Order implements Serializable
 
   // line 95 "../../../../../RestoAppPersistence.ump"
    public String toString(){
-    return "Order #" + this.getNumber();
+    List<Table> tables = this.getTables();
+	   String tableList = " : Tables ";
+	   for (Table table : tables) {
+		   tableList += "#" + table.getNumber() + " ";
+	   }
+	   
+	return "Order #" + this.getNumber() + tableList;
   }
   
   //------------------------

@@ -98,7 +98,6 @@ public class CreateTableFrame extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				// TODO Auto-generated method stub
 				
 			}
 		});
