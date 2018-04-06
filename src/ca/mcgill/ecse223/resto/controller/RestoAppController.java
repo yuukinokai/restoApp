@@ -540,5 +540,21 @@ public class RestoAppController {
 		return String.valueOf(table.getNumber());
 	}
 
+	public static List<Reservation> getReservations() {
+		return RestoAppApplication.getRestoApp().getReservations();
+	}
+
+	public static void deleteReservation(Reservation res) {
+		if (res != null) {
+			res.delete();
+		}
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+
 	//public void rotateTable(Table table);
 }

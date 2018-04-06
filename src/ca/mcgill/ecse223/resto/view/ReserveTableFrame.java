@@ -60,9 +60,7 @@ public ReserveTableFrame(RestoAppPage app) {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			frame.dispose();
-			// TODO Auto-generated method stub
-			
+			frame.dispose();			
 		}
 	});
     

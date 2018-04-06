@@ -383,19 +383,11 @@ public class Reservation implements Serializable
 	  	return true;
   }
 
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "reservationNumber" + ":" + getReservationNumber()+ "," +
-            "numberInParty" + ":" + getNumberInParty()+ "," +
-            "contactName" + ":" + getContactName()+ "," +
-            "contactEmailAddress" + ":" + getContactEmailAddress()+ "," +
-            "contactPhoneNumber" + ":" + getContactPhoneNumber()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "time" + "=" + (getTime() != null ? !getTime().equals(this)  ? getTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
-  }  
+  // line 50 "../../../../../RestoAppPersistence.ump"
+   public String toString(){
+    return "Reservation #" + this.getReservationNumber() + " | Name : " + this.getContactName();
+  }
+  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------

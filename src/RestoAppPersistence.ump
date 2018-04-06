@@ -44,6 +44,11 @@ class Reservation {
 	   }
 	  	return true;
    }
+   
+   public String toString(){
+	   
+	return "Reservation #" + this.getReservationNumber() + " | Name : " + this.getContactName();
+  }
   
 }
 

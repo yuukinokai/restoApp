@@ -84,6 +84,7 @@ public class RestoAppPage extends JFrame{
 	
 	//AddReservation
 	private MyButton reserveTable;
+	private MyButton deleteReservation;
 	
 	//END ADD RESERVATION
 	
@@ -349,7 +350,6 @@ public class RestoAppPage extends JFrame{
 		
 		//RESERVE TABLE
 		reserveTable = new MyButton();
-		reserveTable.setBorder(new RoundedBorder(10));
 		reserveTable.setText("Reserve Table");
 		reserveTable.addActionListener(new ActionListener() {
 			@Override
@@ -363,7 +363,24 @@ public class RestoAppPage extends JFrame{
 				
 			}
 		});
+		
+		
+		deleteReservation = new MyButton();
+		deleteReservation.setText("Delete Reservation");
+		deleteReservation.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				error = null;
+				try {
+					deleteReservationActionPerformed(e);
+				} catch (NullPointerException ex) {
+					errorMessage.setText("Error");
+				}
+				
+			}
+		});
 		//RESERVE TABLE
+		
 		
 		
 		
@@ -433,7 +450,8 @@ public class RestoAppPage extends JFrame{
 						.addGroup(layout.createParallelGroup()
 								.addComponent(currentOrderList, 200, 200, 400)
 								.addComponent(endOrder)
-								.addComponent(reserveTable)))
+								.addComponent(reserveTable)
+								.addComponent(deleteReservation)))
 						
 				
 				//.addComponent(tableVisualizer)
@@ -449,7 +467,7 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, reserveTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, reserveTable, deleteReservation});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 
@@ -514,6 +532,8 @@ public class RestoAppPage extends JFrame{
 						.addComponent(endOrder))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(reserveTable))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(deleteReservation))
 				
 				
 				//.addComponent(tableVisualizer)
@@ -569,6 +589,10 @@ public class RestoAppPage extends JFrame{
 	protected void reserveTableButtonActionPerformed(ActionEvent e){
 		new ReserveTableFrame(this);
 	}
+	
+	protected void deleteReservationActionPerformed(ActionEvent e) {
+		new DeleteReservationFrame(this);
+	}
 	protected void addExistingTableButtonActionPerformed(ActionEvent evt, Table table) {
 		error = null;
 		try {
@@ -581,8 +605,7 @@ public class RestoAppPage extends JFrame{
 		refreshData();
 	}
 	
-	private void startOrderButtonActionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	protected void startOrderButtonActionPerformed(ActionEvent e) {
 		try {
 			List<Table> tableList = RestoAppController.getCurrentTables();
 			List<Table> selectedTables = new ArrayList<Table>();
@@ -644,8 +667,7 @@ public class RestoAppPage extends JFrame{
 		refreshData();
 	}
 	
-	private void endOrderButtonPerformed(ActionEvent evt, Order order) {
-		// TODO Auto-generated method stub
+	protected void endOrderButtonPerformed(ActionEvent evt, Order order) {
 		error = null;
 		
 		// call the controller
@@ -705,7 +727,6 @@ public class RestoAppPage extends JFrame{
 	}
 	
 	public void refreshData() {
-		// TODO Auto-generated method stub
 		// error
 				errorMessage.setText(error);
 				

@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 145 "../../../../../RestoAppPersistence.ump"
+// line 150 "../../../../../RestoAppPersistence.ump"
 // line 72 "../../../../../RestoApp.ump"
 public class Bill implements Serializable
 {
@@ -288,7 +288,7 @@ public class Bill implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 148 "../../../../../RestoAppPersistence.ump"
+  // line 153 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 1301576255893682821L ;
 
   
