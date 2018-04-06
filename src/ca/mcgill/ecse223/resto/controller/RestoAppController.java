@@ -605,6 +605,12 @@ public class RestoAppController {
 		if (billCreated=false) {
 			throw new InvalidInputException("Bill not created");
 		}	
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
 	}
 	//end issue bill
 
