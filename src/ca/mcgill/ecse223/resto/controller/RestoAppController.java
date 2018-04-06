@@ -12,6 +12,7 @@ import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
+import ca.mcgill.ecse223.resto.model.Bill;
 import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
@@ -535,6 +536,77 @@ public class RestoAppController {
 			throw e;
 		}
 	}
+	
+	//begin issue bill
+	
+	public static void issueBill(List<Seat> seats) throws InvalidInputException{
+		if (seats==null || seats.isEmpty()) {
+			throw new InvalidInputException("Invalid input");	
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		Order lastOrder = null;
+		
+		for (Seat seat : seats) {
+			Table table = seat.getTable();
+			
+			if (!currentTables.contains(table)) {
+				throw new InvalidInputException("Table not a current table");
+			}
+			
+			List<Seat> currentSeats = table.getCurrentSeats();
+			if (!currentSeats.contains(seat)) {
+				throw new InvalidInputException("Seat not a current seat");
+			}
+			if (lastOrder==null) {
+				if (table.numberOfOrders()>0) {
+					lastOrder=table.getOrder(table.numberOfOrders()-1);
+				}
+				else {
+					throw new InvalidInputException("Invalid order");	
+				}	
+			}
+			else {
+				Order comparedOrder = null;
+				if(table.numberOfOrders()>0) {
+					comparedOrder=table.getOrder(table.numberOfOrders()-1);
+				}
+				else {
+					throw new InvalidInputException("Invalid order");
+				}
+				if(!comparedOrder.equals(lastOrder)) {
+					throw new InvalidInputException("Invalid order");
+				}
+			}
+		}
+		if(lastOrder==null) {
+			throw new InvalidInputException("Invalid order");
+		}
+		Boolean billCreated=false;
+		Bill newBill=null;
+		for (Seat seat : seats) {
+			Table table = seat.getTable();
+			if (billCreated) {
+				table.addToBill(newBill, seat);
+			}
+			else {
+				Bill lastBill=null;
+				if (lastOrder.numberOfBills()>0) {
+					lastBill=lastOrder.getBill(lastOrder.numberOfBills()-1);
+				}
+				table.billForSeat(lastOrder, seat);
+				
+				if (lastOrder.numberOfBills()>0 && !lastOrder.getBill(lastOrder.numberOfBills()-1).equals(lastBill)) {
+					billCreated=true;
+					newBill=lastOrder.getBill(lastOrder.numberOfBills()-1);
+				}
+			}
+		}
+		if (billCreated=false) {
+			throw new InvalidInputException("Bill not created");
+		}	
+	}
+	//end issue bill
 
 	public static String getTableNumber(Table table) {
 		return String.valueOf(table.getNumber());
