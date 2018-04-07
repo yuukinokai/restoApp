@@ -20,9 +20,9 @@ import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Table;
 
-public class ReserveTableFrame extends JPanel {
+public class CreateReservationFrame extends JPanel {
 
-public ReserveTableFrame(RestoAppPage app) {
+public CreateReservationFrame(RestoAppPage app) {
     JFrame frame = new JFrame("ReserveTableFrame");
     frame.setResizable(false);
     frame.setAlwaysOnTop(true);
@@ -112,7 +112,7 @@ public ReserveTableFrame(RestoAppPage app) {
 				}
 				
 				if( selectedTables.size() < tableNumbers.size()) {
-					throw new InvalidInputException("One more more selected table doesn't exist");
+					throw new InvalidInputException("One or more selected table doesn't exist");
 				}
 				
 				RestoAppController.addReservation(aDate, aTime, numberInParty, contactName, contactEmail, contactPhone, selectedTables);				

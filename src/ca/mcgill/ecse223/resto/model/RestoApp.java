@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 // line 3 "../../../../../RestoAppPersistence.ump"
+// line 10 "../../../../../TakeOut.ump"
 // line 7 "../../../../../RestoApp.ump"
 public class RestoApp implements Serializable
 {
@@ -17,6 +18,7 @@ public class RestoApp implements Serializable
   //------------------------
 
   //RestoApp Associations
+  private TakeOut currentTakeOut;
   private List<Reservation> reservations;
   private List<Table> tables;
   private List<Table> currentTables;
@@ -61,6 +63,17 @@ public class RestoApp implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
+
+  public TakeOut getCurrentTakeOut()
+  {
+    return currentTakeOut;
+  }
+
+  public boolean hasCurrentTakeOut()
+  {
+    boolean has = currentTakeOut != null;
+    return has;
+  }
 
   public Reservation getReservation(int index)
   {
@@ -284,6 +297,14 @@ public class RestoApp implements Serializable
   {
     int index = bills.indexOf(aBill);
     return index;
+  }
+
+  public boolean setCurrentTakeOut(TakeOut aNewCurrentTakeOut)
+  {
+    boolean wasSet = false;
+    currentTakeOut = aNewCurrentTakeOut;
+    wasSet = true;
+    return wasSet;
   }
 
   public static int minimumNumberOfReservations()
@@ -762,6 +783,7 @@ public class RestoApp implements Serializable
 
   public void delete()
   {
+    currentTakeOut = null;
     while (reservations.size() > 0)
     {
       Reservation aReservation = reservations.get(reservations.size() - 1);
@@ -813,6 +835,15 @@ public class RestoApp implements Serializable
     Order.reinitializeAutouniqueNumber(this.getOrders());
     MenuItem.reinitializeUniqueMenuItemName(this.menu.getMenuItems());
     Table.reinitializeUniqueNumber(this.getTables());
+    if (this.currentTakeOut == null) {
+    	this.createDefaultTakeOut();
+    }
+  }
+
+  // line 13 "../../../../../TakeOut.ump"
+   public void createDefaultTakeOut(){
+    this.currentTakeOut = new TakeOut(this);
+	   	currentTakeOut.addSeat();
   }
   
   //------------------------

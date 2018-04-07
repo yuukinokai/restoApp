@@ -30,6 +30,7 @@ import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.TakeOut;
 import ca.mcgill.ecse223.resto.model.Order;
 
 
@@ -83,8 +84,10 @@ public class RestoAppPage extends JFrame{
 	//END DISPLAY MENU
 	
 	//AddReservation
-	private MyButton reserveTable;
+	private MyButton createReservation;
 	private MyButton deleteReservation;
+	
+	private JLabel reservationLabel = new JLabel();
 	
 	//END ADD RESERVATION
 	
@@ -92,6 +95,7 @@ public class RestoAppPage extends JFrame{
 	private JLabel otherFeatures = new JLabel();
 	private JLabel orderTables = new JLabel();
 	private MyButton startOrder;
+	private MyButton startTakeOutOrder;
     private JLabel tablesDesc = new JLabel();
     private JTextField textTables = new JTextField();
 	//END START ORDER
@@ -313,6 +317,24 @@ public class RestoAppPage extends JFrame{
 				}
 			}
 		});
+		
+		startTakeOutOrder = new MyButton();
+		startTakeOutOrder.setText("Start Take Out");
+		startTakeOutOrder.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				error = null;
+				try {
+					startTakeOutOrderButtonActionPerformed(e);
+				} catch (NullPointerException ex) {
+					errorMessage.setText("Error");
+				}
+				
+			}
+
+
+		});
 		//END START ORDER
 		
 		//END ORDER
@@ -349,14 +371,15 @@ public class RestoAppPage extends JFrame{
 		});
 		
 		//RESERVE TABLE
-		reserveTable = new MyButton();
-		reserveTable.setText("Reserve Table");
-		reserveTable.addActionListener(new ActionListener() {
+		reservationLabel.setText("Reservation");
+		createReservation = new MyButton();
+		createReservation.setText("Reserve Table");
+		createReservation.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				error = null;
 				try {
-					reserveTableButtonActionPerformed(e);
+					createReservationActionPerformed(e);
 				} catch (NullPointerException ex) {
 					errorMessage.setText("Error");
 				}
@@ -444,30 +467,33 @@ public class RestoAppPage extends JFrame{
 						.addGroup(layout.createParallelGroup()
 								.addComponent(textTables, 200, 200, 400)
 								.addComponent(tablesDesc)
-								.addComponent(startOrder)))
+								.addComponent(startOrder)
+								.addComponent(startTakeOutOrder)))
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(orderLabel)
 						.addGroup(layout.createParallelGroup()
 								.addComponent(currentOrderList, 200, 200, 400)
-								.addComponent(endOrder)
-								.addComponent(reserveTable)
-								.addComponent(deleteReservation)))
-						
+								.addComponent(endOrder)))
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(reservationLabel)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(createReservation, 200, 200, 400)
+								.addComponent(deleteReservation)))	
 				
 				//.addComponent(tableVisualizer)
 				//END DISPLAY MENU
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, endOrder, createTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, endOrder, createTable});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, createTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, createTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, reserveTable, deleteReservation});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, createReservation, deleteReservation});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 
@@ -526,12 +552,15 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createParallelGroup()
 						.addComponent(startOrder))
 				.addGroup(layout.createParallelGroup()
+						.addComponent(startTakeOutOrder))
+				.addGroup(layout.createParallelGroup()
 						.addComponent(orderLabel)
 						.addComponent(currentOrderList))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(endOrder))
 				.addGroup(layout.createParallelGroup()
-						.addComponent(reserveTable))
+						.addComponent(reservationLabel)
+						.addComponent(createReservation))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(deleteReservation))
 				
@@ -586,8 +615,8 @@ public class RestoAppPage extends JFrame{
 		new UpdateTableFrame(this, t);
 	}
 	
-	protected void reserveTableButtonActionPerformed(ActionEvent e){
-		new ReserveTableFrame(this);
+	protected void createReservationActionPerformed(ActionEvent e){
+		new CreateReservationFrame(this);
 	}
 	
 	protected void deleteReservationActionPerformed(ActionEvent e) {
@@ -650,6 +679,26 @@ public class RestoAppPage extends JFrame{
 		refreshData();
 	}
 
+	private void startTakeOutOrderButtonActionPerformed(ActionEvent e) {
+		try {
+			TakeOut takeOut = RestoAppApplication.getRestoApp().getCurrentTakeOut();
+			if (takeOut.getStatusFullName() != "Available") {
+				error = "Take out already has an oder";
+				errorMessage.setText(error);
+		        return;
+			}
+			
+			RestoAppController.startOrder(RestoAppApplication.getRestoApp().getCurrentTakeOut());
+			
+		}catch(Exception ex){
+			error =  ex.getMessage();
+			errorMessage.setText(error);
+		}
+		
+		refreshData();
+		
+	}
+	
 	protected void deleteTableButtonActionPerformed(ActionEvent evt, Table table) {
 		// DELETE TABLE BUTTON
 		// clear error message

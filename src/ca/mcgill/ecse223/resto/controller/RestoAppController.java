@@ -10,6 +10,7 @@ import java.util.List;
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.TakeOut;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Bill;
@@ -329,6 +330,28 @@ public class RestoAppController {
 			}
 		}
 		return isFree;
+	}
+	
+	public static void startOrder(TakeOut takeOut) throws InvalidInputException{
+		if (takeOut == null) {
+			throw new InvalidInputException("Invalid Input");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+
+		Order newOrder = null;
+		if (takeOut.startOrder()) {
+			newOrder = takeOut.getOrder(takeOut.numberOfOrders()-1);
+			restoApp.addCurrentOrder(newOrder);
+		} else {
+			throw new InvalidInputException();
+		}
+
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
 	}
 	
 	public static void startOrder(List<Table> tables) throws InvalidInputException{

@@ -7,7 +7,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.*;
 
-// line 85 "../../../../../RestoAppPersistence.ump"
+// line 89 "../../../../../RestoAppPersistence.ump"
 // line 42 "../../../../../RestoApp.ump"
 public class Order implements Serializable
 {
@@ -517,7 +517,7 @@ public class Order implements Serializable
     }
   }
 
-  // line 91 "../../../../../RestoAppPersistence.ump"
+  // line 95 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeAutouniqueNumber(List<Order> orders){
     nextNumber = 0; 
     for (Order order : orders) {
@@ -528,22 +528,33 @@ public class Order implements Serializable
     nextNumber++;
   }
 
-  // line 100 "../../../../../RestoAppPersistence.ump"
+  // line 104 "../../../../../RestoAppPersistence.ump"
    public String toString(){
     List<Table> tables = this.getTables();
+    boolean isTakeOut = true;
+    
 	   String tableList = " : Tables ";
 	   for (Table table : tables) {
+		   if (isTakeOut == true){
+			   if (table instanceof TakeOut) {
+				   tableList = " : Take Out";
+				   break;
+			   } else {
+				   isTakeOut = false;
+			   }
+		   }
+			   
 		   tableList += "#" + table.getNumber() + " ";
 	   }
 	   
-	return "Order #" + this.getNumber() + tableList;
+	return "Order # " + this.getNumber() + tableList;
   }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 88 "../../../../../RestoAppPersistence.ump"
+  // line 92 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = -3900912597282882073L ;
 
   
