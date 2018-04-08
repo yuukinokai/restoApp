@@ -11,8 +11,7 @@ public class MyButton extends JButton {
          super.setBackground(new Color(224, 224, 224));
          super.setOpaque(true);
          super.setBorder(new RoundedBorder(10));
-         
-     }
+         }
 	 
 	 public MyButton() {
          super();
