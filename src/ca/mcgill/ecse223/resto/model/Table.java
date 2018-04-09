@@ -3,7 +3,12 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // line 59 "../../../../../RestoAppPersistence.ump"
 // line 1 "../../../../../TableState.ump"

@@ -3,9 +3,11 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // line 3 "../../../../../RestoAppPersistence.ump"
 // line 10 "../../../../../TakeOut.ump"

@@ -5,7 +5,9 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // line 89 "../../../../../RestoAppPersistence.ump"
 // line 42 "../../../../../RestoApp.ump"

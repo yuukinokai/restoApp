@@ -1,12 +1,8 @@
 package ca.mcgill.ecse223.resto.application;
 
-import java.util.List;
-
-import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.model.RestoApp;
-import ca.mcgill.ecse223.resto.model.Table;
-import ca.mcgill.ecse223.resto.view.RestoAppPage;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
+import ca.mcgill.ecse223.resto.view.RestoAppPage;
 
 
 public class RestoAppApplication {

@@ -3,7 +3,9 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // line 83 "../../../../../RestoAppPersistence.ump"
 // line 39 "../../../../../RestoApp.ump"

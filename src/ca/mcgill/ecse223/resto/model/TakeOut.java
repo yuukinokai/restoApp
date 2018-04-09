@@ -2,7 +2,6 @@
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
-import java.util.*;
 
 // line 1 "../../../../../TakeOut.ump"
 public class TakeOut extends Table

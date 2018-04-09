@@ -3,11 +3,13 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 // line 20 "../../../../../RestoAppPersistence.ump"
 // line 18 "../../../../../RestoApp.ump"
