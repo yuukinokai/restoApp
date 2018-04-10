@@ -106,6 +106,11 @@ public class RestoAppPage extends JFrame{
 	private Integer selectedOrder = -1;
 	private HashMap<Integer, Order> orders;
 	
+
+	//UPDATE MENU ITEM
+	private JLabel updateLabel;
+	private MyButton updateMenuItem;
+	//END UPDATE MENU ITEM
 	//JPANELS
 	private DisplayMenuPage menu;
 	private JScrollPane scrollDisplayMenuPage;
@@ -404,6 +409,23 @@ public class RestoAppPage extends JFrame{
 		});
 		//RESERVE TABLE
 		
+		//START UPDATE MENU ITEM 
+		updateLabel = new JLabel("Update Menu Item");
+		updateMenuItem = new MyButton();
+		updateMenuItem.setText("Update Menu Item");
+		updateMenuItem.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				error = null;
+				try {
+					updateMenuItemActionPerformed(e);
+				} catch (NullPointerException ex) {
+					errorMessage.setText("Error");
+				}
+			}	
+		});
+		//END UPDATE MENU ITEM 
+
 		// MENU
 		menu = new DisplayMenuPage();
 		scrollDisplayMenuPage = new  JScrollPane(menu);
@@ -484,20 +506,23 @@ public class RestoAppPage extends JFrame{
 						.addComponent(reservationLabel)
 						.addGroup(layout.createParallelGroup()
 								.addComponent(createReservation)
-								.addComponent(deleteReservation)))	
+								.addComponent(deleteReservation)))
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(updateLabel)
+						.addComponent(updateMenuItem))	
 				
 				//.addComponent(tableVisualizer)
 				//END DISPLAY MENU
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel,updateLabel});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel,updateLabel});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, createTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, createTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, createReservation, deleteReservation});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, createReservation, deleteReservation, updateMenuItem});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 
@@ -567,7 +592,9 @@ public class RestoAppPage extends JFrame{
 						.addComponent(createReservation))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(deleteReservation))
-				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(updateLabel)
+						.addComponent(updateMenuItem))
 				
 				//.addComponent(tableVisualizer)
 				);
@@ -625,6 +652,10 @@ public class RestoAppPage extends JFrame{
 	
 	protected void deleteReservationActionPerformed(ActionEvent e) {
 		new DeleteReservationFrame(this);
+	}
+
+	protected void updateMenuItemActionPerformed(ActionEvent e){
+		new UpdateMenuItemPage(this);
 	}
 	protected void addExistingTableButtonActionPerformed(ActionEvent evt, Table table) {
 		error = null;
