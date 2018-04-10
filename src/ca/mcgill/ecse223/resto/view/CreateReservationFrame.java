@@ -1,8 +1,8 @@
 package ca.mcgill.ecse223.resto.view;
 
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -11,18 +11,22 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import com.github.lgooddatepicker.components.*;
+import javax.swing.GroupLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+import com.github.lgooddatepicker.components.*;
 
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Table;
 
-public class ReserveTableFrame extends JPanel {
+public class CreateReservationFrame extends JPanel {
 
-public ReserveTableFrame(RestoAppPage app) {
+public CreateReservationFrame(RestoAppPage app) {
     JFrame frame = new JFrame("ReserveTableFrame");
     frame.setResizable(false);
     frame.setAlwaysOnTop(true);
@@ -112,7 +116,7 @@ public ReserveTableFrame(RestoAppPage app) {
 				}
 				
 				if( selectedTables.size() < tableNumbers.size()) {
-					throw new InvalidInputException("One more more selected table doesn't exist");
+					throw new InvalidInputException("One or more selected table doesn't exist");
 				}
 				
 				RestoAppController.addReservation(aDate, aTime, numberInParty, contactName, contactEmail, contactPhone, selectedTables);				

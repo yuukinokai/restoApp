@@ -1,13 +1,13 @@
 package ca.mcgill.ecse223.resto.controller;
 
-import java.util.*;
 import java.sql.Date;
+
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Table.Status;
@@ -21,6 +21,10 @@ import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
+import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Seat;
+import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.TakeOut;
 
 
 
@@ -332,6 +336,28 @@ public class RestoAppController {
 		return isFree;
 	}
 	
+	public static void startOrder(TakeOut takeOut) throws InvalidInputException{
+		if (takeOut == null) {
+			throw new InvalidInputException("Invalid Input");
+		}
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+
+		Order newOrder = null;
+		if (takeOut.startOrder()) {
+			newOrder = takeOut.getOrder(takeOut.numberOfOrders()-1);
+			restoApp.addCurrentOrder(newOrder);
+		} else {
+			throw new InvalidInputException();
+		}
+
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
+	
 	public static void startOrder(List<Table> tables) throws InvalidInputException{
 		if (tables == null) {
 			throw new InvalidInputException("Invalid Input");
@@ -538,6 +564,37 @@ public class RestoAppController {
 		}
 	}
 	
+	public static List<OrderItem> getOrderItems(Table table) throws InvalidInputException{
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		if (!currentTables.contains(table)) {
+			throw new InvalidInputException("Table not a current table");
+		}
+		//check to see if table is in use or not
+		String status = table.getStatusFullName();
+		if (status == "Available") {
+			throw new InvalidInputException("Table is still available");
+		}
+		
+		List<Seat> currentSeats = table.getCurrentSeats();
+		//create new list of orders
+		List<OrderItem> result = new ArrayList<OrderItem>();
+		Order lastOrder = null;
+		for(Seat seat : currentSeats) {
+			//for every seat, get the order items associated with it
+			List<OrderItem> orderItems = seat.getOrderItems();
+			for( OrderItem orderItem : orderItems) {
+				Order order = orderItem.getOrder();
+				//for every orderItem,
+				//if the last order is the same as the current order and result doesnt have the order item
+				if(lastOrder.equals(order) && result.contains(orderItem)) {
+					result.add(orderItem);
+					lastOrder = order;
+				}
+			}
+		}
+		return result;
+	}
 	//begin issue bill
 	
 	public static void issueBill(List<Seat> seats) throws InvalidInputException{
@@ -618,6 +675,10 @@ public class RestoAppController {
 	public static String getTableNumber(Table table) {
 		return String.valueOf(table.getNumber());
 	}
+	
+	public static String getTableNumberOfSeats(Table table) {
+		return String.valueOf(table.numberOfCurrentSeats());
+	}
 
 	public static List<Reservation> getReservations() {
 		return RestoAppApplication.getRestoApp().getReservations();
@@ -634,6 +695,11 @@ public class RestoAppController {
 			throw e;
 		}
 	}
+	
+//	public static void numberOfAvailableSeat(Table table) {
+//		table.getCurrentSeats();
+//		number
+//	}
 
 	//public void rotateTable(Table table);
 	

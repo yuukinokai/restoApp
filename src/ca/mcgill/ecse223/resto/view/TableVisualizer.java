@@ -1,14 +1,11 @@
 package ca.mcgill.ecse223.resto.view;
 
-import java.awt.color.*;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,9 +14,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
-import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 
@@ -95,18 +90,18 @@ public class TableVisualizer extends JPanel{
 				int seatsAvailable = table.getCurrentSeats().size();
 				for (Seat seat : table.getCurrentSeats()) {
 					if (!RestoAppController.isAvailable(seat)) {
-						seatsAvailable -= 1;
+						seatsAvailable = seatsAvailable -1;
 					}
 				}
 				String seatNumber = String.valueOf(seatsAvailable);
 				
 				int width = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getWidth()/2);
 				int height = (int)(g.getFontMetrics().getStringBounds(seatNumber, g).getHeight()/2);
-				g2d.drawString(Integer.toString(table.getSeats().size()),  table.getX()*10+table.getLength()*10/2-width,  table.getY()*10+table.getWidth()*10/2);
+				g2d.drawString(seatNumber,  table.getX()*10+table.getLength()*10/2-width,  table.getY()*10+table.getWidth()*10/2);
 				
 				//String tableDetails;
 				if (selectedTable != null && selectedTable.equals(table)) {
-					tableName.setText("Table Number " + RestoAppController.getTableNumber(selectedTable));
+					tableName.setText("Table Number " + RestoAppController.getTableNumber(selectedTable) + " | Number of Seats " + RestoAppController.getTableNumberOfSeats(table));
 					//tableDetails = "Table number : " + RestoAppController.getTableNumber(selectedTable);
 					//g2d.drawString(tableDetails, table.getX()*10+table.getLength()*10,  table.getY()*10+table.getWidth()*10/2);
 				}

@@ -3,13 +3,15 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-// line 16 "../../../../../RestoAppPersistence.ump"
+// line 20 "../../../../../RestoAppPersistence.ump"
 // line 18 "../../../../../RestoApp.ump"
 public class Reservation implements Serializable
 {
@@ -359,7 +361,7 @@ public class Reservation implements Serializable
     }
   }
 
-  // line 26 "../../../../../RestoAppPersistence.ump"
+  // line 30 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeAutouniqueResNumber(List<Reservation> reservations){
     int nextNumber = 0; 
     for (Reservation reservation : reservations) {
@@ -370,7 +372,7 @@ public class Reservation implements Serializable
     nextNumber++;
   }
 
-  // line 37 "../../../../../RestoAppPersistence.ump"
+  // line 41 "../../../../../RestoAppPersistence.ump"
    public boolean checkOverlap(Date aDate, Time aTime){
     LocalDateTime aDateTime = LocalDateTime.parse(aDate + " " + aTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	    LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -383,7 +385,7 @@ public class Reservation implements Serializable
 	  	return true;
   }
 
-  // line 50 "../../../../../RestoAppPersistence.ump"
+  // line 54 "../../../../../RestoAppPersistence.ump"
    public String toString(){
     return "Reservation #" + this.getReservationNumber() + " | Name : " + this.getContactName();
   }
@@ -392,7 +394,7 @@ public class Reservation implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 23 "../../../../../RestoAppPersistence.ump"
+  // line 27 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 2315072607928790501L ;
 
   
