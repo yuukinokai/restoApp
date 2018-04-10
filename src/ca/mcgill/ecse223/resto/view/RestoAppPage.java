@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.resto.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -36,7 +38,12 @@ public class RestoAppPage extends JFrame{
 	private JLabel errorMessage;
 	private String error = null;
 	private JPanel leftMenu;
+	private JScrollPane leftScrollMenu;
 
+	// Scroll bar
+	JScrollPane scrollPane1 = new JScrollPane();
+	// End scroll bar
+	
 	//ADD TABLE
 	private MyButton createTable;
 	//END ADD TABLE
@@ -100,7 +107,8 @@ public class RestoAppPage extends JFrame{
 	private HashMap<Integer, Order> orders;
 	
 	//JPANELS
-	private DisplayMenuPage menu = new DisplayMenuPage();
+	private DisplayMenuPage menu;
+	private JScrollPane scrollDisplayMenuPage;
 	private TableVisualizer restoMap = new TableVisualizer();
 	
 	public RestoAppPage() {
@@ -294,7 +302,7 @@ public class RestoAppPage extends JFrame{
 		orderTables = new JLabel();
 		orderTables.setText("Tables");
 		tablesDesc = new JLabel();
-		tablesDesc.setText("(enter the table number(s) seperated by a comma)");
+		tablesDesc.setText("(enter table # seperated by ',')");
 		startOrder = new MyButton();
 		startOrder.setBorder(new RoundedBorder(10));
 		startOrder.setText("Start Order");
@@ -396,19 +404,25 @@ public class RestoAppPage extends JFrame{
 		});
 		//RESERVE TABLE
 		
-		
-		
+		// MENU
+		menu = new DisplayMenuPage();
+		scrollDisplayMenuPage = new  JScrollPane(menu);
 		
 		
 		//LEFT MENU LAYOUT(JPANEL)
 		this.getContentPane().setBackground( Color.WHITE );
 		leftMenu = new JPanel();
+		
 		leftMenu.setBackground( Color.WHITE );
 		GroupLayout layout = new GroupLayout(leftMenu);
 		leftMenu.setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		
+		// LEFT MENU IN SCROLLPANE
+		leftScrollMenu = new JScrollPane(leftMenu);
+
+
 		//HORIZONTAL
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
@@ -436,7 +450,7 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(selectTableLabel)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(currentTableList, 200, 200, 400)
+								.addComponent(currentTableList)
 								.addComponent(updateTable)
 								.addComponent(deleteTable)
 								.addComponent(moveTable)))
@@ -447,7 +461,7 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(selectMenuLabel)
 						.addGroup(layout.createParallelGroup()
-							.addComponent(itemCategoryList, 200, 200, 400)
+							.addComponent(itemCategoryList)
 							.addComponent(displayMenu)))
 				
 				//OTHER FEATURES
@@ -457,19 +471,19 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(orderTables)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(textTables, 200, 200, 400)
+								.addComponent(textTables)
 								.addComponent(tablesDesc)
 								.addComponent(startOrder)
 								.addComponent(startTakeOutOrder)))
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(orderLabel)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(currentOrderList, 200, 200, 400)
+								.addComponent(currentOrderList)
 								.addComponent(endOrder)))
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(reservationLabel)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(createReservation, 200, 200, 400)
+								.addComponent(createReservation)
 								.addComponent(deleteReservation)))	
 				
 				//.addComponent(tableVisualizer)
@@ -477,12 +491,10 @@ public class RestoAppPage extends JFrame{
 				);
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, createTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, createTable});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {existingTableList, addExistingTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, createReservation, deleteReservation});
@@ -576,18 +588,18 @@ public class RestoAppPage extends JFrame{
 		
 		finalWindow.setHorizontalGroup(
 				finalWindow.createSequentialGroup()
-				.addComponent(leftMenu)
+				.addComponent(leftScrollMenu, 200, 400, 400)
 				.addGroup(finalWindow.createParallelGroup()
 				.addComponent(restoMap)
-				.addComponent(menu))
+				.addComponent(scrollDisplayMenuPage))
 				
 		);
 		finalWindow.setVerticalGroup(
 				finalWindow.createParallelGroup()
-				.addComponent(leftMenu)
+				.addComponent(leftScrollMenu)
 				.addGroup(finalWindow.createSequentialGroup()
 					.addComponent(restoMap)
-					.addComponent(menu))
+					.addComponent(scrollDisplayMenuPage))
 				
 		);
 		pack();
