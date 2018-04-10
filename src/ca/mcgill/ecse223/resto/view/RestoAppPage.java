@@ -695,6 +695,7 @@ public class RestoAppPage extends JFrame{
 		// DELETE TABLE BUTTON
 		// clear error message
 		error = null;
+		errorMessage.setText(error);
 		
 		// call the controller
 		try {
@@ -710,6 +711,7 @@ public class RestoAppPage extends JFrame{
 	
 	protected void endOrderButtonPerformed(ActionEvent evt, Order order) {
 		error = null;
+		errorMessage.setText(error);
 		
 		// call the controller
 		try {
@@ -730,6 +732,7 @@ public class RestoAppPage extends JFrame{
 		// DISPLAY MENU BUTTON
 		// clear error message
 		error = null;
+		errorMessage.setText(error);
 		ItemCategory category;
 		//call the controller
 		try{

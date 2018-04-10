@@ -219,7 +219,7 @@ public class DisplayMenuPage extends JPanel {
 			for (String n: seatsNumbers) {
 				int number = -1;
 				try {
-					number = Integer.parseInt(n);
+					number = Integer.parseInt(n)-1;
 				} catch (NumberFormatException ex) {
 					error = "Invalid table number";
 					errorMessage.setText(error);
@@ -244,6 +244,10 @@ public class DisplayMenuPage extends JPanel {
 			
 			
 			RestoAppController.orderMenuItem(Integer.parseInt(quantityField.getText()), selectedMenuItem, order, selectedSeats);
+			for (Seat seat : selectedSeats) {
+				System.out.println(RestoAppController.isAvailable(seat));
+			}
+			
 			
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);

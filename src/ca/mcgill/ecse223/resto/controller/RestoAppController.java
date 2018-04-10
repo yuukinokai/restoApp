@@ -668,6 +668,10 @@ public class RestoAppController {
 	public static String getTableNumber(Table table) {
 		return String.valueOf(table.getNumber());
 	}
+	
+	public static String getTableNumberOfSeats(Table table) {
+		return String.valueOf(table.numberOfCurrentSeats());
+	}
 
 	public static List<Reservation> getReservations() {
 		return RestoAppApplication.getRestoApp().getReservations();
@@ -684,6 +688,11 @@ public class RestoAppController {
 			throw e;
 		}
 	}
+	
+//	public static void numberOfAvailableSeat(Table table) {
+//		table.getCurrentSeats();
+//		number
+//	}
 
 	//public void rotateTable(Table table);
 }
