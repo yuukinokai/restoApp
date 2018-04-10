@@ -10,6 +10,7 @@ import java.util.List;
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Table.Status;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Bill;
@@ -635,4 +636,67 @@ public class RestoAppController {
 	}
 
 	//public void rotateTable(Table table);
+	
+	public static void CancelOrderItem(OrderItem aOrderItem) throws InvalidInputException {
+		if(aOrderItem == null) {
+			throw new InvalidInputException("Invalid Order Item");	
+		}
+		 
+		 List<Seat> seats = aOrderItem.getSeats();
+		 Order order = aOrderItem.getOrder();
+		 List<Table> tables = new ArrayList<Table>();
+		 
+		 for(Seat seat : seats) {
+			 Table table = seat.getTable();
+			 
+			 
+			 Order lastOrder = null;
+			 if(table.numberOfOrders() > 0) {
+				 lastOrder = table.getOrder(table.numberOfOrders()-1);
+			 }
+			 else {
+				 throw new InvalidInputException("Invalid Order Item");
+			 }
+			 
+			 if(lastOrder.equals(order)&&!tables.contains(table)) {
+				 tables.add(table);
+			 }
+		 }
+		 
+		 for(Table table : tables) {
+			 table.cancelOrderItem(aOrderItem);
+		 }
+		 try {
+				RestoAppApplication.save();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				throw e;
+			} 
+	}
+	
+	public static void CancelOrder(Table table) throws InvalidInputException {
+		if(table == null) {
+			throw new InvalidInputException("Invalid Table");
+		}
+		if(table.getStatus() != Status.Ordered) {
+			throw new InvalidInputException("There is no order on this table");
+		}
+		RestoApp r = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = r.getCurrentTables();
+		
+		if(!currentTables.contains(table)) {
+			throw new InvalidInputException("This table is unavailable");
+		}
+		
+		
+		table.cancelOrder();
+				
+
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
 }
