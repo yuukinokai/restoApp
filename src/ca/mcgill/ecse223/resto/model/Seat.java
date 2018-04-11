@@ -3,9 +3,7 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // line 83 "../../../../../RestoAppPersistence.ump"
 // line 39 "../../../../../RestoApp.ump"
@@ -18,6 +16,7 @@ public class Seat implements Serializable
 
   //Seat Associations
   private Table table;
+  private List<Order> orders;
   private List<OrderItem> orderItems;
   private List<Bill> bills;
 
@@ -32,6 +31,7 @@ public class Seat implements Serializable
     {
       throw new RuntimeException("Unable to create seat due to table");
     }
+    orders = new ArrayList<Order>();
     orderItems = new ArrayList<OrderItem>();
     bills = new ArrayList<Bill>();
   }
@@ -43,6 +43,36 @@ public class Seat implements Serializable
   public Table getTable()
   {
     return table;
+  }
+
+  public Order getOrder(int index)
+  {
+    Order aOrder = orders.get(index);
+    return aOrder;
+  }
+
+  public List<Order> getOrders()
+  {
+    List<Order> newOrders = Collections.unmodifiableList(orders);
+    return newOrders;
+  }
+
+  public int numberOfOrders()
+  {
+    int number = orders.size();
+    return number;
+  }
+
+  public boolean hasOrders()
+  {
+    boolean has = orders.size() > 0;
+    return has;
+  }
+
+  public int indexOfOrder(Order aOrder)
+  {
+    int index = orders.indexOf(aOrder);
+    return index;
   }
 
   public OrderItem getOrderItem(int index)
@@ -133,6 +163,88 @@ public class Seat implements Serializable
     table.addSeat(this);
     wasSet = true;
     return wasSet;
+  }
+
+  public static int minimumNumberOfOrders()
+  {
+    return 0;
+  }
+
+  public boolean addOrder(Order aOrder)
+  {
+    boolean wasAdded = false;
+    if (orders.contains(aOrder)) { return false; }
+    orders.add(aOrder);
+    if (aOrder.indexOfSeat(this) != -1)
+    {
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = aOrder.addSeat(this);
+      if (!wasAdded)
+      {
+        orders.remove(aOrder);
+      }
+    }
+    return wasAdded;
+  }
+
+  public boolean removeOrder(Order aOrder)
+  {
+    boolean wasRemoved = false;
+    if (!orders.contains(aOrder))
+    {
+      return wasRemoved;
+    }
+
+    int oldIndex = orders.indexOf(aOrder);
+    orders.remove(oldIndex);
+    if (aOrder.indexOfSeat(this) == -1)
+    {
+      wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aOrder.removeSeat(this);
+      if (!wasRemoved)
+      {
+        orders.add(oldIndex,aOrder);
+      }
+    }
+    return wasRemoved;
+  }
+
+  public boolean addOrderAt(Order aOrder, int index)
+  {  
+    boolean wasAdded = false;
+    if(addOrder(aOrder))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
+      orders.remove(aOrder);
+      orders.add(index, aOrder);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveOrderAt(Order aOrder, int index)
+  {
+    boolean wasAdded = false;
+    if(orders.contains(aOrder))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfOrders()) { index = numberOfOrders() - 1; }
+      orders.remove(aOrder);
+      orders.add(index, aOrder);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addOrderAt(aOrder, index);
+    }
+    return wasAdded;
   }
 
   public static int minimumNumberOfOrderItems()
@@ -306,6 +418,12 @@ public class Seat implements Serializable
     if(placeholderTable != null)
     {
       placeholderTable.removeSeat(this);
+    }
+    ArrayList<Order> copyOfOrders = new ArrayList<Order>(orders);
+    orders.clear();
+    for(Order aOrder : copyOfOrders)
+    {
+      aOrder.removeSeat(this);
     }
     ArrayList<OrderItem> copyOfOrderItems = new ArrayList<OrderItem>(orderItems);
     orderItems.clear();

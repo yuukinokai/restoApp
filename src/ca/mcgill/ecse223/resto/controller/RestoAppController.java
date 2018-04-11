@@ -383,6 +383,11 @@ public class RestoAppController {
 		if(orderCreated == false) {
 			throw new InvalidInputException();
 		}
+		for (Table table : tables) {
+			for (Seat seat :table.getCurrentSeats()) {
+				newOrder.addSeat(seat);
+			}
+		}
 		restoApp.addCurrentOrder(newOrder);
 		try {
 			RestoAppApplication.save();

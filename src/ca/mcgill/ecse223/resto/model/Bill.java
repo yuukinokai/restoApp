@@ -3,12 +3,10 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // line 154 "../../../../../RestoAppPersistence.ump"
-// line 72 "../../../../../RestoApp.ump"
+// line 73 "../../../../../RestoApp.ump"
 public class Bill implements Serializable
 {
 

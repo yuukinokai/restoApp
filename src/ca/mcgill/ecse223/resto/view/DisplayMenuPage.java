@@ -203,18 +203,19 @@ public class DisplayMenuPage extends JPanel {
 	}
 	
 	protected void addOrderButtonActionPerformed(ActionEvent evt, Order order) {
-		// TODO Auto-generated method stub
 		//To implement
 		try {
-			List<Table> tableList = order.getTables();
-			List<Seat> seats = new ArrayList<Seat>();
-			for (Table table : tableList) {
-				for(Seat seat : table.getSeats()) {
-					seats.add(seat);
-				}
-			}
+//			List<Table> tableList = order.getTables();
+//			List<Seat> seats = new ArrayList<Seat>();
+//			for (Table table : tableList) {
+//				for(Seat seat : table.getSeats()) {
+//					seats.add(seat);
+//				}
+//			}
+			List<Seat> listOfSeats = order.getSeats();
 			List<Seat> selectedSeats = new ArrayList<Seat>();
 			String[] seatsNumbers = seatList.getText().split(",");
+			
 			ArrayList<Integer> seatNumbers = new ArrayList<Integer>();
 			for (String n: seatsNumbers) {
 				int number = -1;
@@ -230,11 +231,11 @@ public class DisplayMenuPage extends JPanel {
 			}
 			
 			for(int seatNumber : seatNumbers) {
-				if (seatNumber > seats.size()) {
+				if (seatNumber > listOfSeats.size()) {
 					JOptionPane.showMessageDialog(null, "One or more entered seats doesn't exist", null, JOptionPane.ERROR_MESSAGE);
 			        return;
 				}
-				selectedSeats.add(seats.get(seatNumber));
+				selectedSeats.add(listOfSeats.get(seatNumber));
 			}
 			
 			if( selectedSeats.size() < seatNumbers.size()) {
@@ -244,15 +245,15 @@ public class DisplayMenuPage extends JPanel {
 			
 			
 			RestoAppController.orderMenuItem(Integer.parseInt(quantityField.getText()), selectedMenuItem, order, selectedSeats);
-			for (Seat seat : selectedSeats) {
-				System.out.println(RestoAppController.isAvailable(seat));
-			}
+//			for (Seat seat : selectedSeats) {
+//				System.out.println(RestoAppController.isAvailable(seat));
+//			}
 			
-			
+			updateModel();
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
 		}
-		updateModel();
+		
 		
 	}
 

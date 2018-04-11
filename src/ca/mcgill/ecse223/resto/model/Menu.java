@@ -3,12 +3,10 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // line 120 "../../../../../RestoAppPersistence.ump"
-// line 56 "../../../../../RestoApp.ump"
+// line 57 "../../../../../RestoApp.ump"
 public class Menu implements Serializable
 {
 

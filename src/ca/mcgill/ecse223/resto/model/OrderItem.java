@@ -3,12 +3,10 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // line 114 "../../../../../RestoAppPersistence.ump"
-// line 50 "../../../../../RestoApp.ump"
+// line 51 "../../../../../RestoApp.ump"
 public class OrderItem implements Serializable
 {
 
