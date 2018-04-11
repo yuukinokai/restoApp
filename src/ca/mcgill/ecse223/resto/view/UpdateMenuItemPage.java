@@ -3,8 +3,11 @@ package ca.mcgill.ecse223.resto.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -36,17 +39,20 @@ import ca.mcgill.ecse223.resto.model.Table;
 
 public class UpdateMenuItemPage {
 	
-	private DefaultComboBoxModel model = new DefaultComboBoxModel<String>();
+	private DefaultComboBoxModel model = new DefaultComboBoxModel<MenuItem>();
 	private DefaultComboBoxModel model1 = new DefaultComboBoxModel<String>();
 
-	private String selectedItem = null;
-	private String selectedCategory = null;
+	private int selectedItem = -1;
+	private String selectedCategory;
+	private int categoryIsSelected;
 	private HashMap<String, Double> menuItems;
 	private HashMap<String, String> itemCats;
 
 	private JLabel errorMessage;
 	private String error = null;
 	
+	
+	private Boolean show = false;
 	
 	private JComboBox menuItemList;
 	private JComboBox categoryList;
@@ -99,6 +105,7 @@ public class UpdateMenuItemPage {
 		categoryList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+		        categoryIsSelected = cb.getSelectedIndex();
 		        selectedCategory = (String) cb.getSelectedItem();
 		        if(selectedCategory.equals("Dessert")){
 		        	cat = ItemCategory.Dessert;
@@ -119,26 +126,39 @@ public class UpdateMenuItemPage {
 		});
 		
 		cat = null;
-		menuItemList = new JComboBox<String>();
+		menuItemList = new JComboBox<MenuItem>();
 		menuItemList.setModel(model);
-	//	menuItemList.setSelectedIndex(-1);
 		menuItemList.setEditable(true);
 		menuItemList.getEditor().getEditorComponent().setBackground(Color.WHITE);
-		menuItemList.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
-		        selectedItem = (String) cb.getSelectedItem();
-		        if(!selectedItem.equals("Select an item")){
-		        	name.setText(selectedItem);
-		        	if(!menuItems.isEmpty()){
-		        		price.setText(Double.toString(menuItems.get(selectedItem)));
-		        		categoryList.setSelectedItem(itemCats.get(selectedItem));
-		        	}
-		        }
-		     
-		   }
-		});
 		
+//		menuItemList.addActionListener(new java.awt.event.ActionListener() {
+//			public void actionPerformed(java.awt.event.ActionEvent evt) {
+//		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+//		        selectedItem = cb.getSelectedIndex();
+//		        
+//		   }
+//		});
+//		
+		menuItemList.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED){
+					if(show){
+						MenuItem item = (MenuItem)menuItemList.getSelectedItem();
+						name.setText(item.getName());
+						if(!menuItems.isEmpty()){
+							price.setText(Double.toString(menuItems.get(item.getName())));
+							categoryList.setSelectedItem(itemCats.get(item.getName()));
+						}
+					
+					}
+					show = true;
+					JComboBox<String> cb = (JComboBox<String>) e.getSource();
+					selectedItem = cb.getSelectedIndex();
+				}
+
+			}
+		});
 		btnRemove = new MyButton("Remove Item");
 		btnModify = new MyButton("Modify Item");
 		btnAddItem = new MyButton("Add Item");
@@ -158,7 +178,8 @@ public class UpdateMenuItemPage {
 			public void actionPerformed(ActionEvent evt) {
 				error = null;
 				try {
-					RestoAppController.removeItem(selectedItem);
+					MenuItem menuItem = (MenuItem)menuItemList.getSelectedItem();
+					RestoAppController.removeItem(menuItem.getName());
 					frame.dispose();
 					JOptionPane.showMessageDialog(null, "Item Removed Successfully", null, JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
@@ -198,8 +219,9 @@ public class UpdateMenuItemPage {
 			public void actionPerformed(ActionEvent evt) {
 				error = null;
 				try {
-					Double priceItem = Double.valueOf(price.getText());
-					RestoAppController.updateMenuItem(selectedItem, name.getText(), priceItem, cat);
+					MenuItem menuItem = (MenuItem)menuItemList.getSelectedItem();
+					Double priceItem = Double.parseDouble(price.getText());
+					RestoAppController.updateMenuItem(menuItem.getName(), name.getText(), priceItem, cat);
 					frame.dispose();
 					JOptionPane.showMessageDialog(null, "Item Modified Successfully", null, JOptionPane.INFORMATION_MESSAGE);
 
@@ -296,15 +318,18 @@ public class UpdateMenuItemPage {
 					
 					model.removeAllElements();
 					menuItems.clear();
-					model.addElement("Select an item");
+					model.addElement(null);
 					for (MenuItem item : RestoAppController.getPricedMenu()) {
-						model.addElement(item.getName());
+						model.addElement(item);
 						menuItems.put(item.getName(), item.getCurrentPricedMenuItem().getPrice());
 						itemCats.put(item.getName(), item.getItemCategory().toString());
 					};
 					
-					
+					selectedItem = -1;
+					menuItemList.setSelectedIndex(selectedItem);
 				}
 				
 	}
+	
+	
 }
