@@ -1,11 +1,18 @@
 package ca.mcgill.ecse223.resto.controller;
 
 import java.sql.Date;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
+
+import ca.mcgill.ecse223.resto.controller.InvalidInputException;
+import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Table.Status;
+import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Bill;
 import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
@@ -725,4 +732,69 @@ public class RestoAppController {
 //	}
 
 	//public void rotateTable(Table table);
+	
+	public static void CancelOrderItem(OrderItem aOrderItem) throws InvalidInputException {
+		if(aOrderItem == null) {
+			throw new InvalidInputException("Invalid Order Item");	
+		}
+		 
+		 List<Seat> seats = aOrderItem.getSeats();
+		 Order order = aOrderItem.getOrder();
+		 List<Table> tables = new ArrayList<Table>();
+		 
+		 for(Seat seat : seats) {
+			 Table table = seat.getTable();
+			 
+			 
+			 Order lastOrder = null;
+			 if(table.numberOfOrders() > 0) {
+				 lastOrder = table.getOrder(table.numberOfOrders()-1);
+			 }
+			 else {
+				 throw new InvalidInputException("Invalid Order Item");
+			 }
+			 
+			 if(lastOrder.equals(order)&&!tables.contains(table)) {
+				 System.out.println(lastOrder.getOrderItems());
+				 tables.add(table);
+			 }
+		 
+		 
+		 for(Table table1 : tables) {
+			 table1.cancelOrderItem(aOrderItem);
+			 System.out.println(table1.getOrder(table.numberOfOrders()-1).getOrderItems());
+		 	}
+		 }
+			 
+		 try {
+				RestoAppApplication.save();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				throw e;
+			} 
+	}
+	
+	public static void CancelOrder(Table table) throws InvalidInputException {
+		if(table == null) {
+			throw new InvalidInputException("Invalid Table");
+		}
+	
+		RestoApp r = RestoAppApplication.getRestoApp();
+		List<Table> currentTables = r.getCurrentTables();
+		
+		if(!currentTables.contains(table)) {
+			throw new InvalidInputException("This table is unavailable");
+		}
+		
+		
+		table.cancelOrder();
+				
+
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
 }

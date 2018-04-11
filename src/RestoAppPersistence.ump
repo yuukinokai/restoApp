@@ -150,6 +150,9 @@ class MenuItem {
     	menuItemsByName.put(menuItem.getName(), menuItem);
     }
   }
+   public String toString() {
+	  return getName();
+   }
 }
 
 class PricedMenuItem {
