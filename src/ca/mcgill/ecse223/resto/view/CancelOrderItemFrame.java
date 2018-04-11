@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.resto.view;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -14,12 +15,13 @@ import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Table.Status;
 
 public class CancelOrderItemFrame extends JPanel {
 
 	public int selectedOrderItem;
 	
-public CancelOrderItemFrame(RestoAppPage app) {
+public CancelOrderItemFrame(RestoAppPage app){
     JFrame frame = new JFrame("CancelOrderItem");
     frame.setResizable(false);
     frame.setAlwaysOnTop(true);
@@ -47,11 +49,15 @@ public CancelOrderItemFrame(RestoAppPage app) {
 		}
 	});
 	
-	
-	
-	for (Order O : RestoAppController.getCurrentOrders()) {
-		for(OrderItem OI : O.getOrderItems())
-		OrderItemModel.addElement(OI);
+	for(Table t : RestoAppController.getCurrentTables()) {
+		if(t.getStatus() != Status.Ordered) {
+		}
+		else {
+			Order O = t.getOrder(t.numberOfOrders()-1);
+				for(OrderItem OI : O.getOrderItems())
+				OrderItemModel.addElement(OI);
+			
+		}
 	}
     
     //END COMPONENTS

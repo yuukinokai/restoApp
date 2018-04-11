@@ -306,7 +306,8 @@ public class OrderItem implements Serializable
 
   public String toString()
   {
-	  return super.toString() + quantity + "serving" + "Order Number" + this.getOrder().getNumber();
+	  return getPricedMenuItem().getMenuItem().getName().toString() + " " + quantity + 
+			  " serving(s)" + ". Order #" + this.getOrder().getNumber();
   	}
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS

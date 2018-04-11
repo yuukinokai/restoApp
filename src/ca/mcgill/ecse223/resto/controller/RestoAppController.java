@@ -725,13 +725,17 @@ public class RestoAppController {
 			 }
 			 
 			 if(lastOrder.equals(order)&&!tables.contains(table)) {
+				 System.out.println(lastOrder.getOrderItems());
 				 tables.add(table);
 			 }
-		 }
 		 
-		 for(Table table : tables) {
-			 table.cancelOrderItem(aOrderItem);
+		 
+		 for(Table table1 : tables) {
+			 table1.cancelOrderItem(aOrderItem);
+			 System.out.println(table1.getOrder(table.numberOfOrders()-1).getOrderItems());
+		 	}
 		 }
+			 
 		 try {
 				RestoAppApplication.save();
 			} catch (Exception e) {

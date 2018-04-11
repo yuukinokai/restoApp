@@ -15,10 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-<<<<<<< HEAD
 import javax.swing.JSeparator;
-=======
->>>>>>> 5c8c30be1078ae84f524253a16056f804c39afc4
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -42,18 +39,11 @@ public class RestoAppPage extends JFrame{
 	private String error = null;
 	private JPanel leftMenu;
 	private JScrollPane leftScrollMenu;
-
-<<<<<<< HEAD
-	// SCROLLBAR
-    JScrollPane scrollPane1 = new JScrollPane();
-    JScrollPane scrollPane2 = new JScrollPane();
-    
-=======
+	
 	// Scroll bar
 	JScrollPane scrollPane1 = new JScrollPane();
 	// End scroll bar
 	
->>>>>>> 5c8c30be1078ae84f524253a16056f804c39afc4
 	//ADD TABLE
 	private MyButton createTable;
 	//END ADD TABLE
@@ -419,7 +409,6 @@ public class RestoAppPage extends JFrame{
 		});
 		//RESERVE TABLE
 		
-<<<<<<< HEAD
 		//CANCEL ORDER
 		
 		cancelTable = new MyButton();
@@ -450,12 +439,11 @@ public class RestoAppPage extends JFrame{
 			}
 		});	
 		//END CANCEL ORDER
-=======
+
 		// MENU
 		menu = new DisplayMenuPage();
 		scrollDisplayMenuPage = new  JScrollPane(menu);
 		
->>>>>>> 5c8c30be1078ae84f524253a16056f804c39afc4
 		
 		//LEFT MENU LAYOUT(JPANEL)
 		this.getContentPane().setBackground( Color.WHITE );
@@ -526,15 +514,11 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(orderLabel)
 						.addGroup(layout.createParallelGroup()
-<<<<<<< HEAD
 								.addComponent(currentOrderList, 200, 200, 400)
 								.addComponent(endOrder)
-								.addComponent(reserveTable)
 								.addComponent(deleteReservation)
 								.addComponent(cancelTable)
-								.addComponent(cancelOrderItem)))
-			
-=======
+								.addComponent(cancelOrderItem)
 								.addComponent(currentOrderList)
 								.addComponent(endOrder)))
 				.addGroup(layout.createSequentialGroup()
@@ -542,10 +526,6 @@ public class RestoAppPage extends JFrame{
 						.addGroup(layout.createParallelGroup()
 								.addComponent(createReservation)
 								.addComponent(deleteReservation)))	
-				
->>>>>>> 5c8c30be1078ae84f524253a16056f804c39afc4
-				//.addComponent(tableVisualizer)
-				//END DISPLAY MENU
 				);
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
@@ -555,11 +535,8 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, createTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
-<<<<<<< HEAD
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, reserveTable, deleteReservation, cancelTable, cancelOrderItem});
-=======
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteReservation, cancelTable, cancelOrderItem});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, createReservation, deleteReservation});
->>>>>>> 5c8c30be1078ae84f524253a16056f804c39afc4
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		
