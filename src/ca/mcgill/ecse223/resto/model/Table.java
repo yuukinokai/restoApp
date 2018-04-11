@@ -318,6 +318,11 @@ public class Table implements Serializable
         {
         // line 37 "../../../../../TableState.ump"
           // delete order item
+         	for(int u = 0; u < this.getOrder(this.numberOfOrders()-1).getOrderItems().size();u++) {
+        		if(i.equals(this.getOrder(this.numberOfOrders()-1).getOrderItem(u)))
+        		this.getOrder(this.numberOfOrders()-1).getOrderItem(u).delete();	
+        	}
+       
           setStatus(Status.NothingOrdered);
           wasEventProcessed = true;
           break;
@@ -326,7 +331,11 @@ public class Table implements Serializable
         {
         // line 40 "../../../../../TableState.ump"
           // delete order item
-          setStatus(Status.Ordered);
+        	for(int u = 0; u < this.getOrder(this.numberOfOrders()-1).getOrderItems().size();u++) {
+        		if(i.equals(this.getOrder(this.numberOfOrders()-1).getOrderItem(u)))
+        		this.getOrder(this.numberOfOrders()-1).getOrderItem(u).delete();	
+        	}
+        	setStatus(Status.Ordered);
           wasEventProcessed = true;
           break;
         }
@@ -348,7 +357,12 @@ public class Table implements Serializable
       case Ordered:
         // line 43 "../../../../../TableState.ump"
         // delete all order items of the table
-        setStatus(Status.NothingOrdered);
+    	  for(int i = 0; i <= this.getOrder(this.numberOfOrders()-1).getOrderItems().size(); i++) {
+    		  this.getOrder(this.numberOfOrders()-1).getOrderItem(i).delete();
+    		  System.out.println(this.getOrder(this.numberOfOrders()-1).getOrderItems().size());
+    	  }
+    	  
+    	setStatus(Status.NothingOrdered);
         wasEventProcessed = true;
         break;
       default:
