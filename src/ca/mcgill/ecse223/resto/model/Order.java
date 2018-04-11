@@ -5,11 +5,9 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-// line 89 "../../../../../RestoAppPersistence.ump"
+// line 85 "../../../../../RestoAppPersistence.ump"
 // line 42 "../../../../../RestoApp.ump"
 public class Order implements Serializable
 {
@@ -34,6 +32,7 @@ public class Order implements Serializable
   //Order Associations
   private List<Table> tables;
   private List<OrderItem> orderItems;
+  private List<Seat> seats;
   private RestoApp restoApp;
   private List<Bill> bills;
 
@@ -53,6 +52,7 @@ public class Order implements Serializable
       throw new RuntimeException("Unable to create Order, must have at least 1 tables");
     }
     orderItems = new ArrayList<OrderItem>();
+    seats = new ArrayList<Seat>();
     boolean didAddRestoApp = setRestoApp(aRestoApp);
     if (!didAddRestoApp)
     {
@@ -156,6 +156,36 @@ public class Order implements Serializable
   public int indexOfOrderItem(OrderItem aOrderItem)
   {
     int index = orderItems.indexOf(aOrderItem);
+    return index;
+  }
+
+  public Seat getSeat(int index)
+  {
+    Seat aSeat = seats.get(index);
+    return aSeat;
+  }
+
+  public List<Seat> getSeats()
+  {
+    List<Seat> newSeats = Collections.unmodifiableList(seats);
+    return newSeats;
+  }
+
+  public int numberOfSeats()
+  {
+    int number = seats.size();
+    return number;
+  }
+
+  public boolean hasSeats()
+  {
+    boolean has = seats.size() > 0;
+    return has;
+  }
+
+  public int indexOfSeat(Seat aSeat)
+  {
+    int index = seats.indexOf(aSeat);
     return index;
   }
 
@@ -400,6 +430,88 @@ public class Order implements Serializable
     return wasAdded;
   }
 
+  public static int minimumNumberOfSeats()
+  {
+    return 0;
+  }
+
+  public boolean addSeat(Seat aSeat)
+  {
+    boolean wasAdded = false;
+    if (seats.contains(aSeat)) { return false; }
+    seats.add(aSeat);
+    if (aSeat.indexOfOrder(this) != -1)
+    {
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = aSeat.addOrder(this);
+      if (!wasAdded)
+      {
+        seats.remove(aSeat);
+      }
+    }
+    return wasAdded;
+  }
+
+  public boolean removeSeat(Seat aSeat)
+  {
+    boolean wasRemoved = false;
+    if (!seats.contains(aSeat))
+    {
+      return wasRemoved;
+    }
+
+    int oldIndex = seats.indexOf(aSeat);
+    seats.remove(oldIndex);
+    if (aSeat.indexOfOrder(this) == -1)
+    {
+      wasRemoved = true;
+    }
+    else
+    {
+      wasRemoved = aSeat.removeOrder(this);
+      if (!wasRemoved)
+      {
+        seats.add(oldIndex,aSeat);
+      }
+    }
+    return wasRemoved;
+  }
+
+  public boolean addSeatAt(Seat aSeat, int index)
+  {  
+    boolean wasAdded = false;
+    if(addSeat(aSeat))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSeats()) { index = numberOfSeats() - 1; }
+      seats.remove(aSeat);
+      seats.add(index, aSeat);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveSeatAt(Seat aSeat, int index)
+  {
+    boolean wasAdded = false;
+    if(seats.contains(aSeat))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSeats()) { index = numberOfSeats() - 1; }
+      seats.remove(aSeat);
+      seats.add(index, aSeat);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addSeatAt(aSeat, index);
+    }
+    return wasAdded;
+  }
+
   public boolean setRestoApp(RestoApp aRestoApp)
   {
     boolean wasSet = false;
@@ -506,6 +618,12 @@ public class Order implements Serializable
       orderItems.remove(aOrderItem);
     }
     
+    ArrayList<Seat> copyOfSeats = new ArrayList<Seat>(seats);
+    seats.clear();
+    for(Seat aSeat : copyOfSeats)
+    {
+      aSeat.removeOrder(this);
+    }
     RestoApp placeholderRestoApp = restoApp;
     this.restoApp = null;
     if(placeholderRestoApp != null)
@@ -519,7 +637,7 @@ public class Order implements Serializable
     }
   }
 
-  // line 95 "../../../../../RestoAppPersistence.ump"
+  // line 91 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeAutouniqueNumber(List<Order> orders){
     nextNumber = 0; 
     for (Order order : orders) {
@@ -530,7 +648,7 @@ public class Order implements Serializable
     nextNumber++;
   }
 
-  // line 104 "../../../../../RestoAppPersistence.ump"
+  // line 100 "../../../../../RestoAppPersistence.ump"
    public String toString(){
     List<Table> tables = this.getTables();
     boolean isTakeOut = true;
@@ -556,7 +674,7 @@ public class Order implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 92 "../../../../../RestoAppPersistence.ump"
+  // line 88 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = -3900912597282882073L ;
 
   

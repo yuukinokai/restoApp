@@ -3,11 +3,9 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
+import java.util.*;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 // line 3 "../../../../../RestoAppPersistence.ump"
 // line 10 "../../../../../TakeOut.ump"
@@ -837,15 +835,13 @@ public class RestoApp implements Serializable
     Order.reinitializeAutouniqueNumber(this.getOrders());
     MenuItem.reinitializeUniqueMenuItemName(this.menu.getMenuItems());
     Table.reinitializeUniqueNumber(this.getTables());
-    if (this.currentTakeOut == null) {
-    	this.createDefaultTakeOut();
-    }
   }
 
   // line 13 "../../../../../TakeOut.ump"
    public void createDefaultTakeOut(){
     this.currentTakeOut = new TakeOut(this);
-	   	currentTakeOut.addSeat();
+	   	Seat seat = currentTakeOut.addSeat();
+	   	currentTakeOut.addCurrentSeat(seat);
   }
   
   //------------------------

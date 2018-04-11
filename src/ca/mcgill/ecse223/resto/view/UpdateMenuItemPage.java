@@ -5,15 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.Date;
-import java.sql.Time;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -24,18 +16,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.github.lgooddatepicker.components.DatePicker;
-import com.github.lgooddatepicker.components.TimePicker;
 
-import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
-import ca.mcgill.ecse223.resto.model.Order;
-import ca.mcgill.ecse223.resto.model.PricedMenuItem;
-import ca.mcgill.ecse223.resto.model.RestoApp;
-import ca.mcgill.ecse223.resto.model.Table;
+
 
 public class UpdateMenuItemPage {
 	
@@ -44,7 +30,7 @@ public class UpdateMenuItemPage {
 
 	private int selectedItem = -1;
 	private String selectedCategory;
-	private int categoryIsSelected;
+	private int categoryIsSelected =-1;
 	private HashMap<String, Double> menuItems;
 	private HashMap<String, String> itemCats;
 
@@ -318,7 +304,6 @@ public class UpdateMenuItemPage {
 					
 					model.removeAllElements();
 					menuItems.clear();
-					model.addElement(null);
 					for (MenuItem item : RestoAppController.getPricedMenu()) {
 						model.addElement(item);
 						menuItems.put(item.getName(), item.getCurrentPricedMenuItem().getPrice());
@@ -327,6 +312,7 @@ public class UpdateMenuItemPage {
 					
 					selectedItem = -1;
 					menuItemList.setSelectedIndex(selectedItem);
+					categoryIsSelected=-1;
 				}
 				
 	}
