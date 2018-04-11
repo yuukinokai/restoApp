@@ -111,6 +111,12 @@ public class RestoAppPage extends JFrame{
 	private MyButton cancelOrderItem;
 	//END CANCEL ORDER
 	
+
+	//UPDATE MENU ITEM
+	private JLabel updateLabel;
+	private MyButton updateMenuItem;
+	//END UPDATE MENU ITEM
+
 	//JPANELS
 	private DisplayMenuPage menu;
 	private JScrollPane scrollDisplayMenuPage;
@@ -424,7 +430,7 @@ public class RestoAppPage extends JFrame{
 				}
 			}
 		});
-		
+
 		cancelOrderItem = new MyButton();
 		cancelOrderItem.setText("Cancel Order Item");
 		cancelOrderItem.addActionListener(new ActionListener() {
@@ -439,6 +445,24 @@ public class RestoAppPage extends JFrame{
 			}
 		});	
 		//END CANCEL ORDER
+		
+		//START UPDATE MENU ITEM 
+		updateLabel = new JLabel("Update Menu Item");
+		updateMenuItem = new MyButton();
+		updateMenuItem.setText("Update Menu Item");
+		updateMenuItem.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				error = null;
+				try {
+					updateMenuItemActionPerformed(e);
+				} catch (NullPointerException ex) {
+					errorMessage.setText("Error");
+				}
+			}	
+		});
+		//END UPDATE MENU ITEM 
+
 
 		// MENU
 		menu = new DisplayMenuPage();
@@ -525,10 +549,16 @@ public class RestoAppPage extends JFrame{
 						.addComponent(reservationLabel)
 						.addGroup(layout.createParallelGroup()
 								.addComponent(createReservation)
-								.addComponent(deleteReservation)))	
+								.addComponent(deleteReservation)))
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(updateLabel)
+						.addComponent(updateMenuItem))	
+				
+				//.addComponent(tableVisualizer)
+				//END DISPLAY MENU
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel,updateLabel});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel,updateLabel});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, createTable});
@@ -537,6 +567,7 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteReservation, cancelTable, cancelOrderItem});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, createReservation, deleteReservation});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, createReservation, deleteReservation, updateMenuItem});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {itemCategoryList, displayMenu});
 		
@@ -610,6 +641,9 @@ public class RestoAppPage extends JFrame{
 						.addComponent(cancelTable))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(cancelOrderItem))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(updateLabel)
+						.addComponent(updateMenuItem))
 				
 				//.addComponent(tableVisualizer)
 				);
@@ -650,7 +684,6 @@ public class RestoAppPage extends JFrame{
 	//ADD TABLE	
 	protected void createTableButtonActionPerformed(ActionEvent e) {
 		new CreateTableFrame(this);
-		
 	}
 	
 	protected void moveTableButtonActionPerformed(ActionEvent e, Table t) {
@@ -677,6 +710,11 @@ public class RestoAppPage extends JFrame{
 		new CancelOrderItemFrame(this);
 	}
 	
+
+	protected void updateMenuItemActionPerformed(ActionEvent e){
+		new UpdateMenuItemPage(this);
+	}
+
 	protected void addExistingTableButtonActionPerformed(ActionEvent evt, Table table) {
 		error = null;
 		try {
@@ -873,6 +911,5 @@ public class RestoAppPage extends JFrame{
 					currentOrderList.setSelectedIndex(selectedOrder);
 				}
 
-		
 	}
 
