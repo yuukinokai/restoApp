@@ -3,14 +3,10 @@
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-// line 135 "../../../../../RestoAppPersistence.ump"
-// line 60 "../../../../../RestoApp.ump"
+// line 146 "../../../../../RestoAppPersistence.ump"
+// line 61 "../../../../../RestoApp.ump"
 public class MenuItem implements Serializable
 {
 
@@ -287,7 +283,7 @@ public class MenuItem implements Serializable
     }
   }
 
-  // line 141 "../../../../../RestoAppPersistence.ump"
+  // line 152 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeUniqueMenuItemName(List<MenuItem> menuItems){
     HashMap<String, MenuItem> menuItemsByName = new HashMap<String, MenuItem>();
     for (MenuItem menuItem : menuItems) {
@@ -308,7 +304,7 @@ public class MenuItem implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 138 "../../../../../RestoAppPersistence.ump"
+  // line 149 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = -1776230320092632776L ;
 
   

@@ -155,14 +155,13 @@ public class RestoAppPage extends JFrame{
 		existingTableLabel = new JLabel();
 		existingTableList = new JComboBox<Table>();
 		existingTableList.setModel(model2);
-
-		
 		existingTableList.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 		        JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 		        selectedExistingTable = cb.getSelectedIndex();
 			}
 		});
+		
 		existingTableList.setEditable(true);
         existingTableList.getEditor().getEditorComponent().setBackground(Color.WHITE);
 		
