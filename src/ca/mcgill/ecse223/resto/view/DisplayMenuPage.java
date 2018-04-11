@@ -244,8 +244,7 @@ public class DisplayMenuPage extends JPanel {
 			try {
 				quantity = Integer.parseInt(quantityField.getText());
 			} catch (NumberFormatException ex) {
-				error = "Invalid quantity";
-				errorMessage.setText(error);
+				JOptionPane.showMessageDialog(null, "Invalid Input: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
 		        return;
 			}
 			if(quantity <= 0) {
