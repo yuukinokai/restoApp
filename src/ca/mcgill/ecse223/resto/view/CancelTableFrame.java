@@ -9,6 +9,7 @@ import com.github.lgooddatepicker.components.*;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Table.Status;
 
 public class CancelTableFrame extends JPanel {
 
@@ -44,8 +45,10 @@ public CancelTableFrame(RestoAppPage app) {
 	
 	
 	for (Table t : RestoAppController.getCurrentTables()) {
-		tableModel.addElement(t);
-	}
+		if(t.getStatus() == Status.Ordered) {
+			tableModel.addElement(t);		
+			}
+		}
     
     //END COMPONENTS
     

@@ -772,9 +772,7 @@ public class RestoAppController {
 		if(table == null) {
 			throw new InvalidInputException("Invalid Table");
 		}
-		if(table.getStatus() != Status.Ordered) {
-			throw new InvalidInputException("There is no order on this table");
-		}
+	
 		RestoApp r = RestoAppApplication.getRestoApp();
 		List<Table> currentTables = r.getCurrentTables();
 		
