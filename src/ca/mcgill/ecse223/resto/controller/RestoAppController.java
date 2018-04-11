@@ -581,6 +581,7 @@ public class RestoAppController {
 		}
 	}
 	
+	//view order
 	public static List<OrderItem> getOrderItems(Table table) throws InvalidInputException{
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		List<Table> currentTables = restoApp.getCurrentTables();
