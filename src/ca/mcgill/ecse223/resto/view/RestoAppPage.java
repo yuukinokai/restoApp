@@ -90,6 +90,11 @@ public class RestoAppPage extends JFrame{
 	
 	//END ADD RESERVATION
 	
+	//IssueBill
+	private JLabel issueBillLabel = new JLabel();
+	private MyButton issueBill;
+	//END ISSUEBILL
+	
 	//START ORDER
 	private JLabel otherFeatures = new JLabel();
 	private JLabel orderTables = new JLabel();
@@ -414,6 +419,26 @@ public class RestoAppPage extends JFrame{
 		});
 		//RESERVE TABLE
 		
+		//ISSUEBILL
+		issueBillLabel.setText("Issue Bill");
+		issueBill = new MyButton();
+		issueBill.setBorder(new RoundedBorder(10));
+		issueBill.setText("Issue Bill");
+		
+		issueBill.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				error = null;
+				try {
+					issueBillButtonActionPerformed(e);
+				} catch (NullPointerException ex) {
+					errorMessage.setText("Error");
+				}
+			}
+		});
+	
+		//END ISSUEBILL
+		
 		//CANCEL ORDER
 		
 		cancelTable = new MyButton();
@@ -695,6 +720,11 @@ public class RestoAppPage extends JFrame{
 	
 	protected void createReservationActionPerformed(ActionEvent e){
 		new CreateReservationFrame(this);
+	}
+	
+	protected void issueBillButtonActionPerformed(ActionEvent e) {
+		new CreateBillFrame(this);
+		
 	}
 	
 	protected void deleteReservationActionPerformed(ActionEvent e) {
