@@ -338,6 +338,7 @@ public class RestoAppController {
 		Order newOrder = null;
 		if (takeOut.startOrder()) {
 			newOrder = takeOut.getOrder(takeOut.numberOfOrders()-1);
+			newOrder.addSeat(takeOut.getSeat(0));
 			restoApp.addCurrentOrder(newOrder);
 		} else {
 			throw new InvalidInputException();

@@ -9,8 +9,9 @@ class TakeOut {
 }
 class RestoApp {
    0..1 -> 0..1 TakeOut currentTakeOut; // subsets tables
-  public void createDefaultTakeOut() {
-	   	this.currentTakeOut = new TakeOut(this);
-	   	currentTakeOut.addSeat();
+   public void createDefaultTakeOut(){
+    this.currentTakeOut = new TakeOut(this);
+	   	Seat seat = currentTakeOut.addSeat();
+	   	currentTakeOut.addCurrentSeat(seat);
   }
 }

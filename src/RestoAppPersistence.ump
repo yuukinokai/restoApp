@@ -10,10 +10,6 @@ class RestoApp {
     Order.reinitializeAutouniqueNumber(this.getOrders());
     MenuItem.reinitializeUniqueMenuItemName(this.menu.getMenuItems());
     Table.reinitializeUniqueNumber(this.getTables());
-    if (this.currentTakeOut == null) {
-    	this.createDefaultTakeOut();
-    }
-    
   }
 }
 

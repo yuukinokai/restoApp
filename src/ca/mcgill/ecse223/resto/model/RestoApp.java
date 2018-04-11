@@ -835,15 +835,13 @@ public class RestoApp implements Serializable
     Order.reinitializeAutouniqueNumber(this.getOrders());
     MenuItem.reinitializeUniqueMenuItemName(this.menu.getMenuItems());
     Table.reinitializeUniqueNumber(this.getTables());
-    if (this.currentTakeOut == null) {
-    	this.createDefaultTakeOut();
-    }
   }
 
   // line 13 "../../../../../TakeOut.ump"
    public void createDefaultTakeOut(){
     this.currentTakeOut = new TakeOut(this);
-	   	currentTakeOut.addSeat();
+	   	Seat seat = currentTakeOut.addSeat();
+	   	currentTakeOut.addCurrentSeat(seat);
   }
   
   //------------------------
