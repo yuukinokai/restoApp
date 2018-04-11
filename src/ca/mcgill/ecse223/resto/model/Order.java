@@ -651,12 +651,23 @@ public class Order implements Serializable
   // line 104 "../../../../../RestoAppPersistence.ump"
    public String toString(){
     List<Table> tables = this.getTables();
+    boolean isTakeOut = true;
+    
 	   String tableList = " : Tables ";
 	   for (Table table : tables) {
+		   if (isTakeOut == true){
+			   if (table instanceof TakeOut) {
+				   tableList = " : Take Out";
+				   break;
+			   } else {
+				   isTakeOut = false;
+			   }
+		   }
+			   
 		   tableList += "#" + table.getNumber() + " ";
 	   }
 	   
-	return "Order #" + this.getNumber() + tableList;
+	return "Order # " + this.getNumber() + tableList;
   }
   
   //------------------------
