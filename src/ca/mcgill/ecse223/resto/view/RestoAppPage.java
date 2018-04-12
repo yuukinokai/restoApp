@@ -571,6 +571,12 @@ public class RestoAppPage extends JFrame{
 								
 				//END DELETE TABLE 
 				
+				//VIEW ORDER
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(viewOrderLabel)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(viewOrder)))
+				//END VIEW ORDER
 				//DISPLAY MENU HORIZONTAL
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(selectMenuLabel)
@@ -604,12 +610,7 @@ public class RestoAppPage extends JFrame{
 						.addGroup(layout.createParallelGroup()
 								.addComponent(createReservation)
 								.addComponent(deleteReservation)))
-				//VIEW ORDER
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(viewOrderLabel)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(viewOrder)))
-				//END VIEW ORDER
+				
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(issueBillLabel,40,40,70)
 						.addGroup(layout.createParallelGroup()
@@ -673,6 +674,12 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createParallelGroup()
 						.addComponent(moveTable))
 				//DISPLAY MENU VERTICAL
+				
+				//VIEW ORDER
+				.addGroup(layout.createParallelGroup()
+						.addComponent(viewOrderLabel)
+						.addComponent(viewOrder))
+				//END VIEW ORDER
 				.addGroup(layout.createParallelGroup()
 						.addComponent(selectMenuLabel)
 						.addComponent(itemCategoryList))
@@ -703,11 +710,7 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createParallelGroup()
 						.addComponent(deleteReservation))
 				
-				//VIEW ORDER
-				.addGroup(layout.createParallelGroup()
-						.addComponent(viewOrderLabel)
-						.addComponent(viewOrder))
-				//END VIEW ORDER
+				
 				
 				.addGroup(layout.createParallelGroup()
 						.addComponent(issueBillLabel)
