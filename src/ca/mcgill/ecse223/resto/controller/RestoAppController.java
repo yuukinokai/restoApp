@@ -594,6 +594,7 @@ public class RestoAppController {
 		}
 	}
 	
+	//VIEW ORDER
 	public static List<OrderItem> getOrderItems(Table table) throws InvalidInputException{
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		List<Table> currentTables = restoApp.getCurrentTables();
@@ -625,6 +626,8 @@ public class RestoAppController {
 		}
 		return result;
 	}
+	//END VIEW ORDER
+	
 	//begin issue bill
 	
 	public static void issueBill(List<Seat> seats) throws InvalidInputException{
