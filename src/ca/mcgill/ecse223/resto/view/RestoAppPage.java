@@ -115,7 +115,6 @@ public class RestoAppPage extends JFrame{
 	private HashMap<Integer, Order> orders;
 	
 	//START CANCEL ORDER
-	private JLabel cancelLabel;
 	private MyButton cancelTable;
 	private MyButton cancelOrderItem;
 	//END CANCEL ORDER
@@ -175,7 +174,6 @@ public class RestoAppPage extends JFrame{
         existingTableList.getEditor().getEditorComponent().setBackground(Color.WHITE);
 		
 		addExistingTable = new MyButton();
-		addExistingTable.setBorder(new RoundedBorder(10));
 		existingTableLabel.setText("Select Table");
 		addExistingTable.setText("Add Table");
 		addExistingTable.addActionListener(new java.awt.event.ActionListener() {
@@ -213,7 +211,6 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		deleteTable = new MyButton();
-		deleteTable.setBorder(new RoundedBorder(10));
 		selectTableLabel.setText("Select Table");
 		deleteTable.setText("Delete Table");
 		deleteTable.addActionListener(new java.awt.event.ActionListener() {
@@ -235,7 +232,6 @@ public class RestoAppPage extends JFrame{
 		
 		//UPDATE TABLE
 		updateTable = new MyButton();
-		updateTable.setBorder(new RoundedBorder(10));
 		updateTable.setText("Update Table");
 		updateTable.addActionListener(new ActionListener() {
 			
@@ -258,7 +254,6 @@ public class RestoAppPage extends JFrame{
 		
 		//MOVE TABLE 
 		moveTable = new MyButton();
-		moveTable.setBorder(new RoundedBorder(10));
 		moveTable.setText("Move Table");
 		moveTable.addActionListener(new ActionListener() {
 			
@@ -322,7 +317,6 @@ public class RestoAppPage extends JFrame{
 		selectMenuLabel.setText("Select Menu");
 		//selectedMenu = null;
 		displayMenu = new MyButton("Display Menu");
-		displayMenu.setBorder(new RoundedBorder(10));
 		selectedMenu = null;
 		displayMenu.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -346,7 +340,6 @@ public class RestoAppPage extends JFrame{
 		tablesDesc = new JLabel();
 		tablesDesc.setText("(enter table # seperated by ',')");
 		startOrder = new MyButton();
-		startOrder.setBorder(new RoundedBorder(10));
 		startOrder.setText("Start Order");
 		startOrder.addActionListener(new ActionListener() {
 			@Override
@@ -392,7 +385,6 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		endOrder = new MyButton();
-		endOrder.setBorder(new RoundedBorder(10));
 		orderLabel.setText("Select Order");
 		endOrder.setText("End Order");
 		endOrder.addActionListener(new java.awt.event.ActionListener() {
@@ -450,7 +442,6 @@ public class RestoAppPage extends JFrame{
 		//ISSUEBILL
 		issueBillLabel.setText("Issue Bill");
 		issueBill = new MyButton();
-		issueBill.setBorder(new RoundedBorder(10));
 		issueBill.setText("Issue Bill");
 		
 		issueBill.addActionListener(new ActionListener() {
@@ -468,9 +459,8 @@ public class RestoAppPage extends JFrame{
 		//END ISSUEBILL
 		
 		//CANCEL ORDER
-		cancelLabel = new JLabel("Cancel Order");
 		cancelTable = new MyButton();
-		cancelTable.setText("Cancel Order by Table");
+		cancelTable.setText("Cancel Order");
 		cancelTable.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -597,6 +587,8 @@ public class RestoAppPage extends JFrame{
 						.addComponent(orderLabel)
 						.addGroup(layout.createParallelGroup()
 								.addComponent(currentOrderList, 200, 200, 400)
+								.addComponent(cancelTable)
+								.addComponent(cancelOrderItem)
 								.addComponent(endOrder)
 								.addComponent(deleteReservation)
 								.addComponent(currentOrderList)
@@ -613,19 +605,14 @@ public class RestoAppPage extends JFrame{
 								.addComponent(issueBill, 200, 200, 200)
 								))
 				.addGroup(layout.createSequentialGroup()
-						.addComponent(cancelLabel)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(cancelTable)
-								.addComponent(cancelOrderItem)))
-				.addGroup(layout.createSequentialGroup()
 						.addComponent(updateLabel)
 						.addComponent(updateMenuItem))	
 				
 				//.addComponent(tableVisualizer)
 				//END DISPLAY MENU
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {cancelLabel,orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, viewOrderLabel, issueBillLabel, updateLabel});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelLabel,orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, viewOrderLabel, issueBillLabel, updateLabel});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, viewOrderLabel, issueBillLabel, updateLabel});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, viewOrderLabel, issueBillLabel, updateLabel});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable});
@@ -704,6 +691,10 @@ public class RestoAppPage extends JFrame{
 						.addComponent(orderLabel)
 						.addComponent(currentOrderList))
 				.addGroup(layout.createParallelGroup()
+						.addComponent(cancelTable))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(cancelOrderItem))
+				.addGroup(layout.createParallelGroup()
 						.addComponent(endOrder))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(reservationLabel)
@@ -714,11 +705,6 @@ public class RestoAppPage extends JFrame{
 				.addGroup(layout.createParallelGroup()
 						.addComponent(issueBillLabel)
 						.addComponent(issueBill))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(cancelLabel)
-						.addComponent(cancelTable))
-				.addGroup(layout.createParallelGroup()
-						.addComponent(cancelOrderItem))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(updateLabel)
 						.addComponent(updateMenuItem))
