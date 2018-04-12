@@ -423,12 +423,17 @@ public class RestoAppController {
 					table.endOrder(order);
 				}
 			}
-			if (allTablesAvailableOrDifferentCurrentOrder(tablesList, order)) {
-				restoApp.removeCurrentOrder(order);
-				
-				//System.out.println("removed");
-				RestoAppApplication.save();
-			}
+			//System.out.println("available now");
+			restoApp.removeCurrentOrder(order);
+			//System.out.println("removed");
+			RestoAppApplication.save();
+//			if (allTablesAvailableOrDifferentCurrentOrder(tablesList, order)) {
+//				System.out.println("can remove current Order");
+//				restoApp.removeCurrentOrder(order);
+//				
+//				//System.out.println("removed");
+//				
+//			}
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
