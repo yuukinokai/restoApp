@@ -464,7 +464,7 @@ public class RestoAppController {
 	public static boolean allTablesAvailableOrDifferentCurrentOrder(List<Table> tables, Order order) {
 		boolean canRemove = true;
 		for (Table table : tables) {
-			if (table.getStatusFullName() != "Available" || table.getOrder(table.numberOfOrders()-1).equals(order)) {
+			if (table.getStatusFullName() != "Available") {
 				
 				canRemove = false;
 				break;
