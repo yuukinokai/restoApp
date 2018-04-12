@@ -3,11 +3,16 @@ package ca.mcgill.ecse223.resto.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JComboBox;
@@ -56,10 +61,17 @@ public class DisplayMenuPage extends JPanel {
 
 	private DefaultComboBoxModel orderModel = new DefaultComboBoxModel<Order>();
 
+	private BufferedImage img;
 
 	public DisplayMenuPage() {
 		super();
 		init();
+		try {
+            img = ImageIO.read(new File(
+                    "menu.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		for (Table table : RestoAppController.getCurrentTables()) {
 			System.out.println(table.getNumber());
 			System.out.println(table.getCurrentSeats().size());
@@ -67,18 +79,20 @@ public class DisplayMenuPage extends JPanel {
 		}
 	}
 
-	private void init() {
+	public void init() {
 		this.setSize(200, 250);
 		setBackground(Color.WHITE);
 		
 		//JLabel menu name
-		menuName = new JLabel("Menu",JLabel.CENTER);
+		//menuName = new JLabel("Menu",JLabel.CENTER);
+		menuName = new JLabel();
 		Font font = new Font("Century Gothic", Font.BOLD, 20);
 		menuName.setFont(font);
 		menuName.setHorizontalTextPosition(JLabel.CENTER);
 		
 		//JPanel(grid)
 		grid = new JPanel();
+		grid.setOpaque(false);
 		grid.setLayout(new GridLayout(3,3));
 		grid.setBackground( Color.WHITE );
 
@@ -287,6 +301,12 @@ public class DisplayMenuPage extends JPanel {
 		}
 		updateModel();
 	}
+	@Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        // paint the background image and scale it to fill the entire space
+        g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+    }
 	
 	public JLabel getMenuLabel(){
 		return menuName;
