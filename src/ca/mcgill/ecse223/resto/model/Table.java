@@ -352,10 +352,13 @@ public class Table implements Serializable
       case Ordered:
         // line 43 "../../../../../TableState.ump"
         // delete all order items of the table
-    	  for(int i = 0; i <= this.getOrder(this.numberOfOrders()-1).getOrderItems().size(); i++) {
-  			this.getOrder(this.numberOfOrders()-1).getOrderItem(i).delete();
-  			System.out.println(this.getOrder(this.numberOfOrders()-1).getOrderItems().size());
-  	  }
+    	  
+    	  	List<OrderItem> orderItemsList = getOrder(numberOfOrders()-1).getOrderItems();
+    	  	OrderItem[] orderItems = orderItemsList.toArray(new OrderItem[orderItemsList.size()]);
+    	  	for (OrderItem oi: orderItems) {
+    	  		oi.delete();
+    	  	}
+    	  	
         setStatus(Status.NothingOrdered);
         wasEventProcessed = true;
         break;

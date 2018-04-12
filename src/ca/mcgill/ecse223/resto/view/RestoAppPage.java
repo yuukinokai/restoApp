@@ -31,9 +31,9 @@ import ca.mcgill.ecse223.resto.model.TakeOut;
 public class RestoAppPage extends JFrame{
 	
 	private static final long serialVersionUID = -3496706717743749508L;
-	private DefaultComboBoxModel model = new DefaultComboBoxModel<Table>();
-	private DefaultComboBoxModel model2 = new DefaultComboBoxModel<Table>();
-	private DefaultComboBoxModel model3 = new DefaultComboBoxModel<Order>();
+	private DefaultComboBoxModel<Table> model = new DefaultComboBoxModel<Table>();
+	private DefaultComboBoxModel<Table> model2 = new DefaultComboBoxModel<Table>();
+	private DefaultComboBoxModel<Order> model3 = new DefaultComboBoxModel<Order>();
 	
 	private JLabel errorMessage;
 	private String error = null;
@@ -53,7 +53,6 @@ public class RestoAppPage extends JFrame{
 	private JComboBox<Table> existingTableList;
 	private MyButton addExistingTable;
 	private Integer selectedExistingTable = -1;
-	private HashMap<Integer, Table> existingTables;
 	
 	//END EXISTING TABLE
 	
@@ -62,7 +61,6 @@ public class RestoAppPage extends JFrame{
 	private JComboBox<Table> currentTableList;
 	private MyButton deleteTable;
 	private Integer selectedTable = -1;
-	private HashMap<Integer, Table> tables;
 	//END DELETE TABLE
 	
 	//UPDATE TABLE
@@ -79,7 +77,6 @@ public class RestoAppPage extends JFrame{
 	private JComboBox<String>itemCategoryList;
 	private MyButton displayMenu;
 	private Integer selectedMenu=-1;
-	private HashMap<Integer, ItemCategory> items;
 	//END DISPLAY MENU
 	
 	//AddReservation
@@ -478,7 +475,7 @@ public class RestoAppPage extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				error = null;
 				try {
-					CancelTableActionPerformed(e);
+					CancelTableActionPerformed(e, (Order)currentOrderList.getSelectedItem());
 				}catch(NullPointerException ex) {
 					errorMessage.setText("Error");
 				}
@@ -791,8 +788,14 @@ public class RestoAppPage extends JFrame{
 	}
 	//END VIEW ORDER
 	
-	protected void CancelTableActionPerformed(ActionEvent e) {
-		new CancelTableFrame(this);
+	protected void CancelTableActionPerformed(ActionEvent e, Order order) {
+		error = null;
+		try {
+			RestoAppController.CancelOrder(order);
+		} catch (Exception ex) {
+			error = ex.getMessage();
+		}
+		refreshData();
 	}
 	
 	protected void CancelOrderItemActionPerformed(ActionEvent e) {
