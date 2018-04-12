@@ -211,7 +211,7 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		deleteTable = new MyButton();
-		selectTableLabel.setText("Select Table");
+		selectTableLabel.setText("Select Current Table");
 		deleteTable.setText("Delete Table");
 		deleteTable.addActionListener(new java.awt.event.ActionListener() {
 			
