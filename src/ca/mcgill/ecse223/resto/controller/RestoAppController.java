@@ -785,22 +785,20 @@ public class RestoAppController {
 			} 
 	}
 	
-	public static void CancelOrder(Table table) throws InvalidInputException {
-		if(table == null) {
-			throw new InvalidInputException("Invalid Table");
+	public static void CancelOrder(Order order) throws InvalidInputException {
+		
+		if(order == null) {
+			throw new InvalidInputException("Invalid Order");
 		}
 	
-		RestoApp r = RestoAppApplication.getRestoApp();
-		List<Table> currentTables = r.getCurrentTables();
+		List<Table> tables = order.getTables();
 		
-		if(!currentTables.contains(table)) {
-			throw new InvalidInputException("This table is unavailable");
+		for (Table table: tables) {
+			if (table.getOrder(table.numberOfOrders() - 1) == order) {
+				table.cancelOrder();
+			}
 		}
 		
-		
-		table.cancelOrder();
-				
-
 		try {
 			RestoAppApplication.save();
 		} catch (Exception e) {

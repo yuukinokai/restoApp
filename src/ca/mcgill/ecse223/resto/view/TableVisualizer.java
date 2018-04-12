@@ -7,10 +7,14 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -27,8 +31,16 @@ public class TableVisualizer extends JPanel{
 	private Table selectedTable;
 	private JLabel tableName;
 	
+	private BufferedImage img;
+	private Boolean setBackground = false;
 	public TableVisualizer(){
 		super();
+		try {
+            img = ImageIO.read(new File(
+                    "pictures/floor3.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		init();
 	}
 
@@ -112,6 +124,7 @@ public class TableVisualizer extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		drawTables(g);
-	}
+		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+		drawTables(g);	
+	} 
 }

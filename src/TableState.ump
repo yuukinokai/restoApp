@@ -61,6 +61,11 @@ class Table {
         	}
          } -> Ordered;
          cancelOrder() / {
+	 	  	List<OrderItem> orderItemsList = getOrder(numberOfOrders()-1).getOrderItems();
+	    	  	OrderItem[] orderItems = orderItemsList.toArray(new OrderItem[orderItemsList.size()]);
+	    	  	for (OrderItem oi: orderItems) {
+	    	  		oi.delete();
+	    	  	}
             // delete all order items of the table
          } -> NothingOrdered;
          billForSeat(Order o, Seat s) / {
