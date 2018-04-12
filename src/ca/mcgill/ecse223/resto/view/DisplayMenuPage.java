@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 
@@ -63,9 +64,9 @@ public class DisplayMenuPage extends JPanel {
 
 	private BufferedImage img;
 
-	public DisplayMenuPage() {
+	public DisplayMenuPage(RestoAppPage app) {
 		super();
-		init();
+		init(app);
 		try {
             img = ImageIO.read(new File(
                     "pictures/menu.jpg"));
@@ -79,7 +80,7 @@ public class DisplayMenuPage extends JPanel {
 		}
 	}
 
-	public void init() {
+	public void init(RestoAppPage app) {
 		this.setSize(200, 250);
 		setBackground(Color.WHITE);
 		
@@ -155,7 +156,7 @@ public class DisplayMenuPage extends JPanel {
 				error =null;
 				try{
 					
-					addOrderButtonActionPerformed(evt, (Order) orderList.getSelectedItem());
+					addOrderButtonActionPerformed(evt, (Order) orderList.getSelectedItem(), app);
 				}
 				catch(NullPointerException ex){
 					errorMessage.setText("Error");
@@ -216,7 +217,7 @@ public class DisplayMenuPage extends JPanel {
 		updateModel();
 	}
 	
-	protected void addOrderButtonActionPerformed(ActionEvent evt, Order order) {
+	protected void addOrderButtonActionPerformed(ActionEvent evt, Order order, RestoAppPage app) {
 		// TODO Auto-generated method stub
 		//To implement
 		try {
@@ -261,7 +262,7 @@ public class DisplayMenuPage extends JPanel {
 			for (Seat seat : selectedSeats) {
 				System.out.println(RestoAppController.isAvailable(seat));
 			}
-			
+			app.refreshData();
 			
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Invalid Inputs", null, JOptionPane.ERROR_MESSAGE);

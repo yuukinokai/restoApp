@@ -507,7 +507,7 @@ public class RestoAppPage extends JFrame{
 
 
 		// MENU
-		menu = new DisplayMenuPage();
+		menu = new DisplayMenuPage(this);
 		scrollDisplayMenuPage = new  JScrollPane(menu);
 		
 		
