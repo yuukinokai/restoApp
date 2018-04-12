@@ -400,6 +400,19 @@ public class Table implements Serializable
         // add provided seat to provided bill unless seat has already been added, in which case nothing needs
             // to be done; if the provided seat is already assigned to another bill for the current order, then the
             // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
+    	  
+      	  if (s.hasBills()) {
+    		  List<Bill>bills = s.getBills();
+    		  for (Bill bill : bills) {
+    			  s.removeBill(bill);
+    		  }
+    	  }
+    	  //delete bill because no seats issued for bill
+		  if (!b.hasIssuedForSeats()) {
+			  b.delete();
+		  }
+		  b.addIssuedForSeat(s);
+	        
         setStatus(Status.Ordered);
         wasEventProcessed = true;
         break;
