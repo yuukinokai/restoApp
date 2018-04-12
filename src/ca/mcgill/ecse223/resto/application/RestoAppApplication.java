@@ -39,10 +39,6 @@ public class RestoAppApplication {
 		else {
 			restoApp.reinitialize();
 		}
-	    if (restoApp.getCurrentTakeOut() == null) {
-	    		restoApp.createDefaultTakeOut();
-	    }
-
 //		Table t = restoApp.addTable(0, 0, 0, 5, 10);
 //		restoApp.addCurrentTable(t);
 //		t = restoApp.addTable(1, 20,20, 10, 10);

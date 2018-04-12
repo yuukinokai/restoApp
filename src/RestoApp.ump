@@ -45,7 +45,6 @@ class Order {
    autounique number;
    * orders -- 1..* Table tables; // only from currentTables for currentOrders
    1 <@>- * OrderItem orderItems;
-   * orders -- * Seat seats;
 }
 
 class OrderItem {

@@ -10,6 +10,10 @@ class RestoApp {
     Order.reinitializeAutouniqueNumber(this.getOrders());
     MenuItem.reinitializeUniqueMenuItemName(this.menu.getMenuItems());
     Table.reinitializeUniqueNumber(this.getTables());
+    if (this.currentTakeOut == null) {
+    	this.createDefaultTakeOut();
+    }
+    
   }
 }
 
@@ -97,24 +101,13 @@ class Order {
     nextNumber++;
   }
    public String toString(){
-    List<Table> tables = this.getTables();
-    boolean isTakeOut = true;
-    
+	   List<Table> tables = this.getTables();
 	   String tableList = " : Tables ";
 	   for (Table table : tables) {
-		   if (isTakeOut == true){
-			   if (table instanceof TakeOut) {
-				   tableList = " : Take Out";
-				   break;
-			   } else {
-				   isTakeOut = false;
-			   }
-		   }
-			   
 		   tableList += "#" + table.getNumber() + " ";
 	   }
 	   
-	return "Order # " + this.getNumber() + tableList;
+	return "Order #" + this.getNumber() + tableList;
   }
 }
 
@@ -150,9 +143,6 @@ class MenuItem {
     	menuItemsByName.put(menuItem.getName(), menuItem);
     }
   }
-    return getPricedMenuItem().getMenuItem().getName().toString() + " " + quantity + 
-			  " serving(s)" + ". Order #" + this.getOrder().getNumber();
-   }
 }
 
 class PricedMenuItem {
