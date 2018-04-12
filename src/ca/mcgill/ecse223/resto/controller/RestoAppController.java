@@ -417,23 +417,42 @@ public class RestoAppController {
 		Table[] tables = tablesList.toArray(new Table[tablesList.size()]);
 
 		try {
+			//List<OrderItem> orderItems = order.getOrderItems();
+			boolean orderedDone = true;
 			for (Table table : tables) {
-				//System.out.println("Table" + table.getNumber());
-				if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders()-1).equals(order)) {
-					table.endOrder(order);
+				if(table.getStatusFullName() == "Ordered") {
+					//System.out.println("Table" + table.getNumber());
+					if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders()-1).equals(order)) {
+						table.endOrder(order);
+						if(table.getStatusFullName() != "Available") {
+							orderedDone = false;
+							break;
+						}
+					}
+					
+				}
+			}
+			if(orderedDone) {
+				for (Table table : tables) {
+					if(table.getStatusFullName() == "NothingOrdered") {
+						//System.out.println("Table" + table.getNumber());
+						if (table.numberOfOrders() > 0 && table.getOrder(table.numberOfOrders()-1).equals(order)) {
+							table.endOrder(order);
+						}
+					}
 				}
 			}
 			//System.out.println("available now");
-			restoApp.removeCurrentOrder(order);
+			//restoApp.removeCurrentOrder(order);
 			//System.out.println("removed");
-			RestoAppApplication.save();
-//			if (allTablesAvailableOrDifferentCurrentOrder(tablesList, order)) {
-//				System.out.println("can remove current Order");
-//				restoApp.removeCurrentOrder(order);
-//				
-//				//System.out.println("removed");
-//				
-//			}
+			
+			if (allTablesAvailableOrDifferentCurrentOrder(tablesList, order)) {
+				System.out.println("can remove current Order");
+				restoApp.removeCurrentOrder(order);
+				RestoAppApplication.save();
+				//System.out.println("removed");
+				
+			}
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

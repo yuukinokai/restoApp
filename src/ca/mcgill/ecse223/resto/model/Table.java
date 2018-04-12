@@ -995,6 +995,10 @@ public class Table implements Serializable
 	      					allBilled = false;
 	      					break;
 	      				}
+	      				if (seat.getBill(seat.numberOfBills()-1).getOrder() != order) {
+	      					allBilled = false;
+	      					break;
+	      				}
 	      			}
 	      		}
 	      	}
