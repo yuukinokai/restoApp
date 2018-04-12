@@ -642,10 +642,6 @@ public class RestoAppController {
 		for (Seat seat : seats) {
 			Table table = seat.getTable();
 			
-			if (!currentTables.contains(table)) {
-				throw new InvalidInputException("Table not a current table");
-			}
-			
 			List<Seat> currentSeats = table.getCurrentSeats();
 			if (!currentSeats.contains(seat)) {
 				throw new InvalidInputException("Seat not a current seat");
