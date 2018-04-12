@@ -68,7 +68,7 @@ public class DisplayMenuPage extends JPanel {
 		init();
 		try {
             img = ImageIO.read(new File(
-                    "menu.jpg"));
+                    "pictures/menu.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
