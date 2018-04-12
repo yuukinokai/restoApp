@@ -166,12 +166,12 @@ public class CreateBillFrame extends JPanel {
 		try {
 			//create ArrayList of seats associated with the order
 			List<Table> tableList = order.getTables();
-			List<Seat> seats = new ArrayList<Seat>();
-			for (Table table : tableList) {
-				for(Seat seat : table.getSeats()) {
-					seats.add(seat);
-				}
-			}
+			List<Seat> seats = order.getSeats();
+//			for (Table table : tableList) {
+//				for(Seat seat : table.getSeats()) {
+//					seats.add(seat);
+//				}
+//			}
 			//create ArrayList to store selected seats
 			List<Seat> selectedSeats = new ArrayList<Seat>();
 			String[] seatsNumbers = seatList.getText().split(",");
