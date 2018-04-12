@@ -1,3 +1,4 @@
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
@@ -998,6 +999,10 @@ public class Table implements Serializable
 	      					allBilled = false;
 	      					break;
 	      				}
+	      				if (seat.getBill(seat.numberOfBills()-1).getOrder() != order) {
+	      					allBilled = false;
+	      					break;
+	      				}
 	      			}
 	      		}
 	      	}
@@ -1011,6 +1016,4 @@ public class Table implements Serializable
   
   // line 58 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 8896099581655989380L ;
-
-  
 }
