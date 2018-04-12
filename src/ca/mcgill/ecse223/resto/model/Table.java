@@ -378,11 +378,6 @@ public class Table implements Serializable
         // create a new bill with the provided order and seat; if the provided seat is already assigned to
             // another bill for the current order, then the seat is first removed from the other bill and if no seats
             // are left for the bill, the bill is deleted
-    	 for (Order order:restoApp.getCurrentOrders()) {
-    		 
-    	 }
-    	
-    	  
         setStatus(Status.Ordered);
         wasEventProcessed = true;
         break;
