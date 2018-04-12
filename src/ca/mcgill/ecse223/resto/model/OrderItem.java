@@ -303,7 +303,7 @@ public class OrderItem implements Serializable
 
   // line 127 "../../../../../RestoAppPersistence.ump"
    public String toString(){
-    return String.format("%d¡Á%s | Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
+    return String.format("%d\u00D7 | Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
   }
   
   //------------------------
@@ -314,5 +314,4 @@ public class OrderItem implements Serializable
   private static final long serialVersionUID = 2045406856025012133L ;
 
   
-
 }

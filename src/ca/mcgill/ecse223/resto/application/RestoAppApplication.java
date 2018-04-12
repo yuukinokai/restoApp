@@ -1,5 +1,8 @@
 package ca.mcgill.ecse223.resto.application;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.TakeOut;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
@@ -12,6 +15,13 @@ public class RestoAppApplication {
 	
 	public static void main(String[] args) {
 		// start UI
+        try {
+			UIManager.setLookAndFeel(
+			        UIManager.getLookAndFeel());
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RestoAppPage().setVisible(true);

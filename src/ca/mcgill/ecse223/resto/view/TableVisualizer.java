@@ -47,8 +47,8 @@ public class TableVisualizer extends JPanel{
 	private void init() {
 		this.setSize(500,300);
 		this.setBackground(Color.WHITE);
-		
 		tableName = new JLabel("Select Table To See Number");
+		tableName.setForeground(Color.white);
 		Font font = new Font("Century Gothic", Font.BOLD, 20);
 		tableName.setFont(font);
 		//tableName.setHorizontalTextPosition(JLabel.LEFT);
@@ -88,11 +88,13 @@ public class TableVisualizer extends JPanel{
 				rectangles.add(rectangle);
 				
 				tables.put(rectangle, table);
-				if (table.getStatusFullName() == "Available") {
-					g2d.setColor(new Color(152,255,153));
+				if (table.getStatus() == Table.Status.Available) {
+					g2d.setColor(new Color(129,199,132));
 				}
-				else {
-					g2d.setColor(new Color(255, 102, 102));
+				else if(table.getStatus() == Table.Status.NothingOrdered) {
+					g2d.setColor(new Color(255, 193, 7));
+				}else{
+					g2d.setColor(new Color(244, 67, 54));
 				}
 				
 				g2d.fill(rectangle);

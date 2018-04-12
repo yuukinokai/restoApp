@@ -124,7 +124,7 @@ class OrderItem {
   private static final long serialVersionUID = 2045406856025012133L;
   
 	public String toString() {
-		return String.format("%d¡Á%s | Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
+		return String.format("%d\u00D7 | Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
 	}
   
 }
@@ -155,15 +155,16 @@ class MenuItem {
     	menuItemsByName.put(menuItem.getName(), menuItem);
     }
   }
-    return getPricedMenuItem().getMenuItem().getName().toString() + " " + quantity + 
-			  " serving(s)" + ". Order #" + this.getOrder().getNumber();
-   }
+
+
+
 }
 
 class PricedMenuItem {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = -4855219931984388104L;
+  
 }
 
 class Bill {
