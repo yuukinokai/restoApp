@@ -301,14 +301,11 @@ public class OrderItem implements Serializable
     }
   }
 
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "quantity" + ":" + getQuantity()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "pricedMenuItem = "+(getPricedMenuItem()!=null?Integer.toHexString(System.identityHashCode(getPricedMenuItem())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "order = "+(getOrder()!=null?Integer.toHexString(System.identityHashCode(getOrder())):"null");
-  }  
+  // line 127 "../../../../../RestoAppPersistence.ump"
+   public String toString(){
+    return String.format("%d¡Á%s | Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
+  }
+  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------

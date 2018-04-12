@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.resto.application;
 
 import ca.mcgill.ecse223.resto.model.RestoApp;
+import ca.mcgill.ecse223.resto.model.TakeOut;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.resto.view.RestoAppPage;
 
@@ -41,6 +42,14 @@ public class RestoAppApplication {
 		}
 	    if (restoApp.getCurrentTakeOut() == null) {
 	    		restoApp.createDefaultTakeOut();
+	    } else {
+	    	TakeOut takeOut = restoApp.getCurrentTakeOut();
+	    	if (takeOut.getSeats().size() == 0)
+	    	{
+	    		takeOut.addCurrentSeat(takeOut.addSeat());
+	    	} else if (takeOut.getCurrentSeats().size() == 0) {
+	    		takeOut.addCurrentSeat(takeOut.getSeat(0));
+	    	}
 	    }
 
 //		Table t = restoApp.addTable(0, 0, 0, 5, 10);

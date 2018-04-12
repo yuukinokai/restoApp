@@ -738,34 +738,21 @@ public class RestoAppController {
 			throw new InvalidInputException("Invalid Order Item");	
 		}
 		 
-		 List<Seat> seats = aOrderItem.getSeats();
 		 Order order = aOrderItem.getOrder();
-		 List<Table> tables = new ArrayList<Table>();
-		 
-		 for(Seat seat : seats) {
-			 Table table = seat.getTable();
-			 
-			 
-			 Order lastOrder = null;
-			 if(table.numberOfOrders() > 0) {
-				 lastOrder = table.getOrder(table.numberOfOrders()-1);
+		 List<Table> tables = order.getTables();
+		 boolean isUsed = false;
+		 for (Table table: tables) {
+			 if(table.getOrder(table.numberOfOrders() - 1).equals(order)) {
+				 isUsed |= true;
 			 }
-			 else {
-				 throw new InvalidInputException("Invalid Order Item");
-			 }
-			 
-			 if(lastOrder.equals(order)&&!tables.contains(table)) {
-				 System.out.println(lastOrder.getOrderItems());
-				 tables.add(table);
-			 }
-		 
-		 
-		 for(Table table1 : tables) {
-			 table1.cancelOrderItem(aOrderItem);
-			 System.out.println(table1.getOrder(table.numberOfOrders()-1).getOrderItems());
-		 	}
 		 }
-			 
+		 if (!isUsed) {
+			 throw new InvalidInputException("Invalid Order Item");
+		 }
+		 for (Table table: tables) {
+			 table.cancelOrderItem(aOrderItem);
+		 }
+		 
 		 try {
 				RestoAppApplication.save();
 			} catch (Exception e) {

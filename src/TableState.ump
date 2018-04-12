@@ -36,9 +36,29 @@ class Table {
          } -> Ordered;
          cancelOrderItem(OrderItem i) [iIsLastItem(i)] / {
             // delete order item
+        	List<Seat> seatList = i.getSeats();
+        	Seat[] seats = seatList.toArray(new Seat[seatList.size()]);
+        	for (Seat seat: seats) {
+        		if (seat.getTable() == this) {
+        			if (!seat.removeOrderItem(i)) { // this happen because there is a minimum of 1 seat per orderitem....
+        				i.delete(); // we thus remove it if its the only one attached to that seat
+        			}
+
+        		}
+        	}
          } -> NothingOrdered;
          cancelOrderItem(OrderItem i) [!iIsLastItem(i)] / {
             // delete order item
+        	List<Seat> seatList = i.getSeats();
+        	Seat[] seats = seatList.toArray(new Seat[seatList.size()]);
+        	for (Seat seat: seats) {
+        		if (seat.getTable() == this) {
+        			if (!seat.removeOrderItem(i)) { // this happen because there is a minimum of 1 seat per orderitem....
+        				i.delete(); // we thus remove it if its the only one attached to that seat
+        			}
+
+        		}
+        	}
          } -> Ordered;
          cancelOrder() / {
             // delete all order items of the table
