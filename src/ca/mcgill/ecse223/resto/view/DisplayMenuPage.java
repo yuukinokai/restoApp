@@ -207,12 +207,12 @@ public class DisplayMenuPage extends JPanel {
 		//To implement
 		try {
 			List<Table> tableList = order.getTables();
-			List<Seat> seats = new ArrayList<Seat>();
-			for (Table table : tableList) {
-				for(Seat seat : table.getSeats()) {
-					seats.add(seat);
-				}
-			}
+			List<Seat> seats = order.getSeats();
+//			for (Table table : tableList) {
+//				for(Seat seat : table.getSeats()) {
+//					seats.add(seat);
+//				}
+//			}
 			List<Seat> selectedSeats = new ArrayList<Seat>();
 			String[] seatsNumbers = seatList.getText().split(",");
 			ArrayList<Integer> seatNumbers = new ArrayList<Integer>();
@@ -230,7 +230,7 @@ public class DisplayMenuPage extends JPanel {
 			}
 			
 			for(int seatNumber : seatNumbers) {
-				if (seatNumber > seats.size()) {
+				if (seatNumber < 0 || seatNumber > seats.size()) {
 					JOptionPane.showMessageDialog(null, "One or more entered seats doesn't exist", null, JOptionPane.ERROR_MESSAGE);
 			        return;
 				}
@@ -250,7 +250,7 @@ public class DisplayMenuPage extends JPanel {
 			
 			
 		}catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Invalid Inputs", null, JOptionPane.ERROR_MESSAGE);
 		}
 		updateModel();
 		
