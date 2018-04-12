@@ -425,6 +425,7 @@ public class RestoAppController {
 			}
 			if (allTablesAvailableOrDifferentCurrentOrder(tablesList, order)) {
 				restoApp.removeCurrentOrder(order);
+				
 				//System.out.println("removed");
 				RestoAppApplication.save();
 			}

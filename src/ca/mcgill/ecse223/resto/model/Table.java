@@ -376,6 +376,7 @@ public class Table implements Serializable
       case Ordered:
         // line 46 "../../../../../TableState.ump"
         // create a new bill with the provided order and seat; if the provided seat is already assigned to
+    	  Bill bill = new Bill(o, this.restoApp, s);
             // another bill for the current order, then the seat is first removed from the other bill and if no seats
             // are left for the bill, the bill is deleted
         setStatus(Status.Ordered);
@@ -401,16 +402,16 @@ public class Table implements Serializable
             // to be done; if the provided seat is already assigned to another bill for the current order, then the
             // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
     	  
-      	  if (s.hasBills()) {
-    		  List<Bill>bills = s.getBills();
-    		  for (Bill bill : bills) {
-    			  s.removeBill(bill);
-    		  }
-    	  }
-    	  //delete bill because no seats issued for bill
-		  if (!b.hasIssuedForSeats()) {
-			  b.delete();
-		  }
+//      	  if (s.hasBills()) {
+//    		  List<Bill>bills = s.getBills();
+//    		  for (Bill bill : bills) {
+//    			  s.removeBill(bill);
+//    		  }
+//    	  }
+//    	  //delete bill because no seats issued for bill
+//		  if (!b.hasIssuedForSeats()) {
+//			  b.delete();
+//		  }
 		  b.addIssuedForSeat(s);
 	        
         setStatus(Status.Ordered);
