@@ -313,7 +313,7 @@ public class RestoAppPage extends JFrame{
 				try {
 					Order o = (Order)currentOrderList.getSelectedItem();
 					if (o == null) {
-						error = "Please select a valid Order";
+						error = "Invalid Order";
 						errorMessage.setText(error);
 						throw new NullPointerException();
 					}
@@ -522,7 +522,7 @@ public class RestoAppPage extends JFrame{
 				try {
 					CancelOrderItemActionPerformed(e, (Order)currentOrderList.getSelectedItem());
 				}catch(NullPointerException ex) {
-					errorMessage.setText("Error");
+					errorMessage.setText("Invalid Order");
 				}
 			}
 		});	
