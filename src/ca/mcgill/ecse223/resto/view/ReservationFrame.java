@@ -49,7 +49,7 @@ public class ReservationFrame extends JFrame {
 	    String tableNumbers = "";
 	    
 	    for(Table table : tables) {
-	    	tableNumbers = "#" + String.valueOf(table.getNumber()) + " ";
+	    	tableNumbers += "#" + String.valueOf(table.getNumber()) + " ";
 	    }
 	    JLabel lblTableNumber = new JLabel("Table Numbers ");
 	    tableNumber.setText(tableNumbers);
