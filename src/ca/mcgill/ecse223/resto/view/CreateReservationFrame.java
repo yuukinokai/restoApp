@@ -74,7 +74,7 @@ public CreateReservationFrame(RestoAppPage app) {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				LocalDate aLocalDate = datePicker.getDate();
-				Date aDate = new Date(aLocalDate.getYear()-1900, aLocalDate.getMonthValue(), aLocalDate.getDayOfMonth());
+				Date aDate = new Date(aLocalDate.getYear()-1900, aLocalDate.getMonthValue()-1, aLocalDate.getDayOfMonth());
 				LocalTime aLocalTime = timePicker.getTime();
 				Time aTime = new Time(aLocalTime.getHour(), aLocalTime.getMinute(), aLocalTime.getSecond());
 				
