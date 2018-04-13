@@ -72,9 +72,7 @@ public class BillFrame extends JFrame {
 	    		String s = oi.getPricedMenuItem().getMenuItem().getName() + " " + String.valueOf(price);
 	    		listModel.addElement(s);
 	    	}
-//	    	orderList +=  " || " + oi.getPricedMenuItem().getMenuItem().getName() + " ";
-//	    	double price = (oi.getPricedMenuItem().getPrice()/oi.getQuantity()); 
-//	    	orderList += String.valueOf(price);
+
 	    }
 	    listModel.addElement("Total : " + String.valueOf(total));
 		order.setText(orderList);
@@ -88,26 +86,18 @@ public class BillFrame extends JFrame {
 		
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
-					.addGroup(				
-						layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup()
-									.addComponent(order))
-							.addGroup(layout.createSequentialGroup()
-									.addComponent(list))
-							
-					
-							.addGroup(layout.createSequentialGroup()
-									.addComponent(exitViewOrder))));
+				.addComponent(order)
+				.addComponent(list)
+				.addComponent(exitViewOrder)
+				);
+
 		
 		layout.setVerticalGroup(
 				   layout.createSequentialGroup()
-				      .addGroup(layout.createParallelGroup()
-				           .addComponent(order))
-				      .addGroup(layout.createParallelGroup()
-				    		  .addComponent(list))
-				      
-				      .addGroup(layout.createParallelGroup()
-				    		  .addComponent(exitViewOrder)));
+				   .addComponent(order)
+					.addComponent(list)
+					.addComponent(exitViewOrder)
+					);
 	    
 	    viewOrder.pack();
 	    viewOrder.setVisible(true);

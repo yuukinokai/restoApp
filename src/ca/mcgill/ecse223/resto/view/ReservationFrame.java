@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
@@ -41,45 +42,97 @@ public class ReservationFrame extends JFrame {
 	    
 	    DefaultListModel<String> listModel = new DefaultListModel<String>();
 	    JList<String> list = new JList<String>(listModel); 
-
-
-	    
 	    list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 	    list.setLayoutOrientation(JList.VERTICAL);
 	    list.setVisibleRowCount(-1);
-
 	    JScrollPane listScroller = new JScrollPane(list);
+	    
+	    DefaultListModel<String> listModel2 = new DefaultListModel<String>();
+	    JList<String> list2 = new JList<String>(listModel2); 
+	    list2.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	    list2.setLayoutOrientation(JList.VERTICAL);
+	    list2.setVisibleRowCount(-1);
+	    JScrollPane listScroller2 = new JScrollPane(list2);
+	    
+	    DefaultListModel<String> listModel3 = new DefaultListModel<String>();
+	    JList<String> list3 = new JList<String>(listModel3); 
+	    list3.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	    list3.setLayoutOrientation(JList.VERTICAL);
+	    list3.setVisibleRowCount(-1);
+	    JScrollPane listScroller3 = new JScrollPane(list3);
+	    
+	    DefaultListModel<String> listModel4 = new DefaultListModel<String>();
+	    JList<String> list4 = new JList<String>(listModel4); 
+	    list4.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	    list4.setLayoutOrientation(JList.VERTICAL);
+	    list4.setVisibleRowCount(-1);
+	    JScrollPane listScroller4 = new JScrollPane(list4);
+	    
+	    DefaultListModel<String> listModel5 = new DefaultListModel<String>();
+	    JList<String> list5 = new JList<String>(listModel5); 
+	    list5.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	    list5.setLayoutOrientation(JList.VERTICAL);
+	    list5.setVisibleRowCount(-1);
+	    JScrollPane listScroller5 = new JScrollPane(list5);
+	    
+	    DefaultListModel<String> listModel6 = new DefaultListModel<String>();
+	    JList<String> list6 = new JList<String>(listModel6); 
+	    list6.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	    list6.setLayoutOrientation(JList.VERTICAL);
+	    list6.setVisibleRowCount(-1);
+	    JScrollPane listScroller6 = new JScrollPane(list6);
+	    
+	    DefaultListModel<String> listModel7 = new DefaultListModel<String>();
+	    JList<String> list7 = new JList<String>(listModel7); 
+	    list7.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	    list7.setLayoutOrientation(JList.VERTICAL);
+	    list7.setVisibleRowCount(-1);
+	    JScrollPane listScroller7 = new JScrollPane(list7);
+	    
+	    DefaultListModel<String> listModel8 = new DefaultListModel<String>();
+	    JList<String> list8 = new JList<String>(listModel8); 
+	    list8.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	    list8.setLayoutOrientation(JList.VERTICAL);
+	    list8.setVisibleRowCount(-1);
+	    JScrollPane listScroller8 = new JScrollPane(list8);
 	    
 	    
 	    //COMPONENTS
-	    listModel.addElement("Reservation Number " + res.getReservationNumber());
-	    listModel.addElement("Name : " + res.getContactName());
+	    JLabel reservation = new JLabel("Reservation Number ");
+	    listModel.addElement(String.valueOf(res.getReservationNumber()));
+	    
+	    JLabel name = new JLabel("Name : ");
+	    listModel2.addElement("" + res.getContactName());
+	    
 	    List<Table> tables = res.getTables();
-	    String tableNumbers = "Table Numbers ";
+	    String tableNumbers = "";
 	    
 	    for(Table table : tables) {
-	    	tableNumbers = tableNumbers + "#" + String.valueOf(table.getNumber()) + " ";
+	    	tableNumbers = "#" + String.valueOf(table.getNumber()) + " ";
 	    }
-	    listModel.addElement(tableNumbers);
-	    listModel.addElement("Phone Number : " + res.getContactPhoneNumber());
-	    listModel.addElement("Email : " + res.getContactEmailAddress());
-	    listModel.addElement("Number in party : " + res.getNumberInParty());
-	    listModel.addElement("Date : " + String.valueOf(res.getDate()));
-	    listModel.addElement("Time : " + String.valueOf(res.getTime()));
-//	    JLabel reservation = new JLabel("Reservation Number " + res.getReservationNumber());
-//	    JLabel name = new JLabel("Name : " + res.getContactName());
-//	    List<Table> tables = res.getTables();
-//	    String tableNumbers = "Table Numbers ";
-//	    
-//	    for(Table table : tables) {
-//	    	tableNumbers = tableNumbers + "#" + String.valueOf(table.getNumber()) + " ";
-//	    }
-//	    JLabel table = new JLabel(tableNumbers);
-//	    JLabel phone = new JLabel("Phone Number : " + res.getContactPhoneNumber());
-//	    JLabel email = new JLabel("Email : " + res.getContactEmailAddress());
-//	    JLabel number = new JLabel("Number in party : " + res.getNumberInParty());
-//	    JLabel date = new JLabel("Date : " + String.valueOf(res.getDate()));
-//	    JLabel time = new JLabel("Time : " + String.valueOf(res.getTime()));
+	    JLabel table = new JLabel("Table Numbers ");
+	    listModel3.addElement(tableNumbers);
+	    
+	    JLabel phone = new JLabel("Phone Number : ");
+	    listModel4.addElement("" + res.getContactPhoneNumber());
+	    JLabel email = new JLabel("Email : ");
+	    listModel5.addElement("" + res.getContactEmailAddress());
+	    
+	    JLabel number = new JLabel("Number in party : ");
+	    listModel6.addElement("" + res.getNumberInParty());
+	    JLabel date = new JLabel("Date : ");
+	    listModel7.addElement("" + String.valueOf(res.getDate()));
+	    JLabel time = new JLabel("Time : ");
+	    listModel8.addElement("" + String.valueOf(res.getTime()));
+	    
+	    
+	   
+	    
+	    
+	    
+	    
+	    
+	    
 	    //JLabel orderDisplay = new JLabel("Orders");
 	    MyButton exitViewOrder = new MyButton("Close");
 	    //END COMPONENTS
@@ -102,48 +155,87 @@ public class ReservationFrame extends JFrame {
 		
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
-					.addGroup(				
-						layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup()
-									.addComponent(list))
-//									.addComponent(reservation)
-//									.addComponent(name)
-//							           .addComponent(table)
-//							           .addComponent(phone)
-//							           .addComponent(email)
-//							           .addComponent(date)
-//							           .addComponent(time)
-//							           .addComponent(number))
-							
-					
 					.addGroup(layout.createSequentialGroup()
-							.addComponent(exitViewOrder))));
+								.addComponent(reservation)
+								.addComponent(list)
+							)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(name)
+							.addComponent(list2)
+							)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(table)
+							.addComponent(list3)
+							)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(phone)
+							.addComponent(list4)
+							)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(email)
+							.addComponent(list5)
+							)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(date)
+							.addComponent(list7)
+							)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(time)
+							.addComponent(list8)
+							)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(number)
+							.addComponent(list6)
+							)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(exitViewOrder)
+							)
+					);
+
 		
 		layout.setVerticalGroup(
-				   layout.createSequentialGroup()
-				      .addGroup(layout.createParallelGroup()
-				    		  .addComponent(list))
-//				           .addComponent(reservation)
-//				           )
-//				      
-//				      .addGroup(layout.createSequentialGroup()
-//								.addComponent(name))
-//						.addGroup(layout.createSequentialGroup()
-//								.addComponent(table))
-//						.addGroup(layout.createSequentialGroup()
-//								.addComponent(phone))
-//						.addGroup(layout.createSequentialGroup()
-//								.addComponent(email))
-//						.addGroup(layout.createSequentialGroup()
-//								.addComponent(date))
-//						.addGroup(layout.createSequentialGroup()
-//								.addComponent(time))
-//						.addGroup(layout.createSequentialGroup()
-//								.addComponent(number))
-				      
-				      
-				      .addGroup(layout.createParallelGroup()
-				    		  .addComponent(exitViewOrder)));
+				layout.createSequentialGroup()
+				.addGroup(
+						layout.createParallelGroup()
+						.addComponent(reservation)
+						.addComponent(list))
+				
+				.addGroup(
+						layout.createParallelGroup()
+						.addComponent(name)
+						.addComponent(list2))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(table)
+						.addComponent(list3)
+						)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(phone)
+						.addComponent(list4)
+						)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(email)
+						.addComponent(list5)
+						)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(date)
+						.addComponent(list7)
+						)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(time)
+						.addComponent(list8)
+						)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(number)
+						.addComponent(list6)
+						)
+				
+				.addComponent(exitViewOrder)
+				);
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {list, list2, list3, list4, list5, list6, list7, list8});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {list, list2, list3, list4, list5, list6, list7, list8});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {reservation, name, table, phone, email,date,time, number});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {reservation, name, table, phone, email,date,time, number});
+
 	    
 	    viewOrder.pack();
 	    viewOrder.setVisible(true);
