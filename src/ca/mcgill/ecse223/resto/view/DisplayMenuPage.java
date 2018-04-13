@@ -87,6 +87,7 @@ public class DisplayMenuPage extends JPanel {
 		//JLabel menu name
 		//menuName = new JLabel("Menu",JLabel.CENTER);
 		menuName = new JLabel();
+		menuName.setForeground(Color.white);
 		Font font = new Font("Century Gothic", Font.BOLD, 20);
 		menuName.setFont(font);
 		menuName.setHorizontalTextPosition(JLabel.CENTER);

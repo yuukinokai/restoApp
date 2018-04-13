@@ -175,7 +175,7 @@ public class RestoAppPage extends JFrame{
         existingTableList.getEditor().getEditorComponent().setBackground(Color.WHITE);
 		
 		addExistingTable = new MyButton();
-		existingTableLabel.setText("Select Table");
+		existingTableLabel.setText("Add Table");
 		addExistingTable.setText("Add Table");
 		addExistingTable.addActionListener(new java.awt.event.ActionListener() {
 			
@@ -212,7 +212,7 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		deleteTable = new MyButton();
-		selectTableLabel.setText("Select Current Table");
+		selectTableLabel.setText("Modify Current Table");
 		deleteTable.setText("Delete Table");
 		deleteTable.addActionListener(new java.awt.event.ActionListener() {
 			
@@ -276,7 +276,7 @@ public class RestoAppPage extends JFrame{
 		//END MOVE TABLE
 		
 		//VIEW ORDER
-		viewOrderLabel.setText("View Order");
+		viewOrderLabel.setText("");
 		viewOrder = new MyButton();
 		viewOrder.setText("View Order");
 		viewOrder.addActionListener(new ActionListener() {
@@ -315,7 +315,7 @@ public class RestoAppPage extends JFrame{
 				selectedMenu = itemCategoryList.getSelectedIndex();
 			}
 		});
-		selectMenuLabel.setText("Select Menu");
+		selectMenuLabel.setText("Display Menu");
 		//selectedMenu = null;
 		displayMenu = new MyButton("Display Menu");
 		selectedMenu = null;
@@ -335,9 +335,9 @@ public class RestoAppPage extends JFrame{
 		
 		//START ORDER
 		otherFeatures = new JLabel();
-		otherFeatures.setText("Other Features");
+		otherFeatures.setText("");
 		orderTables = new JLabel();
-		orderTables.setText("Tables");
+		orderTables.setText("Start Order");
 		tablesDesc = new JLabel();
 		tablesDesc.setText("(enter table # seperated by ',')");
 		startOrder = new MyButton();
@@ -386,7 +386,7 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		endOrder = new MyButton();
-		orderLabel.setText("Select Order");
+		orderLabel.setText("Modify Order");
 		endOrder.setText("End Order");
 		endOrder.addActionListener(new java.awt.event.ActionListener() {
 			
@@ -560,7 +560,8 @@ public class RestoAppPage extends JFrame{
 								.addComponent(createTable)))
 				
 				//ADD EXISTING TABLE
-				
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(otherFeatures))
 				//END EXISTING TABLE
 
 				//DELETE TABLE HORIZONTAL
@@ -580,6 +581,9 @@ public class RestoAppPage extends JFrame{
 						.addGroup(layout.createParallelGroup()
 								.addComponent(viewOrder)))
 				//END VIEW ORDER
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(otherFeatures))
+				
 				//DISPLAY MENU HORIZONTAL
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(selectMenuLabel)
@@ -598,6 +602,10 @@ public class RestoAppPage extends JFrame{
 								.addComponent(tablesDesc)
 								.addComponent(startOrder)
 								.addComponent(startTakeOutOrder)))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
+				
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(orderLabel)
 						.addGroup(layout.createParallelGroup()
@@ -608,6 +616,20 @@ public class RestoAppPage extends JFrame{
 								.addComponent(deleteReservation)
 								.addComponent(currentOrderList)
 								.addComponent(endOrder)))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
+				
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(issueBillLabel,40,40,70)
+						.addGroup(layout.createParallelGroup()
+								.addComponent(issueBill, 200, 200, 200)
+								))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
+				
+				
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(reservationLabel)
 						.addGroup(layout.createParallelGroup()
@@ -615,11 +637,9 @@ public class RestoAppPage extends JFrame{
 								.addComponent(viewReservation)
 								.addComponent(deleteReservation)))
 				
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(issueBillLabel,40,40,70)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(issueBill, 200, 200, 200)
-								))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
+				
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(updateLabel)
 						.addComponent(updateMenuItem))	
@@ -663,6 +683,8 @@ public class RestoAppPage extends JFrame{
 						.addComponent(createTable))
 				
 				//END EXISTING TABLE
+				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
 
 				//DELETE TABLE VERTICAL
 				.addGroup(layout.createParallelGroup()
@@ -685,8 +707,12 @@ public class RestoAppPage extends JFrame{
 						.addComponent(viewOrder))
 				//END VIEW ORDER
 				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
+				
+				.addGroup(layout.createParallelGroup()
 						.addComponent(selectMenuLabel)
 						.addComponent(itemCategoryList))
+
 				.addGroup(layout.createParallelGroup()
 						.addComponent(displayMenu))
 				
@@ -703,6 +729,11 @@ public class RestoAppPage extends JFrame{
 						.addComponent(startOrder))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(startTakeOutOrder))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
+				
+				
 				.addGroup(layout.createParallelGroup()
 						.addComponent(orderLabel)
 						.addComponent(currentOrderList))
@@ -712,6 +743,19 @@ public class RestoAppPage extends JFrame{
 						.addComponent(cancelOrderItem))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(endOrder))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(issueBillLabel)
+						.addComponent(issueBill))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(otherFeatures))
+				
+				
+				
 				.addGroup(layout.createParallelGroup()
 						.addComponent(reservationLabel)
 						.addComponent(createReservation))
@@ -721,8 +765,9 @@ public class RestoAppPage extends JFrame{
 						.addComponent(deleteReservation))
 				
 				.addGroup(layout.createParallelGroup()
-						.addComponent(issueBillLabel)
-						.addComponent(issueBill))
+						.addComponent(otherFeatures))
+				
+
 				.addGroup(layout.createParallelGroup()
 						.addComponent(updateLabel)
 						.addComponent(updateMenuItem))
