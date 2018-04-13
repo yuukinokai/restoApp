@@ -900,10 +900,17 @@ public class RestoAppPage extends JFrame{
 		
 	}
 	protected void BillTableButtonActionPerformed(ActionEvent e, Table table) {
-		error = null;
-		errorMessage.setText(error);
-		new BillTableFrame(table);
-		refreshData();
+		if(table.getStatus() != Table.Status.Ordered) {
+			error = "Nothing ordered";
+			errorMessage.setText(error);
+		}
+		else {
+			error = null;
+			errorMessage.setText(error);
+			new BillTableFrame(table);
+			refreshData();
+		}
+
 		
 	}
 	
