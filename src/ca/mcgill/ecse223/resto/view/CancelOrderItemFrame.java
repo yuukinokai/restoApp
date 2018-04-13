@@ -19,7 +19,7 @@ public class CancelOrderItemFrame extends JPanel {
 
 	public int selectedOrderItem;
 
-	public CancelOrderItemFrame(RestoAppPage app) {
+	public CancelOrderItemFrame(RestoAppPage app, Order order) {
 		JFrame frame = new JFrame("CancelOrderItem");
 		frame.setResizable(false);
 		frame.setAlwaysOnTop(true);
@@ -37,11 +37,11 @@ public class CancelOrderItemFrame extends JPanel {
 		OrderItemBox.setMaximumSize(new Dimension(150, 20));
 		OrderItemBox.getEditor().getEditorComponent().setBackground(Color.WHITE);
 
-		for (Order o : RestoAppController.getCurrentOrders()) {
-			for (OrderItem OI : o.getOrderItems()){
-				OrderItemModel.addElement(OI);
-			}
+
+		for (OrderItem OI : order.getOrderItems()){
+			OrderItemModel.addElement(OI);
 		}
+
 
 		// END COMPONENTS
 
