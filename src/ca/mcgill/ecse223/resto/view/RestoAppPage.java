@@ -81,6 +81,7 @@ public class RestoAppPage extends JFrame{
 	
 	//AddReservation
 	private MyButton createReservation;
+	private MyButton viewReservation;
 	private MyButton deleteReservation;
 	
 	private JLabel reservationLabel = new JLabel();
@@ -420,6 +421,20 @@ public class RestoAppPage extends JFrame{
 				
 			}
 		});
+		viewReservation = new MyButton();
+		viewReservation.setText("View Reservation");
+		viewReservation.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				error = null;
+				try {
+					viewReservationActionPerformed(e);
+				} catch (NullPointerException ex) {
+					errorMessage.setText("Error");
+				}
+				
+			}
+		});
 		
 		
 		deleteReservation = new MyButton();
@@ -597,6 +612,7 @@ public class RestoAppPage extends JFrame{
 						.addComponent(reservationLabel)
 						.addGroup(layout.createParallelGroup()
 								.addComponent(createReservation)
+								.addComponent(viewReservation)
 								.addComponent(deleteReservation)))
 				
 				.addGroup(layout.createSequentialGroup()
@@ -615,8 +631,8 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, viewOrderLabel, issueBillLabel, updateLabel});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable, viewReservation});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable, viewReservation});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteReservation, cancelTable, cancelOrderItem});
@@ -700,6 +716,8 @@ public class RestoAppPage extends JFrame{
 						.addComponent(reservationLabel)
 						.addComponent(createReservation))
 				.addGroup(layout.createParallelGroup()
+						.addComponent(viewReservation))
+				.addGroup(layout.createParallelGroup()
 						.addComponent(deleteReservation))
 				
 				.addGroup(layout.createParallelGroup()
@@ -765,6 +783,10 @@ public class RestoAppPage extends JFrame{
 	protected void issueBillButtonActionPerformed(ActionEvent e) {
 		new CreateBillFrame(this);
 		
+	}
+	
+	protected void viewReservationActionPerformed(ActionEvent e) {
+		new ViewReservationFrame(this);
 	}
 	
 	protected void deleteReservationActionPerformed(ActionEvent e) {
