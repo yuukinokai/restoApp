@@ -872,4 +872,39 @@ public class RestoAppController {
 			throw e;
 		}
 	}
+
+	public static void rotateTable(Table table) throws InvalidInputException{
+		
+
+		for (Order currentOrder : getCurrentOrders()) {
+			List<Table> tableList = currentOrder.getTables();
+			if (tableList.contains(table)) {
+				throw new InvalidInputException("Table in use");
+			}
+		}
+		
+		RestoApp restoApp = RestoAppApplication.getRestoApp();
+		int width = table.getLength();
+		int length = table.getWidth();
+		List<Table> currentTables = restoApp.getCurrentTables();
+		
+		
+		for(Table t : currentTables) {
+			if (t == table) {
+				continue;
+			}
+			if (t.checkOverlap(table.getX(),table.getY(),length, width)) {
+				throw new InvalidInputException("Table overlap");
+			}
+		}
+		table.setWidth(width);
+		table.setLength(length);
+		try {
+			RestoAppApplication.save();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
+	}
 }

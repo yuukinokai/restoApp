@@ -27,6 +27,7 @@ public MoveTableFrame(RestoAppPage app, Table t) {
     JTextField txtX = new JTextField();
     JTextField txtY = new JTextField();
     MyButton btnMove = new MyButton("Move");
+    MyButton btnRotate = new MyButton("Rotate");
     btnMove.setBorder(new RoundedBorder(10));
     MyButton btnClose = new MyButton("Close");
     btnClose.setBorder(new RoundedBorder(10));
@@ -74,6 +75,31 @@ public MoveTableFrame(RestoAppPage app, Table t) {
 	});
     
     
+    btnRotate.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+
+
+				RestoAppController.rotateTable(t);
+				
+				frame.dispose();
+				app.refreshData();
+			} catch (NumberFormatException ex) {
+		        JOptionPane.showMessageDialog(null, "Please enter coordinates in integer", null, JOptionPane.ERROR_MESSAGE);
+
+			} catch (InvalidInputException ex) {
+		        JOptionPane.showMessageDialog(null, ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+			}  catch (Exception ex) {
+		        JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+			}
+			 
+			
+		}
+	});
+    
+    
 //    frame.setDefaultCloseOperation(JFrame.);
 
     java.awt.Container contentPane = frame.getContentPane();
@@ -96,6 +122,10 @@ public MoveTableFrame(RestoAppPage app, Table t) {
 				.addGroup(
 						layout.createSequentialGroup()
 							.addComponent(btnMove)
+						)
+				.addGroup(
+						layout.createSequentialGroup()
+							.addComponent(btnRotate)
 							.addComponent(btnClose)
 						)
 				);
@@ -107,6 +137,9 @@ public MoveTableFrame(RestoAppPage app, Table t) {
 			      .addGroup(layout.createParallelGroup()
 				           .addComponent(lblY)
 				           .addComponent(txtY))
+			      .addGroup(layout.createParallelGroup()
+			    		  .addComponent(btnRotate)
+			    		  )
 			      .addGroup(layout.createParallelGroup()
 			    		  .addComponent(btnMove)
 			    		  .addComponent(btnClose)
