@@ -10,13 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
@@ -24,16 +28,27 @@ import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Table;
 
-public class viewOrderFrame extends JFrame {
+public class ViewOrderFrame extends JFrame {
 	
-	public viewOrderFrame(RestoAppPage restoAppPage, Table t) {
+	public ViewOrderFrame(RestoAppPage restoAppPage, Table t) {
 		// TODO Auto-generated constructor stub
 		JFrame viewOrder = new JFrame("View Order");
 	    viewOrder.setResizable(false);
 	    viewOrder.setAlwaysOnTop(true);
-	    String orderList = "Orders: \n";
+	    
 	    //COMPONENTS
-	    JLabel order = new JLabel();
+	    DefaultListModel<OrderItem> listModel = new DefaultListModel<OrderItem>();
+	    JList<OrderItem> list = new JList<OrderItem>(listModel); 
+
+
+	    
+	    list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+	    list.setLayoutOrientation(JList.VERTICAL);
+	    list.setVisibleRowCount(-1);
+
+	    JScrollPane listScroller = new JScrollPane(list);
+	    
+	    
 	    //JLabel orderDisplay = new JLabel("Orders");
 	    MyButton exitViewOrder = new MyButton("Close");
 	    //END COMPONENTS
@@ -54,7 +69,7 @@ public class viewOrderFrame extends JFrame {
 		});
 	    List<OrderItem> orderItems = t.getOrder(t.numberOfOrders()-1).getOrderItems();
 		for(OrderItem oi : orderItems) {
-	    	orderList = orderList + oi.getPricedMenuItem().getMenuItem().getName() + "  ||  ";
+	    	listModel.addElement(oi);
 	    }
 //		try {
 //			orderItems = RestoAppController.getOrderItems(t);
@@ -65,7 +80,6 @@ public class viewOrderFrame extends JFrame {
 //			// TODO Auto-generated catch block
 //			e1.printStackTrace();
 //		}
-		order.setText(orderList);
 
 	    java.awt.Container contentPane = viewOrder.getContentPane();
 	    
@@ -78,16 +92,15 @@ public class viewOrderFrame extends JFrame {
 				layout.createParallelGroup()
 					.addGroup(				
 						layout.createSequentialGroup()
-							.addGroup(layout.createParallelGroup()
-									.addComponent(order))
+							.addComponent(list, 400, 400, 800))
 					
 					.addGroup(layout.createSequentialGroup()
-							.addComponent(exitViewOrder))));
+							.addComponent(exitViewOrder)));
 		
 		layout.setVerticalGroup(
 				   layout.createSequentialGroup()
 				      .addGroup(layout.createParallelGroup()
-				           .addComponent(order))
+				           .addComponent(list))
 				      
 				      .addGroup(layout.createParallelGroup()
 				    		  .addComponent(exitViewOrder)));

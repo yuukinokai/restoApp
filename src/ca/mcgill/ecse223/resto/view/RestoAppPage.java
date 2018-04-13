@@ -773,7 +773,7 @@ public class RestoAppPage extends JFrame{
 	
 	//VIEW ORDER
 	protected void viewOrderActionPerformed(ActionEvent e, Table table) {
-		new viewOrderFrame(this, table);
+		new ViewOrderFrame(this, table);
 	}
 	//END VIEW ORDER
 	
