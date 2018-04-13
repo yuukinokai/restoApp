@@ -7,14 +7,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
+import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
 
 public class ViewReservationFrame extends JPanel {
@@ -34,6 +39,7 @@ public ViewReservationFrame(RestoAppPage app) {
     JComboBox<Reservation> reservationBox = new JComboBox<Reservation>();
     MyButton deleteRes = new MyButton("View");
     MyButton btnClose = new MyButton("Close");
+    
     
 	
 	reservationBox.setModel(reservationModel);
