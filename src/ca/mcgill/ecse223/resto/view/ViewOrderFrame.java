@@ -26,6 +26,7 @@ import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.OrderItem;
+import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class ViewOrderFrame extends JFrame {
@@ -37,8 +38,8 @@ public class ViewOrderFrame extends JFrame {
 	    viewOrder.setAlwaysOnTop(true);
 	    
 	    //COMPONENTS
-	    DefaultListModel<OrderItem> listModel = new DefaultListModel<OrderItem>();
-	    JList<OrderItem> list = new JList<OrderItem>(listModel); 
+	    DefaultListModel<String> listModel = new DefaultListModel<String>();
+	    JList<String> list = new JList<String>(listModel); 
 
 
 	    
@@ -68,8 +69,25 @@ public class ViewOrderFrame extends JFrame {
 			}
 		});
 	    List<OrderItem> orderItems = t.getOrder(t.numberOfOrders()-1).getOrderItems();
+	    List<Seat> seatsOrder = t.getOrder(t.numberOfOrders()-1).getSeats();
 		for(OrderItem oi : orderItems) {
-	    	listModel.addElement(oi);
+			List<Seat> seats = oi.getSeats();
+			Boolean added = false;
+			String s = "";
+			for(Seat seat : seats) {
+				if(seat.getTable() == t) {
+					if (added) {
+						s = s + " #" + (seatsOrder.indexOf(seat)+1) ;
+					}
+					else {
+						s = oi.toString() + " split in " + seats.size() + " for Seats";
+						s = s + " #" + (seatsOrder.indexOf(seat)+1) ;
+						added = true;
+					}
+				}
+			}
+			listModel.addElement(s);
+	    	
 	    }
 //		try {
 //			orderItems = RestoAppController.getOrderItems(t);

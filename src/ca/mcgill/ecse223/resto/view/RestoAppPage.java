@@ -286,13 +286,18 @@ public class RestoAppPage extends JFrame{
 				error = null;
 				try {
 					Table t = (Table)currentTableList.getSelectedItem();
-					if (t == null || t.getStatusFullName() == "Available") {
+					if (t == null) {
+						error = "Please select a valid table";
+						errorMessage.setText(error);
+						throw new NullPointerException();
+					}
+					if(t.getStatusFullName() != "Ordered") {
+						error = "Table didn't order items";
+						errorMessage.setText(error);
 						throw new NullPointerException();
 					}
 					viewOrderActionPerformed(e, t);
 				}catch (NullPointerException ex) {
-					error = "Table not in Use";
-					errorMessage.setText(error);
 				}
 			}
 		});
@@ -810,37 +815,61 @@ public class RestoAppPage extends JFrame{
 	
 	//ADD TABLE	
 	protected void createTableButtonActionPerformed(ActionEvent e) {
+		error = null;
+		errorMessage.setText(error);
 		new CreateTableFrame(this);
+		refreshData();
 	}
 	
 	protected void moveTableButtonActionPerformed(ActionEvent e, Table t) {
+		error = null;
+		errorMessage.setText(error);
 		new MoveTableFrame(this, t);
+		refreshData();
 	}
 	
 	protected void updateTableButtonActionPerformed(ActionEvent e, Table t) {
+		error = null;
+		errorMessage.setText(error);
 		new UpdateTableFrame(this, t);
+		refreshData();
 	}
 	
 	protected void createReservationActionPerformed(ActionEvent e){
+		error = null;
+		errorMessage.setText(error);
 		new CreateReservationFrame(this);
+		refreshData();
 	}
 	
 	protected void issueBillButtonActionPerformed(ActionEvent e) {
+		error = null;
+		errorMessage.setText(error);
 		new CreateBillFrame(this);
+		refreshData();
 		
 	}
 	
 	protected void viewReservationActionPerformed(ActionEvent e) {
+		error = null;
+		errorMessage.setText(error);
 		new ViewReservationFrame(this);
+		refreshData();
 	}
 	
 	protected void deleteReservationActionPerformed(ActionEvent e) {
+		error = null;
+		errorMessage.setText(error);
 		new DeleteReservationFrame(this);
+		refreshData();
 	}
 	
 	//VIEW ORDER
 	protected void viewOrderActionPerformed(ActionEvent e, Table table) {
+		error = null;
+		errorMessage.setText(error);
 		new ViewOrderFrame(this, table);
+		refreshData();
 	}
 	//END VIEW ORDER
 	
@@ -855,12 +884,18 @@ public class RestoAppPage extends JFrame{
 	}
 	
 	protected void CancelOrderItemActionPerformed(ActionEvent e) {
+		error = null;
+		errorMessage.setText(error);
 		new CancelOrderItemFrame(this);
+		refreshData();
 	}
 	
 
 	protected void updateMenuItemActionPerformed(ActionEvent e){
+		error = null;
+		errorMessage.setText(error);
 		new UpdateMenuItemPage(this);
+		refreshData();
 	}
 
 	protected void addExistingTableButtonActionPerformed(ActionEvent evt, Table table) {
