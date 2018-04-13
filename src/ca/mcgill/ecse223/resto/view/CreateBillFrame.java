@@ -95,7 +95,7 @@ public class CreateBillFrame extends JPanel {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				error =null;
 				try{
-					issueBillButtonActionPerformed(evt, (Order) orderList.getSelectedItem());
+					issueBillButtonActionPerformed(evt, (Order) orderList.getSelectedItem(), app);
 //					seatList.setText("");
 //					orderModel.removeAllElements();
 //					for (Order order : RestoAppController.getCurrentOrders()) {
@@ -103,8 +103,7 @@ public class CreateBillFrame extends JPanel {
 //					}
 //					selectedOrder = -1;
 //					orderList.setSelectedIndex(selectedOrder);
-					frame.dispose();
-					app.refreshData();
+
 				}
 				catch(NullPointerException ex){
 					errorMessage.setText("Error");
@@ -161,7 +160,7 @@ public class CreateBillFrame extends JPanel {
 	    frame.setVisible(true);
 	}
 	
-	protected void issueBillButtonActionPerformed(ActionEvent evt, Order order) {
+	protected void issueBillButtonActionPerformed(ActionEvent evt, Order order, RestoAppPage app) {
 		// TODO Auto-generated method stub
 		//To implement
 		try {
@@ -180,23 +179,22 @@ public class CreateBillFrame extends JPanel {
 				try {
 					number = Integer.parseInt(n);
 				} catch (NumberFormatException ex) {
-					error = "Invalid seat number";
-					errorMessage.setText(error);
-			        return;
+					JOptionPane.showMessageDialog(null, "Invalid Number", null, JOptionPane.ERROR_MESSAGE);
+			        throw new InvalidInputException();
 				}
 				seatNumbers.add(number);
 			}
 			for(int seatNumber : seatNumbers) {
 				//invalid index
-				if (seatNumber > seats.size()) {
+				if (seatNumber > seats.size() || seatNumber <= 0) {
 					JOptionPane.showMessageDialog(null, "One or more entered seats doesn't exist", null, JOptionPane.ERROR_MESSAGE);
-			        return;
+			        throw new InvalidInputException();
 				}
 				selectedSeats.add(seats.get(seatNumber - 1));
 			}
 			if( selectedSeats.size() < seatNumbers.size()) {
 				JOptionPane.showMessageDialog(null, "One or more entered seats doesn't exist", null, JOptionPane.ERROR_MESSAGE);
-		        return;
+				throw new InvalidInputException();
 			}
 			for(Seat seat : selectedSeats) {
 				boolean seatHasOrderItem = false;
@@ -208,7 +206,7 @@ public class CreateBillFrame extends JPanel {
 				}
 				if(!seatHasOrderItem) {
 					JOptionPane.showMessageDialog(null, "Seat doesn't have orderItem", null, JOptionPane.ERROR_MESSAGE);
-			        return;
+					throw new InvalidInputException();
 				}
 			}
 			
@@ -224,12 +222,14 @@ public class CreateBillFrame extends JPanel {
 				}
 				
 			}
-			
+			updateModel();
+			frame.dispose();
+			app.refreshData();
 			
 		}catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
 		}
-		updateModel();
+		
 	}
 	public void updateModel() {
 		seatList.setText("");

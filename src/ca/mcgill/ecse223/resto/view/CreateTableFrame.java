@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 
 public class CreateTableFrame extends JPanel {
@@ -64,8 +65,7 @@ public class CreateTableFrame extends JPanel {
 							 widthBox.getText() == ("") || 
 							lengthBox.getText() == ("") || 
 							numberOfSeatBox.getText() == ("")) {
-						 JOptionPane.showMessageDialog(null, "Invalid Inputs", null, JOptionPane.ERROR_MESSAGE);
-						 return;
+						 throw new InvalidInputException("Invalid Inputs");
 						}
 					RestoAppController.addTable(Integer.parseInt(tableNumberBox.getText()),
 							Integer.parseInt(xCoordBox.getText()), 
@@ -84,7 +84,7 @@ public class CreateTableFrame extends JPanel {
 						
 		
 				} catch (Exception ex) {
-			        JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
+			        JOptionPane.showMessageDialog(null, "Invalid Inputs: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

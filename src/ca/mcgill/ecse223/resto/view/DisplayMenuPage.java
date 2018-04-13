@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.controller.RestoAppController;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.Order;
@@ -237,9 +238,7 @@ public class DisplayMenuPage extends JPanel {
 				try {
 					number = Integer.parseInt(n)-1;
 				} catch (NumberFormatException ex) {
-					error = "Invalid table number";
-					errorMessage.setText(error);
-			        return;
+					throw new InvalidInputException();
 				}
 				seatNumbers.add(number);
 				
@@ -264,11 +263,12 @@ public class DisplayMenuPage extends JPanel {
 				System.out.println(RestoAppController.isAvailable(seat));
 			}
 			app.refreshData();
+			updateModel();
 			
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Invalid Inputs", null, JOptionPane.ERROR_MESSAGE);
 		}
-		updateModel();
+		
 		
 	}
 

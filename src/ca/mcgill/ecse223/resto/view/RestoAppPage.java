@@ -1094,6 +1094,7 @@ public class RestoAppPage extends JFrame{
 //					tables = new HashMap<Integer, Table>();
 //					currentTableList.removeAllItems();
 //					Integer index = 0;
+					menu.updateModel();
 					textTables.setText(null);
 					
 					model.removeAllElements();
