@@ -287,7 +287,7 @@ public class Table implements Serializable
       case Ordered:
         if (allSeatsBilled())
         {
-        // line 83 "../../../../../TableState.ump"
+        // line 100 "../../../../../TableState.ump"
           
           setStatus(Status.Available);
           wasEventProcessed = true;
@@ -387,17 +387,17 @@ public class Table implements Serializable
     {
       case Ordered:
         // line 71 "../../../../../TableState.ump"
-    	  List<Bill> billsList = s.getBills();
-    	  Bill[] bills = billsList.toArray(new Bill[billsList.size()]);
-    	  for(Bill bill : bills) {
-    		  if (bill.getOrder() == o) {
-    			  if(!s.removeBill(bill)) {
-    				  bill.delete();
-    			  }
-    		  }
-    	  }
-
-        Bill newBill = new Bill(o, this.restoApp, s);
+        List<Bill> billsList = s.getBills();
+	    	  Bill[] bills = billsList.toArray(new Bill[billsList.size()]);
+	    	  for(Bill bill : bills) {
+	    		  if (bill.getOrder() == o) {
+	    			  if(!s.removeBill(bill)) {
+	    				  bill.delete();
+	    			  }
+	    		  }
+	    	  }
+	
+	        Bill newBill = new Bill(o, this.restoApp, s);
             // create a new bill with the provided order and seat; if the provided seat is already assigned to
             // another bill for the current order, then the seat is first removed from the other bill and if no seats
             // are left for the bill, the bill is deleted
@@ -419,15 +419,15 @@ public class Table implements Serializable
     switch (aStatus)
     {
       case Ordered:
-        // line 77 "../../../../../TableState.ump"
-    	  List<Bill> billsList = s.getBills();
-    	  Bill[] bills = billsList.toArray(new Bill[billsList.size()]);
-    	  for(Bill bill : bills) {
-			  if(!s.removeBill(bill)) {
-				  bill.delete();
-			  }  		  
-    	  }
-    	  b.addIssuedForSeat(s);
+        // line 87 "../../../../../TableState.ump"
+        List<Bill> billsList = s.getBills();
+	    	  Bill[] bills = billsList.toArray(new Bill[billsList.size()]);
+	    	  for(Bill bill : bills) {
+				  if(!s.removeBill(bill)) {
+					  bill.delete();
+				  }  		  
+	    	  }
+	    	  b.addIssuedForSeat(s);
             // add provided seat to provided bill unless seat has already been added, in which case nothing needs
             // to be done; if the provided seat is already assigned to another bill for the current order, then the
             // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
@@ -975,7 +975,7 @@ public class Table implements Serializable
   /**
    * check that the provided quantity is an integer greater than 0
    */
-  // line 90 "../../../../../TableState.ump"
+  // line 107 "../../../../../TableState.ump"
    private boolean quantityNotNegative(int quantity){
     // DONE
       return quantity>0;
@@ -985,7 +985,7 @@ public class Table implements Serializable
   /**
    * check that the provided order item is the last item of the current order of the table
    */
-  // line 96 "../../../../../TableState.ump"
+  // line 113 "../../../../../TableState.ump"
    private boolean iIsLastItem(OrderItem i){
     // DONE
       Order order = i.getOrder();
@@ -999,7 +999,7 @@ public class Table implements Serializable
   /**
    * check that all seats of the table have a bill that belongs to the current order of the table
    */
-  // line 106 "../../../../../TableState.ump"
+  // line 123 "../../../../../TableState.ump"
    private boolean allSeatsBilled(){
     // DONE
       boolean allBilled = true;

@@ -303,27 +303,7 @@ public class OrderItem implements Serializable
 
   // line 127 "../../../../../RestoAppPersistence.ump"
    public String toString(){
-		  return String.format("%d\u00D7 %s | Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
-
-//	   List<Seat> seatList = getSeats();
-//	   Table prevTable = seatList.get(0).getTable();
-//	   
-//	   StringBuilder seats = new StringBuilder();
-//	   int index = 1;
-//	   for (Seat seat: seatList) {
-//		   if (seat.getTable() != prevTable ) {
-//			   
-//		   }
-//		   seats.append(seat.)
-//	   }
-//	   
-//	   
-//	   
-//	   return String.format("%d\u00D7 %s | Order # %d | Seats %s",
-//    		quantity,
-//    		getPricedMenuItem().getMenuItem().getName(),
-//    		getOrder().getNumber(),
-//    		seats);
+    return String.format("%d\u00D7 %s | Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
   }
   
   //------------------------
