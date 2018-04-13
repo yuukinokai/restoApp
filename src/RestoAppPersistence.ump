@@ -124,7 +124,7 @@ class OrderItem {
   private static final long serialVersionUID = 2045406856025012133L;
   
 	public String toString() {
-	  return String.format("%d\u00D7 %s| Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
+	  return String.format("%d\u00D7 %s | Order # %d", quantity, getPricedMenuItem().getMenuItem().getName(), getOrder().getNumber());
 	}
   
 }
