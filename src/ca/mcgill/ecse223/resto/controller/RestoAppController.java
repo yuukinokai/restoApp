@@ -447,7 +447,12 @@ public class RestoAppController {
 			//System.out.println("removed");
 			
 			if (allTablesAvailableOrDifferentCurrentOrder(tablesList, order)) {
-				System.out.println("can remove current Order");
+				//System.out.println("can remove current Order");
+//				for(Seat seat : order.getSeats()) {
+//					while(seat.hasOrderItems()) {
+//						seat.getOrderItem(seat.numberOfOrderItems()-1).delete();
+//					}
+//				}
 				restoApp.removeCurrentOrder(order);
 				RestoAppApplication.save();
 				//System.out.println("removed");
