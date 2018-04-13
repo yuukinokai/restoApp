@@ -66,7 +66,7 @@ public class BillTableFrame extends JFrame {
 	    Double total = 0.0;
 	    Order o = table.getOrder(table.numberOfOrders()-1);
 	    for(OrderItem oi : o.getOrderItems()) {
-	    	double price = (oi.getPricedMenuItem().getPrice()/(oi.getSeats().size()));
+	    	double price = (oi.getPricedMenuItem().getPrice());
     		total += price;
     		String s = oi.getPricedMenuItem().getMenuItem().getName() + " " + String.valueOf(price);
     		listModel.addElement(s);
