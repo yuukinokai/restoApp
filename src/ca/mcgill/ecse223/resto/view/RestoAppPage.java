@@ -90,6 +90,7 @@ public class RestoAppPage extends JFrame{
 	
 	//VIEW ORDER
 	private MyButton viewOrder;
+	private MyButton viewOrder2;
 	
 	private JLabel viewOrderLabel = new JLabel();
 	//END VIEW ORDER
@@ -302,6 +303,25 @@ public class RestoAppPage extends JFrame{
 			}
 		});
 		//END VIEW ORDER
+		viewOrder2 = new MyButton();
+		viewOrder2.setText("View Order");
+		viewOrder2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				error = null;
+				try {
+					Order o = (Order)currentOrderList.getSelectedItem();
+					if (o == null) {
+						error = "Please select a valid Order";
+						errorMessage.setText(error);
+						throw new NullPointerException();
+					}
+					viewOrderActionPerformed2(e, o);
+				}catch (NullPointerException ex) {
+				}
+			}
+		});
 				
 		//DISPLAY MENU
 		selectMenuLabel = new JLabel();
@@ -620,7 +640,8 @@ public class RestoAppPage extends JFrame{
 								.addComponent(endOrder)
 								.addComponent(deleteReservation)
 								.addComponent(currentOrderList)
-								.addComponent(endOrder)))
+								.addComponent(endOrder)
+								.addComponent(viewOrder2)))
 				
 				.addGroup(layout.createParallelGroup()
 						.addComponent(otherFeatures))
@@ -656,8 +677,8 @@ public class RestoAppPage extends JFrame{
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, viewOrderLabel, issueBillLabel, updateLabel});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable, viewReservation});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable, viewReservation});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable, viewReservation, viewOrder2});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable, viewReservation, viewOrder2});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, moveTable});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteReservation, cancelTable, cancelOrderItem});
@@ -748,6 +769,8 @@ public class RestoAppPage extends JFrame{
 						.addComponent(cancelOrderItem))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(endOrder))
+				.addGroup(layout.createParallelGroup()
+						.addComponent(viewOrder2))
 				
 				.addGroup(layout.createParallelGroup()
 						.addComponent(otherFeatures))
@@ -872,6 +895,13 @@ public class RestoAppPage extends JFrame{
 		refreshData();
 	}
 	//END VIEW ORDER
+	
+	protected void viewOrderActionPerformed2(ActionEvent e, Order order) {
+		error = null;
+		errorMessage.setText(error);
+		new ViewOrderFrame2(this, order);
+		refreshData();
+	}
 	
 	protected void CancelTableActionPerformed(ActionEvent e, Order order) {
 		error = null;
