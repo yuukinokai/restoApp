@@ -208,10 +208,20 @@ public class RestoAppController {
 		if (x <0 || y < 0) {
 			throw new InvalidInputException("Invalid position");
 		}
+		
+		for (Order currentOrder : getCurrentOrders()) {
+			List<Table> tableList = currentOrder.getTables();
+			if (tableList.contains(table)) {
+				throw new InvalidInputException("Table in use");
+			}
+		}
+		
 		RestoApp restoApp = RestoAppApplication.getRestoApp();
 		int width = table.getWidth();
 		int length = table.getLength();
 		List<Table> currentTables = restoApp.getCurrentTables();
+		
+		
 		for(Table t : currentTables) {
 			if (t == table) {
 				continue;

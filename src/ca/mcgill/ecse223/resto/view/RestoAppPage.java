@@ -520,7 +520,7 @@ public class RestoAppPage extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				error = null;
 				try {
-					CancelOrderItemActionPerformed(e);
+					CancelOrderItemActionPerformed(e, (Order)currentOrderList.getSelectedItem());
 				}catch(NullPointerException ex) {
 					errorMessage.setText("Error");
 				}
@@ -913,10 +913,10 @@ public class RestoAppPage extends JFrame{
 		refreshData();
 	}
 	
-	protected void CancelOrderItemActionPerformed(ActionEvent e) {
+	protected void CancelOrderItemActionPerformed(ActionEvent e, Order order) {
 		error = null;
 		errorMessage.setText(error);
-		new CancelOrderItemFrame(this);
+		new CancelOrderItemFrame(this, order);
 		refreshData();
 	}
 	
