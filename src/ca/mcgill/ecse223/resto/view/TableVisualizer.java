@@ -37,7 +37,7 @@ public class TableVisualizer extends JPanel{
 		super();
 		try {
             img = ImageIO.read(new File(
-                    "pictures/floor3.jpg"));
+                    "pictures/floor2.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }

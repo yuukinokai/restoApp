@@ -62,7 +62,7 @@ public class RestoAppPage extends JFrame{
 	private MyButton deleteTable;
 	private Integer selectedTable = -1;
 	//END DELETE TABLE
-	
+	private MyButton billTable;
 	//UPDATE TABLE
 	private MyButton updateTable;
 	//END UPDATE TABLE
@@ -230,7 +230,26 @@ public class RestoAppPage extends JFrame{
 				
 			}
 		});
+		
+		
 		//END DELETE TABLE
+		billTable = new MyButton();
+		billTable.setText("Bill Table");
+		billTable.addActionListener(new java.awt.event.ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				error = null;
+				try {
+					BillTableButtonActionPerformed(evt, (Table)currentTableList.getSelectedItem());
+				}
+				catch (NullPointerException ex) {
+					error = "Please select a valid table";
+					errorMessage.setText(error);
+				}
+				
+			}
+		});
 		
 		//UPDATE TABLE
 		updateTable = new MyButton();
@@ -596,15 +615,19 @@ public class RestoAppPage extends JFrame{
 								.addComponent(currentTableList)
 								.addComponent(updateTable)
 								.addComponent(deleteTable)
-								.addComponent(moveTable)))
+								.addComponent(moveTable)
+								.addComponent(viewOrder)
+								.addComponent(billTable)
+								))
 								
 				//END DELETE TABLE 
 				
 				//VIEW ORDER
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(viewOrderLabel)
-						.addGroup(layout.createParallelGroup()
-								.addComponent(viewOrder)))
+//				.addGroup(layout.createSequentialGroup()
+//						.addComponent(viewOrderLabel)
+//						.addGroup(layout.createParallelGroup()
+//								))
+//						)
 				//END VIEW ORDER
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(otherFeatures))
@@ -673,10 +696,10 @@ public class RestoAppPage extends JFrame{
 				//.addComponent(tableVisualizer)
 				//END DISPLAY MENU
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, viewOrderLabel, issueBillLabel, updateLabel});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, viewOrderLabel, issueBillLabel, updateLabel});
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, issueBillLabel, updateLabel});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {orderLabel, selectMenuLabel, existingTableLabel, selectTableLabel, otherFeatures, orderTables, reservationLabel, issueBillLabel, updateLabel});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable, billTable});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, deleteTable, currentOrderList, createTable, existingTableList, addExistingTable, billTable});
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable, viewReservation, viewOrder2});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {textTables, startOrder, startTakeOutOrder, endOrder, viewOrder, createTable, viewReservation, viewOrder2});
 		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {currentTableList, updateTable});
@@ -718,6 +741,7 @@ public class RestoAppPage extends JFrame{
 						.addComponent(currentTableList))
 				.addGroup(layout.createParallelGroup()
 						.addComponent(deleteTable))
+				
 				//END DELETE TABLE
 				//UPDATE TABLE
 				.addGroup(layout.createParallelGroup()
@@ -725,12 +749,15 @@ public class RestoAppPage extends JFrame{
 				//END UPDATE TABLE
 				.addGroup(layout.createParallelGroup()
 						.addComponent(moveTable))
+				
 				//DISPLAY MENU VERTICAL
 				
 				//VIEW ORDER
 				.addGroup(layout.createParallelGroup()
-						.addComponent(viewOrderLabel)
 						.addComponent(viewOrder))
+				
+				.addGroup(layout.createParallelGroup()
+						.addComponent(billTable))
 				//END VIEW ORDER
 				.addGroup(layout.createParallelGroup()
 						.addComponent(otherFeatures))
@@ -869,6 +896,13 @@ public class RestoAppPage extends JFrame{
 		error = null;
 		errorMessage.setText(error);
 		new CreateBillFrame(this);
+		refreshData();
+		
+	}
+	protected void BillTableButtonActionPerformed(ActionEvent e, Table table) {
+		error = null;
+		errorMessage.setText(error);
+		new BillTableFrame(table);
 		refreshData();
 		
 	}
@@ -1022,6 +1056,7 @@ public class RestoAppPage extends JFrame{
 		// update visuals
 		refreshData();
 	}
+	
 	
 	protected void endOrderButtonPerformed(ActionEvent evt, Order order) {
 		error = null;
