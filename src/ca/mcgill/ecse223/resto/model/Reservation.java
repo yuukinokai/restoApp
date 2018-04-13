@@ -370,12 +370,12 @@ public class Reservation implements Serializable
     nextNumber++;
   }
 
-  // line 37 "../../../../../RestoAppPersistence.ump"
+  // line 36 "../../../../../RestoAppPersistence.ump"
    public boolean checkOverlap(Date aDate, Time aTime){
     LocalDateTime aDateTime = LocalDateTime.parse(aDate + " " + aTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	    LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	    LocalDateTime aNewDateTime = aDateTime.plusHours(2);
-	    LocalDateTime newDateTime = aDateTime.plusHours(2);
+	    LocalDateTime newDateTime = dateTime.plusHours(2);
 
 	   if(aNewDateTime.isBefore(dateTime) || aDateTime.isAfter(newDateTime)) {
 		   return false;
@@ -383,7 +383,7 @@ public class Reservation implements Serializable
 	  	return true;
   }
 
-  // line 50 "../../../../../RestoAppPersistence.ump"
+  // line 49 "../../../../../RestoAppPersistence.ump"
    public String toString(){
     return "Reservation #" + this.getReservationNumber() + " | Name : " + this.getContactName();
   }

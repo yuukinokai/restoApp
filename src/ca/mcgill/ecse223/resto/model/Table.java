@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 55 "../../../../../RestoAppPersistence.ump"
+// line 54 "../../../../../RestoAppPersistence.ump"
 // line 1 "../../../../../TableState.ump"
 // line 29 "../../../../../RestoApp.ump"
 public class Table implements Serializable
@@ -951,7 +951,7 @@ public class Table implements Serializable
     }
   }
 
-  // line 61 "../../../../../RestoAppPersistence.ump"
+  // line 60 "../../../../../RestoAppPersistence.ump"
    public static  void reinitializeUniqueNumber(List<Table> tables){
     tablesByNumber = new HashMap<Integer, Table>();
     for (Table table : tables) {
@@ -959,12 +959,12 @@ public class Table implements Serializable
     }
   }
 
-  // line 67 "../../../../../RestoAppPersistence.ump"
+  // line 66 "../../../../../RestoAppPersistence.ump"
    public String toString(){
     return "Table #" + this.getNumber();
   }
 
-  // line 72 "../../../../../RestoAppPersistence.ump"
+  // line 71 "../../../../../RestoAppPersistence.ump"
    public boolean checkOverlap(int x, int y, int length, int width){
     boolean xOverlap = (Math.abs(2 * x - 2* this.x + length - this.length) < (length + this.length));
 	  boolean yOverlap = (Math.abs(2 * y - 2* this.y + width - this.width) < (width + this.width));
@@ -1027,7 +1027,7 @@ public class Table implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 58 "../../../../../RestoAppPersistence.ump"
+  // line 57 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 8896099581655989380L ;
 
   
