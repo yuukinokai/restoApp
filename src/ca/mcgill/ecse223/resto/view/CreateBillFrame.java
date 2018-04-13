@@ -27,6 +27,7 @@ import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Order;
+import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 
@@ -167,16 +168,13 @@ public class CreateBillFrame extends JPanel {
 			//create ArrayList of seats associated with the order
 			List<Table> tableList = order.getTables();
 			List<Seat> seats = order.getSeats();
-//			for (Table table : tableList) {
-//				for(Seat seat : table.getSeats()) {
-//					seats.add(seat);
-//				}
-//			}
+
 			//create ArrayList to store selected seats
 			List<Seat> selectedSeats = new ArrayList<Seat>();
 			String[] seatsNumbers = seatList.getText().split(",");
 			//create ArrayList to store selected seat numbers
 			ArrayList<Integer> seatNumbers = new ArrayList<Integer>();
+			
 			for (String n: seatsNumbers) {
 				int number = -1;
 				try {
@@ -200,7 +198,33 @@ public class CreateBillFrame extends JPanel {
 				JOptionPane.showMessageDialog(null, "One or more entered seats doesn't exist", null, JOptionPane.ERROR_MESSAGE);
 		        return;
 			}
+			for(Seat seat : selectedSeats) {
+				boolean seatHasOrderItem = false;
+				for(OrderItem oi : order.getOrderItems()) {
+					if (oi.getSeats().contains(seat)) {
+						seatHasOrderItem = true;
+						break;
+					}
+				}
+				if(!seatHasOrderItem) {
+					JOptionPane.showMessageDialog(null, "Seat doesn't have orderItem", null, JOptionPane.ERROR_MESSAGE);
+			        return;
+				}
+			}
+			
 			RestoAppController.issueBill(selectedSeats);
+			
+			int numberNumber = 0;
+			for (Seat seat : selectedSeats) {
+				if(seat.hasBills()) {
+					if(seat.getBill(seat.numberOfBills()-1).getOrder() == order) {
+						new BillFrame(seat, seatNumbers.get(numberNumber));
+						numberNumber ++;
+					}	
+				}
+				
+			}
+			
 			
 		}catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Unknown exception: " + ex.getMessage(), null, JOptionPane.ERROR_MESSAGE);
