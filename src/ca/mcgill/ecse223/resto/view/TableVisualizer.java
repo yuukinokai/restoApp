@@ -90,9 +90,9 @@ public class TableVisualizer extends JPanel{
 				tables.put(rectangle, table);
 				if (table.getStatus() == Table.Status.Available) {
 					g2d.setColor(new Color(129,199,132));
-				}
-				else if(table.getStatus() == Table.Status.NothingOrdered) {
-					g2d.setColor(new Color(255, 193, 7));
+//				}
+//				else if(table.getStatus() == Table.Status.NothingOrdered) {
+//					g2d.setColor(new Color(255, 193, 7));
 				}else{
 					g2d.setColor(new Color(244, 67, 54));
 				}

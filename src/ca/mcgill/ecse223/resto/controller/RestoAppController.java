@@ -6,6 +6,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.javafx.scene.control.skin.SeparatorSkin;
+
 import ca.mcgill.ecse223.resto.application.RestoAppApplication;
 
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
@@ -788,7 +790,15 @@ public class RestoAppController {
 		 if (!isUsed) {
 			 throw new InvalidInputException("Invalid Order Item");
 		 }
-		 for (Table table: tables) {
+		 ArrayList<Table> tableList = new ArrayList<Table>();
+		 for (Seat seat: aOrderItem.getSeats()) {
+			 Table t= seat.getTable();
+			 if (!tableList.contains(t)) {
+				 tableList.add(t);
+			 }
+		 }
+		 
+		 for(Table table: tableList) {
 			 table.cancelOrderItem(aOrderItem);
 		 }
 		 
@@ -798,6 +808,47 @@ public class RestoAppController {
 				System.out.println(e.getMessage());
 				throw e;
 			} 
+	}
+	
+	public static void CancelSeatOrder(Seat seat, Order order) throws InvalidInputException {
+		
+		if(seat == null) {
+			throw new InvalidInputException("Invalid Seat");	
+		}
+		
+		if(order == null) {
+			throw new InvalidInputException("Invalid Order");	
+		}
+		 
+		 if (seat.getOrder(seat.getOrders().size() -1) != order) {
+			 throw new InvalidInputException("Invalid Order");
+		 }
+		 
+		 OrderItem[] orderItems = order.getOrderItems().toArray(new OrderItem[order.getOrderItems().size()]);
+		 for (OrderItem OI: orderItems) {
+			 if (OI.getSeats().contains(seat)){
+				 
+				 ArrayList<Table> tableList = new ArrayList<Table>();
+				 for (Seat orderedSeat: OI.getSeats()) {
+					 Table t= orderedSeat.getTable();
+					 if (!tableList.contains(t)) {
+						 tableList.add(t);
+					 }
+				 }
+
+				 for(Table table: tableList) {
+					 table.cancelOrderItem(OI);
+				 }
+			 }
+//			 table.cancelOrderItem(aOrderItem);
+		 }
+		 
+		 try {
+				RestoAppApplication.save();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				throw e;
+			}
 	}
 	
 	public static void CancelOrder(Order order) throws InvalidInputException {

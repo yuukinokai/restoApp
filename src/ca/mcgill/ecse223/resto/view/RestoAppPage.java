@@ -938,13 +938,14 @@ public class RestoAppPage extends JFrame{
 	}
 	
 	protected void CancelTableActionPerformed(ActionEvent e, Order order) {
-		error = null;
-		try {
-			RestoAppController.CancelOrder(order);
-		} catch (Exception ex) {
-			error = ex.getMessage();
-		}
-		refreshData();
+//		error = null;
+//		try {
+//			RestoAppController.CancelOrder(order);
+//		} catch (Exception ex) {
+//			error = ex.getMessage();
+//		}
+//		refreshData();
+		new CancelOrderFrame(this, order);
 	}
 	
 	protected void CancelOrderItemActionPerformed(ActionEvent e, Order order) {
