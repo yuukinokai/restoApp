@@ -387,7 +387,17 @@ public class Table implements Serializable
     {
       case Ordered:
         // line 71 "../../../../../TableState.ump"
-        Bill bill = new Bill(o, this.restoApp, s);
+    	  List<Bill> billsList = s.getBills();
+    	  Bill[] bills = billsList.toArray(new Bill[billsList.size()]);
+    	  for(Bill bill : bills) {
+    		  if (bill.getOrder() == o) {
+    			  if(!s.removeBill(bill)) {
+    				  bill.delete();
+    			  }
+    		  }
+    	  }
+
+        Bill newBill = new Bill(o, this.restoApp, s);
             // create a new bill with the provided order and seat; if the provided seat is already assigned to
             // another bill for the current order, then the seat is first removed from the other bill and if no seats
             // are left for the bill, the bill is deleted
@@ -410,7 +420,14 @@ public class Table implements Serializable
     {
       case Ordered:
         // line 77 "../../../../../TableState.ump"
-        b.addIssuedForSeat(s);
+    	  List<Bill> billsList = s.getBills();
+    	  Bill[] bills = billsList.toArray(new Bill[billsList.size()]);
+    	  for(Bill bill : bills) {
+			  if(!s.removeBill(bill)) {
+				  bill.delete();
+			  }  		  
+    	  }
+    	  b.addIssuedForSeat(s);
             // add provided seat to provided bill unless seat has already been added, in which case nothing needs
             // to be done; if the provided seat is already assigned to another bill for the current order, then the
             // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
